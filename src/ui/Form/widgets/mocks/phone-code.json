@@ -1,0 +1,1182 @@
+[
+  {
+    "value": "+376 Andorra",
+    "label": "+376 Andorra",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/andorra.svg"
+  },
+  {
+    "value": "+971 United Arab Emirates",
+    "label": "+971 United Arab Emirates",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/united-arab-emirates.svg"
+  },
+  {
+    "value": "+93 Afghanistan",
+    "label": "+93 Afghanistan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/afghanistan.svg"
+  },
+  {
+    "value": "+1268 Antigua and Barbuda",
+    "label": "+1268 Antigua and Barbuda",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/antigua-and-barbuda.svg"
+  },
+  {
+    "value": "+1264 Anguilla",
+    "label": "+1264 Anguilla",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/anguilla.svg"
+  },
+  {
+    "value": "+355 Albania",
+    "label": "+355 Albania",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/albania.svg"
+  },
+  {
+    "value": "+374 Armenia",
+    "label": "+374 Armenia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/armenia.svg"
+  },
+  {
+    "value": "+244 Angola",
+    "label": "+244 Angola",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/angola.svg"
+  },
+  {
+    "value": "+54 Argentina",
+    "label": "+54 Argentina",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/argentina.svg"
+  },
+  {
+    "value": "+1684 American Samoa",
+    "label": "+1684 American Samoa",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/american-samoa.svg"
+  },
+  {
+    "value": "+43 Austria",
+    "label": "+43 Austria",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/austria.svg"
+  },
+  {
+    "value": "+61 Australia",
+    "label": "+61 Australia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/australia.svg"
+  },
+  {
+    "value": "+297 Aruba",
+    "label": "+297 Aruba",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/aruba.svg"
+  },
+  {
+    "value": "+358 Aland Islands",
+    "label": "+358 Aland Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/aland-islands.svg"
+  },
+  {
+    "value": "+994 Azerbaijan",
+    "label": "+994 Azerbaijan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/azerbaijan.svg"
+  },
+  {
+    "value": "+387 Bosnia and Herzegovina",
+    "label": "+387 Bosnia and Herzegovina",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bosnia-and-herzegovina.svg"
+  },
+  {
+    "value": "+1246 Barbados",
+    "label": "+1246 Barbados",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/barbados.svg"
+  },
+  {
+    "value": "+880 Bangladesh",
+    "label": "+880 Bangladesh",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bangladesh.svg"
+  },
+  {
+    "value": "+32 Belgium",
+    "label": "+32 Belgium",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/belgium.svg"
+  },
+  {
+    "value": "+226 Burkina Faso",
+    "label": "+226 Burkina Faso",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/burkina-faso.svg"
+  },
+  {
+    "value": "+359 Bulgaria",
+    "label": "+359 Bulgaria",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bulgaria.svg"
+  },
+  {
+    "value": "+973 Bahrain",
+    "label": "+973 Bahrain",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bahrain.svg"
+  },
+  {
+    "value": "+257 Burundi",
+    "label": "+257 Burundi",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/burundi.svg"
+  },
+  {
+    "value": "+229 Benin",
+    "label": "+229 Benin",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/benin.svg"
+  },
+  {
+    "value": "+590 Saint Barthelemy",
+    "label": "+590 Saint Barthelemy",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-barthelemy.svg"
+  },
+  {
+    "value": "+1441 Bermuda",
+    "label": "+1441 Bermuda",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bermuda.svg"
+  },
+  {
+    "value": "+673 Brunei",
+    "label": "+673 Brunei",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/brunei.svg"
+  },
+  {
+    "value": "+591 Bolivia",
+    "label": "+591 Bolivia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bolivia.svg"
+  },
+  {
+    "value": "+55 Brazil",
+    "label": "+55 Brazil",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/brazil.svg"
+  },
+  {
+    "value": "+1242 Bahamas",
+    "label": "+1242 Bahamas",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bahamas.svg"
+  },
+  {
+    "value": "+975 Bhutan",
+    "label": "+975 Bhutan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/bhutan.svg"
+  },
+  {
+    "value": "+267 Botswana",
+    "label": "+267 Botswana",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/botswana.svg"
+  },
+  {
+    "value": "+375 Belarus",
+    "label": "+375 Belarus",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/belarus.svg"
+  },
+  {
+    "value": "+501 Belize",
+    "label": "+501 Belize",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/belize.svg"
+  },
+  {
+    "value": "+1 Canada",
+    "label": "+1 Canada",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/canada.svg"
+  },
+  {
+    "value": "+61 Cocos (Keeling) Islands",
+    "label": "+61 Cocos (Keeling) Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cocos-(keeling)-islands.svg"
+  },
+  {
+    "value": "+243 Democratic Republic of the Congo",
+    "label": "+243 Democratic Republic of the Congo",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/democratic-republic-of-the-congo.svg"
+  },
+  {
+    "value": "+236 Central African Republic",
+    "label": "+236 Central African Republic",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/central-african-republic.svg"
+  },
+  {
+    "value": "+242 Congo",
+    "label": "+242 Congo",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/congo.svg"
+  },
+  {
+    "value": "+41 Switzerland",
+    "label": "+41 Switzerland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/switzerland.svg"
+  },
+  {
+    "value": "+225 Cote d'Ivoire",
+    "label": "+225 Cote d'Ivoire",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cote-d'ivoire.svg"
+  },
+  {
+    "value": "+682 Cook Is.",
+    "label": "+682 Cook Is.",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cook-is..svg"
+  },
+  {
+    "value": "+56 Chile",
+    "label": "+56 Chile",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/chile.svg"
+  },
+  {
+    "value": "+237 Cameroon",
+    "label": "+237 Cameroon",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cameroon.svg"
+  },
+  {
+    "value": "+86 China",
+    "label": "+86 China",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/china.svg"
+  },
+  {
+    "value": "+57 Colombia",
+    "label": "+57 Colombia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/colombia.svg"
+  },
+  {
+    "value": "+506 Costa Rica",
+    "label": "+506 Costa Rica",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/costa-rica.svg"
+  },
+  {
+    "value": "+53 Cuba",
+    "label": "+53 Cuba",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cuba.svg"
+  },
+  {
+    "value": "+238 Cape Verde",
+    "label": "+238 Cape Verde",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cape-verde.svg"
+  },
+  {
+    "value": "+61 Christmas Island",
+    "label": "+61 Christmas Island",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/christmas-island.svg"
+  },
+  {
+    "value": "+357 Cyprus",
+    "label": "+357 Cyprus",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cyprus.svg"
+  },
+  {
+    "value": "+420 Czech Republic",
+    "label": "+420 Czech Republic",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/czech-republic.svg"
+  },
+  {
+    "value": "+49 Germany",
+    "label": "+49 Germany",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/germany.svg"
+  },
+  {
+    "value": "+253 Djibouti",
+    "label": "+253 Djibouti",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/djibouti.svg"
+  },
+  {
+    "value": "+45 Denmark",
+    "label": "+45 Denmark",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/denmark.svg"
+  },
+  {
+    "value": "+1767 Dominica",
+    "label": "+1767 Dominica",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/dominica.svg"
+  },
+  {
+    "value": "+1809 Dominica Rep.",
+    "label": "+1809 Dominica Rep.",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/dominica-rep..svg"
+  },
+  {
+    "value": "+1829 Dominica Rep.",
+    "label": "+1829 Dominica Rep.",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/dominica-rep..svg"
+  },
+  {
+    "value": "+1849 Dominica Rep.",
+    "label": "+1849 Dominica Rep.",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/dominica-rep..svg"
+  },
+  {
+    "value": "+213 Algeria",
+    "label": "+213 Algeria",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/algeria.svg"
+  },
+  {
+    "value": "+593 Ecuador",
+    "label": "+593 Ecuador",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/ecuador.svg"
+  },
+  {
+    "value": "+372 Estonia",
+    "label": "+372 Estonia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/estonia.svg"
+  },
+  {
+    "value": "+20 Egypt",
+    "label": "+20 Egypt",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/egypt.svg"
+  },
+  {
+    "value": "+291 Eritrea",
+    "label": "+291 Eritrea",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/eritrea.svg"
+  },
+  {
+    "value": "+34 Spain",
+    "label": "+34 Spain",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/spain.svg"
+  },
+  {
+    "value": "+251 Ethiopia",
+    "label": "+251 Ethiopia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/ethiopia.svg"
+  },
+  {
+    "value": "+358 Finland",
+    "label": "+358 Finland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/finland.svg"
+  },
+  {
+    "value": "+679 Fiji",
+    "label": "+679 Fiji",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/fiji.svg"
+  },
+  {
+    "value": "+691 Micronesia",
+    "label": "+691 Micronesia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/micronesia.svg"
+  },
+  {
+    "value": "+298 Faroe Islands",
+    "label": "+298 Faroe Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/faroe-islands.svg"
+  },
+  {
+    "value": "+33 France",
+    "label": "+33 France",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/france.svg"
+  },
+  {
+    "value": "+241 Gabon",
+    "label": "+241 Gabon",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/gabon.svg"
+  },
+  {
+    "value": "+44 United Kingdom",
+    "label": "+44 United Kingdom",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/united-kingdom.svg"
+  },
+  {
+    "value": "+1473 Grenada",
+    "label": "+1473 Grenada",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/grenada.svg"
+  },
+  {
+    "value": "+995 Georgia",
+    "label": "+995 Georgia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/georgia.svg"
+  },
+  {
+    "value": "+594 French Guiana",
+    "label": "+594 French Guiana",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/french-guiana.svg"
+  },
+  {
+    "value": "+441481 Guernsey",
+    "label": "+441481 Guernsey",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/guernsey.svg"
+  },
+  {
+    "value": "+233 Ghana",
+    "label": "+233 Ghana",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/ghana.svg"
+  },
+  {
+    "value": "+350 Gibraltar",
+    "label": "+350 Gibraltar",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/gibraltar.svg"
+  },
+  {
+    "value": "+299 Greenland",
+    "label": "+299 Greenland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/greenland.svg"
+  },
+  {
+    "value": "+220 Gambia",
+    "label": "+220 Gambia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/gambia.svg"
+  },
+  {
+    "value": "+224 Guinea",
+    "label": "+224 Guinea",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/guinea.svg"
+  },
+  {
+    "value": "+240 Equatorial Guinea",
+    "label": "+240 Equatorial Guinea",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/equatorial-guinea.svg"
+  },
+  {
+    "value": "+30 Greece",
+    "label": "+30 Greece",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/greece.svg"
+  },
+  {
+    "value": "+502 Guatemala",
+    "label": "+502 Guatemala",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/guatemala.svg"
+  },
+  {
+    "value": "+1671 Guam",
+    "label": "+1671 Guam",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/guam.svg"
+  },
+  {
+    "value": "+245 Guinea-Bissau",
+    "label": "+245 Guinea-Bissau",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/guinea-bissau.svg"
+  },
+  {
+    "value": "+592 Guyana",
+    "label": "+592 Guyana",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/guyana.svg"
+  },
+  {
+    "value": "+852 Hong Kong",
+    "label": "+852 Hong Kong",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/hong-kong.svg"
+  },
+  {
+    "value": "+504 Honduras",
+    "label": "+504 Honduras",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/honduras.svg"
+  },
+  {
+    "value": "+385 Croatia",
+    "label": "+385 Croatia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/croatia.svg"
+  },
+  {
+    "value": "+509 Haiti",
+    "label": "+509 Haiti",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/haiti.svg"
+  },
+  {
+    "value": "+36 Hungary",
+    "label": "+36 Hungary",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/hungary.svg"
+  },
+  {
+    "value": "+62 Indonesia",
+    "label": "+62 Indonesia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/indonesia.svg"
+  },
+  {
+    "value": "+353 Ireland",
+    "label": "+353 Ireland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/ireland.svg"
+  },
+  {
+    "value": "+972 Israel",
+    "label": "+972 Israel",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/israel.svg"
+  },
+  {
+    "value": "+441624 Isle of Man",
+    "label": "+441624 Isle of Man",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/isle-of-man.svg"
+  },
+  {
+    "value": "+91 India",
+    "label": "+91 India",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/india.svg"
+  },
+  {
+    "value": "+964 Iraq",
+    "label": "+964 Iraq",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/iraq.svg"
+  },
+  {
+    "value": "+98 Iran",
+    "label": "+98 Iran",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/iran.svg"
+  },
+  {
+    "value": "+354 Iceland",
+    "label": "+354 Iceland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/iceland.svg"
+  },
+  {
+    "value": "+39 Italy",
+    "label": "+39 Italy",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/italy.svg"
+  },
+  {
+    "value": "+441534 Jersey",
+    "label": "+441534 Jersey",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/jersey.svg"
+  },
+  {
+    "value": "+1876 Jamaica",
+    "label": "+1876 Jamaica",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/jamaica.svg"
+  },
+  {
+    "value": "+962 Jordan",
+    "label": "+962 Jordan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/jordan.svg"
+  },
+  {
+    "value": "+81 Japan",
+    "label": "+81 Japan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/japan.svg"
+  },
+  {
+    "value": "+254 Kenya",
+    "label": "+254 Kenya",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/kenya.svg"
+  },
+  {
+    "value": "+996 Kyrgyzstan",
+    "label": "+996 Kyrgyzstan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/kyrgyzstan.svg"
+  },
+  {
+    "value": "+855 Cambodia",
+    "label": "+855 Cambodia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cambodia.svg"
+  },
+  {
+    "value": "+686 Kiribati",
+    "label": "+686 Kiribati",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/kiribati.svg"
+  },
+  {
+    "value": "+269 Comoros",
+    "label": "+269 Comoros",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/comoros.svg"
+  },
+  {
+    "value": "+1869 Saint Kitts and Nevis",
+    "label": "+1869 Saint Kitts and Nevis",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-kitts-and-nevis.svg"
+  },
+  {
+    "value": "+850 North Korea",
+    "label": "+850 North Korea",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/north-korea.svg"
+  },
+  {
+    "value": "+82 Korea",
+    "label": "+82 Korea",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/korea.svg"
+  },
+  {
+    "value": "+965 Kuwait",
+    "label": "+965 Kuwait",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/kuwait.svg"
+  },
+  {
+    "value": "+1345 Cayman Islands",
+    "label": "+1345 Cayman Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/cayman-islands.svg"
+  },
+  {
+    "value": "+7 Kazakhstan",
+    "label": "+7 Kazakhstan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/kazakhstan.svg"
+  },
+  {
+    "value": "+856 Laos",
+    "label": "+856 Laos",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/laos.svg"
+  },
+  {
+    "value": "+961 Lebanon",
+    "label": "+961 Lebanon",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/lebanon.svg"
+  },
+  {
+    "value": "+1758 Saint Lucia",
+    "label": "+1758 Saint Lucia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-lucia.svg"
+  },
+  {
+    "value": "+423 Liechtenstein",
+    "label": "+423 Liechtenstein",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/liechtenstein.svg"
+  },
+  {
+    "value": "+94 Sri Lanka",
+    "label": "+94 Sri Lanka",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/sri-lanka.svg"
+  },
+  {
+    "value": "+231 Liberia",
+    "label": "+231 Liberia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/liberia.svg"
+  },
+  {
+    "value": "+266 Lesotho",
+    "label": "+266 Lesotho",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/lesotho.svg"
+  },
+  {
+    "value": "+370 Lithuania",
+    "label": "+370 Lithuania",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/lithuania.svg"
+  },
+  {
+    "value": "+352 Luxembourg",
+    "label": "+352 Luxembourg",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/luxembourg.svg"
+  },
+  {
+    "value": "+371 Latvia",
+    "label": "+371 Latvia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/latvia.svg"
+  },
+  {
+    "value": "+218 Libya",
+    "label": "+218 Libya",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/libya.svg"
+  },
+  {
+    "value": "+212 Morocco",
+    "label": "+212 Morocco",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/morocco.svg"
+  },
+  {
+    "value": "+377 Monaco",
+    "label": "+377 Monaco",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/monaco.svg"
+  },
+  {
+    "value": "+373 Moldova",
+    "label": "+373 Moldova",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/moldova.svg"
+  },
+  {
+    "value": "+382 Montenegro",
+    "label": "+382 Montenegro",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/montenegro.svg"
+  },
+  {
+    "value": "+590 Saint Martin (French part)",
+    "label": "+590 Saint Martin (French part)",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-martin-(french-part).svg"
+  },
+  {
+    "value": "+261 Madagascar",
+    "label": "+261 Madagascar",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/madagascar.svg"
+  },
+  {
+    "value": "+692 Marshall Islands",
+    "label": "+692 Marshall Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/marshall-islands.svg"
+  },
+  {
+    "value": "+389 Macedonia",
+    "label": "+389 Macedonia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/macedonia.svg"
+  },
+  {
+    "value": "+223 Mali",
+    "label": "+223 Mali",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mali.svg"
+  },
+  {
+    "value": "+95 Myanmar",
+    "label": "+95 Myanmar",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/myanmar.svg"
+  },
+  {
+    "value": "+976 Mongolia",
+    "label": "+976 Mongolia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mongolia.svg"
+  },
+  {
+    "value": "+853 Macao",
+    "label": "+853 Macao",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/macao.svg"
+  },
+  {
+    "value": "+1670 Northern Mariana Islands",
+    "label": "+1670 Northern Mariana Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/northern-mariana-islands.svg"
+  },
+  {
+    "value": "+596 Martinique",
+    "label": "+596 Martinique",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/martinique.svg"
+  },
+  {
+    "value": "+222 Mauritania",
+    "label": "+222 Mauritania",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mauritania.svg"
+  },
+  {
+    "value": "+1664 Montserrat Is",
+    "label": "+1664 Montserrat Is",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/montserrat-is.svg"
+  },
+  {
+    "value": "+356 Malta",
+    "label": "+356 Malta",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/malta.svg"
+  },
+  {
+    "value": "+230 Mauritius",
+    "label": "+230 Mauritius",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mauritius.svg"
+  },
+  {
+    "value": "+960 Maldives",
+    "label": "+960 Maldives",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/maldives.svg"
+  },
+  {
+    "value": "+265 Malawi",
+    "label": "+265 Malawi",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/malawi.svg"
+  },
+  {
+    "value": "+52 Mexico",
+    "label": "+52 Mexico",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mexico.svg"
+  },
+  {
+    "value": "+60 Malaysia",
+    "label": "+60 Malaysia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/malaysia.svg"
+  },
+  {
+    "value": "+258 Mozambique",
+    "label": "+258 Mozambique",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mozambique.svg"
+  },
+  {
+    "value": "+264 Namibia",
+    "label": "+264 Namibia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/namibia.svg"
+  },
+  {
+    "value": "+687 New Caledonia",
+    "label": "+687 New Caledonia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/new-caledonia.svg"
+  },
+  {
+    "value": "+227 Niger",
+    "label": "+227 Niger",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/niger.svg"
+  },
+  {
+    "value": "+234 Nigeria",
+    "label": "+234 Nigeria",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/nigeria.svg"
+  },
+  {
+    "value": "+505 Nicaragua",
+    "label": "+505 Nicaragua",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/nicaragua.svg"
+  },
+  {
+    "value": "+31 Netherlands",
+    "label": "+31 Netherlands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/netherlands.svg"
+  },
+  {
+    "value": "+47 Norway",
+    "label": "+47 Norway",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/norway.svg"
+  },
+  {
+    "value": "+977 Nepal",
+    "label": "+977 Nepal",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/nepal.svg"
+  },
+  {
+    "value": "+674 Nauru",
+    "label": "+674 Nauru",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/nauru.svg"
+  },
+  {
+    "value": "+683 Niue",
+    "label": "+683 Niue",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/niue.svg"
+  },
+  {
+    "value": "+64 New Zealand",
+    "label": "+64 New Zealand",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/new-zealand.svg"
+  },
+  {
+    "value": "+968 Oman",
+    "label": "+968 Oman",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/oman.svg"
+  },
+  {
+    "value": "+507 Panama",
+    "label": "+507 Panama",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/panama.svg"
+  },
+  {
+    "value": "+51 Peru",
+    "label": "+51 Peru",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/peru.svg"
+  },
+  {
+    "value": "+689 French Polynesia",
+    "label": "+689 French Polynesia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/french-polynesia.svg"
+  },
+  {
+    "value": "+675 Papua New Guinea",
+    "label": "+675 Papua New Guinea",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/papua-new-guinea.svg"
+  },
+  {
+    "value": "+63 Philippines",
+    "label": "+63 Philippines",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/philippines.svg"
+  },
+  {
+    "value": "+92 Pakistan",
+    "label": "+92 Pakistan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/pakistan.svg"
+  },
+  {
+    "value": "+48 Poland",
+    "label": "+48 Poland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/poland.svg"
+  },
+  {
+    "value": "+508 Saint Pierre And Miquelon",
+    "label": "+508 Saint Pierre And Miquelon",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-pierre-and-miquelon.svg"
+  },
+  {
+    "value": "+64 Pitcairn",
+    "label": "+64 Pitcairn",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/pitcairn.svg"
+  },
+  {
+    "value": "+1787 Puerto Rico",
+    "label": "+1787 Puerto Rico",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/puerto-rico.svg"
+  },
+  {
+    "value": "+970 Palestine, State of",
+    "label": "+970 Palestine, State of",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/palestine,-state-of.svg"
+  },
+  {
+    "value": "+351 Portugal",
+    "label": "+351 Portugal",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/portugal.svg"
+  },
+  {
+    "value": "+680 Palau",
+    "label": "+680 Palau",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/palau.svg"
+  },
+  {
+    "value": "+595 Paraguay",
+    "label": "+595 Paraguay",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/paraguay.svg"
+  },
+  {
+    "value": "+974 Qatar",
+    "label": "+974 Qatar",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/qatar.svg"
+  },
+  {
+    "value": "+40 Romania",
+    "label": "+40 Romania",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/romania.svg"
+  },
+  {
+    "value": "+381 Serbia",
+    "label": "+381 Serbia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/serbia.svg"
+  },
+  {
+    "value": "+7 Russia",
+    "label": "+7 Russia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/russia.svg"
+  },
+  {
+    "value": "+250 Rwanda",
+    "label": "+250 Rwanda",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/rwanda.svg"
+  },
+  {
+    "value": "+966 Saudi Arabia",
+    "label": "+966 Saudi Arabia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saudi-arabia.svg"
+  },
+  {
+    "value": "+677 Solomon Is",
+    "label": "+677 Solomon Is",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/solomon-is.svg"
+  },
+  {
+    "value": "+248 Seychelles",
+    "label": "+248 Seychelles",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/seychelles.svg"
+  },
+  {
+    "value": "+249 Sudan",
+    "label": "+249 Sudan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/sudan.svg"
+  },
+  {
+    "value": "+46 Sweden",
+    "label": "+46 Sweden",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/sweden.svg"
+  },
+  {
+    "value": "+65 Singapore",
+    "label": "+65 Singapore",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/singapore.svg"
+  },
+  {
+    "value": "+290 Saint Helena",
+    "label": "+290 Saint Helena",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-helena.svg"
+  },
+  {
+    "value": "+386 Slovenia",
+    "label": "+386 Slovenia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/slovenia.svg"
+  },
+  {
+    "value": "+421 Slovakia",
+    "label": "+421 Slovakia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/slovakia.svg"
+  },
+  {
+    "value": "+232 Sierra Leone",
+    "label": "+232 Sierra Leone",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/sierra-leone.svg"
+  },
+  {
+    "value": "+378 San Marino",
+    "label": "+378 San Marino",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/san-marino.svg"
+  },
+  {
+    "value": "+221 Senegal",
+    "label": "+221 Senegal",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/senegal.svg"
+  },
+  {
+    "value": "+252 Somalia",
+    "label": "+252 Somalia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/somalia.svg"
+  },
+  {
+    "value": "+597 Suriname",
+    "label": "+597 Suriname",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/suriname.svg"
+  },
+  {
+    "value": "+211 South Sudan",
+    "label": "+211 South Sudan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/south-sudan.svg"
+  },
+  {
+    "value": "+239 Sao Tome and Principe",
+    "label": "+239 Sao Tome and Principe",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/sao-tome-and-principe.svg"
+  },
+  {
+    "value": "+503 El Salvador",
+    "label": "+503 El Salvador",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/el-salvador.svg"
+  },
+  {
+    "value": "+1721 Sint Maarten (Dutch part)",
+    "label": "+1721 Sint Maarten (Dutch part)",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/sint-maarten-(dutch-part).svg"
+  },
+  {
+    "value": "+963 Syria",
+    "label": "+963 Syria",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/syria.svg"
+  },
+  {
+    "value": "+268 Swaziland",
+    "label": "+268 Swaziland",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/swaziland.svg"
+  },
+  {
+    "value": "+1649 Turks And Caicos Islands",
+    "label": "+1649 Turks And Caicos Islands",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/turks-and-caicos-islands.svg"
+  },
+  {
+    "value": "+235 Chad",
+    "label": "+235 Chad",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/chad.svg"
+  },
+  {
+    "value": "+228 Togo",
+    "label": "+228 Togo",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/togo.svg"
+  },
+  {
+    "value": "+66 Thailand",
+    "label": "+66 Thailand",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/thailand.svg"
+  },
+  {
+    "value": "+992 Tajikistan",
+    "label": "+992 Tajikistan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/tajikistan.svg"
+  },
+  {
+    "value": "+670 Timor-Leste",
+    "label": "+670 Timor-Leste",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/timor-leste.svg"
+  },
+  {
+    "value": "+993 Turkmenistan",
+    "label": "+993 Turkmenistan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/turkmenistan.svg"
+  },
+  {
+    "value": "+216 Tunisia",
+    "label": "+216 Tunisia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/tunisia.svg"
+  },
+  {
+    "value": "+676 Tonga",
+    "label": "+676 Tonga",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/tonga.svg"
+  },
+  {
+    "value": "+90 Turkey",
+    "label": "+90 Turkey",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/turkey.svg"
+  },
+  {
+    "value": "+1868 Trinidad and Tobago",
+    "label": "+1868 Trinidad and Tobago",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/trinidad-and-tobago.svg"
+  },
+  {
+    "value": "+88 Tuvalu",
+    "label": "+88 Tuvalu",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/tuvalu.svg"
+  },
+  {
+    "value": "+886 Taiwan",
+    "label": "+886 Taiwan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/taiwan.svg"
+  },
+  {
+    "value": "+255 Tanzania",
+    "label": "+255 Tanzania",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/tanzania.svg"
+  },
+  {
+    "value": "+380 Ukraine",
+    "label": "+380 Ukraine",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/ukraine.svg"
+  },
+  {
+    "value": "+256 Uganda",
+    "label": "+256 Uganda",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/uganda.svg"
+  },
+  {
+    "value": "+598 Uruguay",
+    "label": "+598 Uruguay",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/uruguay.svg"
+  },
+  {
+    "value": "+998 Uzbekistan",
+    "label": "+998 Uzbekistan",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/uzbekistan.svg"
+  },
+  {
+    "value": "+358 Holy See",
+    "label": "+358 Holy See",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/holy-see.svg"
+  },
+  {
+    "value": "+1784 Saint Vincent And Grenadines",
+    "label": "+1784 Saint Vincent And Grenadines",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/saint-vincent-and-grenadines.svg"
+  },
+  {
+    "value": "+58 Venezuela",
+    "label": "+58 Venezuela",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/venezuela.svg"
+  },
+  {
+    "value": "+1284 Virgin Islands, British",
+    "label": "+1284 Virgin Islands, British",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/virgin-islands,-british.svg"
+  },
+  {
+    "value": "+1340 Virgin Islands, U.S.",
+    "label": "+1340 Virgin Islands, U.S.",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/virgin-islands,-u.s..svg"
+  },
+  {
+    "value": "+84 Vietnam",
+    "label": "+84 Vietnam",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/vietnam.svg"
+  },
+  {
+    "value": "+678 Vanuatu",
+    "label": "+678 Vanuatu",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/vanuatu.svg"
+  },
+  {
+    "value": "+681 Wallis and Futuna",
+    "label": "+681 Wallis and Futuna",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/wallis-and-futuna.svg"
+  },
+  {
+    "value": "+685 Samoa",
+    "label": "+685 Samoa",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/samoa.svg"
+  },
+  {
+    "value": "+383 Kosovo",
+    "label": "+383 Kosovo",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/kosovo.svg"
+  },
+  {
+    "value": "+967 Yemen",
+    "label": "+967 Yemen",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/yemen.svg"
+  },
+  {
+    "value": "+262 Mayotte",
+    "label": "+262 Mayotte",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/mayotte.svg"
+  },
+  {
+    "value": "+27 South Africa",
+    "label": "+27 South Africa",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/south-africa.svg"
+  },
+  {
+    "value": "+260 Zambia",
+    "label": "+260 Zambia",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/zambia.svg"
+  },
+  {
+    "value": "+243 Zaire",
+    "label": "+243 Zaire",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/zaire.svg"
+  },
+  {
+    "value": "+263 Zimbabwe",
+    "label": "+263 Zimbabwe",
+    "image": "https://www.bybit.com/common-static/cht-static/user-svc/img/country/zimbabwe.svg"
+  }
+]

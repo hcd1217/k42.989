@@ -1,0 +1,27 @@
+.tab-item-1 {
+  // border: solid 1px red;
+  // border: none;
+  // border-width: 1px;
+}
+.tab-item-2 {
+  // border: solid 1px blue;
+  // border-bottom-width: 1px;
+  &::before {
+    border-width: 0.5px;
+    border-color: #f3f5f7;
+  }
+}
+.tab-item-3 {
+  // border: solid 1px yellow;
+}
+.tab-item-4 {
+  // border: solid 1px black;
+}
+.tab-item-5 {
+  // border: solid 1px orange;
+  font-size: 18px;
+  font-weight: bold;
+}
+.tab-item-6 {
+  border: solid 1px pink;
+}

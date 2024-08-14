@@ -1,0 +1,28 @@
+.mantine-Select-wrapper {
+  &.app-select {
+  }
+}
+.mantine-Select-option {
+  &.app-select-option {
+    &[data-checked="true"] {
+      color: var(--mantine-color-primary-5);
+    }
+    .mantine-Select-section {
+    }
+  }
+}
+.app-select--input {
+  background: blue;
+  @include dark {
+    background: #26282c;
+  }
+}
+.app-select--section {
+  @include dark {
+    background: #26282c;
+  }
+}
+
+.app-select--input {
+  // border: solid 1px red;
+}

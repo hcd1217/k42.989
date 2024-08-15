@@ -64,7 +64,8 @@ export function MasterSettingForm({
         <InputLabel fz={14}>{t("Max Followers")}</InputLabel>
         <NumberInput
           size="sm"
-          thousandSeparator
+          decimalSeparator="."
+          thousandSeparator=","
           rightSection={<></>}
           value={form.maxFollowers}
           onChange={(value) =>
@@ -77,7 +78,8 @@ export function MasterSettingForm({
         <Flex justify={"space-between"} w={"100%"}>
           <NumberInput
             size="sm"
-            thousandSeparator
+            decimalSeparator="."
+            thousandSeparator=","
             rightSection={<></>}
             value={form.minAmount}
             onChange={(value) =>
@@ -87,7 +89,8 @@ export function MasterSettingForm({
           <NumberInput
             size="sm"
             rightSection={<></>}
-            thousandSeparator
+            decimalSeparator="."
+            thousandSeparator=","
             value={form.maxAmount}
             onChange={(value) =>
               setForm({ ...form, maxAmount: Number(value) })

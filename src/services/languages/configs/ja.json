@@ -108,6 +108,8 @@
   "Funding": "資金",
   "Affiliate": "アフィリエイト",
   "Copy Master": "コーピマスター",
+  "Log In Failed": "ログインに失敗しました",
+  "User not found or invalid password": "ユーザーが見つかりませんまたは無効なパスワード",
   "Content": "内容",
   "Priority Level": "優先度",
   "Email Verification": "Email認証",

@@ -1,4 +1,3 @@
-import bigNumber from "@/common/big-number";
 import { CopySetting } from "@/common/types";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import {
@@ -8,12 +7,10 @@ import {
 } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import { error, success } from "@/utils/notifications";
-import { reloadWindow } from "@/utils/utility";
 import {
   Alert,
   Box,
   Button,
-  Flex,
   InputLabel,
   LoadingOverlay,
   NumberInput,
@@ -34,29 +31,39 @@ export function CopySettingForm({
   const [fetching, setFetching] = useState(true);
   const { fundingBalances } = assetStore();
   const maxAmountUSDT = useMemo(() => {
-    const amount = fundingBalances.find(v => v.coin === "USDT")?.amount;
+    const amount = fundingBalances.find(
+      (v) => v.coin === "USDT",
+    )?.amount;
     return parseFloat(amount ?? "0");
   }, [fundingBalances]);
 
   useEffect(() => {
     setFetching(true);
-    fetchCopySetting(masterAccountId).then((form) => {
-      setNewFollower(!form);
-      setForm(
-        form || {
-          masterAccountId,
-          ratio: 0,
-          maxAmount: 0,
-          minAmount: 0,
-          maxMarginPerMonth: 0,
-          tpRatio: 0,
-          slRatio: 0,
-        },
-      );
-    }).finally(() => setFetching(false));
+    fetchCopySetting(masterAccountId)
+      .then((form) => {
+        setNewFollower(!form);
+        setForm(
+          form || {
+            masterAccountId,
+            ratio: 0,
+            maxAmount: 0,
+            minAmount: 0,
+            maxMarginPerMonth: 0,
+            tpRatio: 0,
+            slRatio: 0,
+          },
+        );
+      })
+      .finally(() => setFetching(false));
   }, [masterAccountId]);
-  if(fetching) {
-    return <LoadingOverlay visible={fetching} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />;
+  if (fetching) {
+    return (
+      <LoadingOverlay
+        visible={fetching}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+    );
   }
   if (newFollower) {
     return (
@@ -67,6 +74,8 @@ export function CopySettingForm({
         <NumberInput
           hideControls
           size="sm"
+          decimalSeparator="."
+          thousandSeparator=","
           value={form?.ratio || 0}
           step={1}
           onChange={(v) =>
@@ -78,7 +87,8 @@ export function CopySettingForm({
         </InputLabel>
         <NumberInput
           rightSection={<></>}
-          thousandSeparator
+          decimalSeparator="."
+          thousandSeparator=","
           size="sm"
           value={followAmount}
           max={maxAmountUSDT}
@@ -87,9 +97,13 @@ export function CopySettingForm({
           step={1}
           onChange={(v) => setFollowAmount(Math.round(Number(v)))}
         />
-        {maxAmountUSDT <= 0 && <Alert>
-          {t("Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.")}
-        </Alert>}
+        {maxAmountUSDT <= 0 && (
+          <Alert>
+            {t(
+              "Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.",
+            )}
+          </Alert>
+        )}
         <Box w={"100%"}>
           <Button
             mt={5}
@@ -127,6 +141,8 @@ export function CopySettingForm({
       <NumberInput
         hideControls
         size="sm"
+        decimalSeparator="."
+        thousandSeparator=","
         value={form?.ratio || 0}
         step={1}
         onChange={(v) =>
@@ -139,7 +155,8 @@ export function CopySettingForm({
       <SimpleGrid cols={2}>
         <NumberInput
           hideControls
-          thousandSeparator
+          decimalSeparator="."
+          thousandSeparator=","
           size="sm"
           value={form?.maxAmount || 0}
           min={0}
@@ -149,7 +166,8 @@ export function CopySettingForm({
         />
         <NumberInput
           rightSection={<></>}
-          thousandSeparator
+          decimalSeparator="."
+          thousandSeparator=","
           size="sm"
           value={form?.minAmount || 0}
           min={0}
@@ -163,7 +181,8 @@ export function CopySettingForm({
       </InputLabel>
       <NumberInput
         rightSection={<></>}
-        thousandSeparator
+        decimalSeparator="."
+        thousandSeparator=","
         size="sm"
         value={form?.maxMarginPerMonth || 0}
         min={0}
@@ -178,7 +197,8 @@ export function CopySettingForm({
       </InputLabel>
       <NumberInput
         rightSection={<></>}
-        thousandSeparator
+        decimalSeparator="."
+        thousandSeparator=","
         size="sm"
         value={form?.tpRatio || 0}
         min={0}
@@ -193,7 +213,8 @@ export function CopySettingForm({
       </InputLabel>
       <NumberInput
         rightSection={<></>}
-        thousandSeparator
+        decimalSeparator="."
+        thousandSeparator=","
         size="sm"
         value={form?.slRatio || 0}
         min={0}

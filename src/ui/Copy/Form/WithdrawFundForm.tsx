@@ -71,7 +71,8 @@ export function WithdrawFundForm({
       </InputLabel>
       <NumberInput
         disabled={withdrawable === 0}
-        thousandSeparator
+        decimalSeparator="."
+        thousandSeparator=","
         size="sm"
         value={form.amount || ""}
         onChange={(v) =>

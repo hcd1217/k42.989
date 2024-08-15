@@ -287,6 +287,9 @@ export function AmountWidget({
       thousandSeparator=","
       decimalSeparator="."
       hideControls
+      min={0}
+      inputMode="decimal"
+      pattern="[\d\uff10-\uff19]*"
       onChange={(v) => props.onChange(v)}
       styles={{
         input: {
@@ -396,6 +399,9 @@ export function AmountToWithdrawWidget({
         withAsterisk={required}
         onChange={(v) => onChange(v)}
         rightSectionPointerEvents="all"
+        min={0}
+        inputMode="decimal"
+        pattern="[\d\uff10-\uff19]*"
         styles={{
           label: {
             fontSize: "14px",
@@ -483,6 +489,9 @@ export function AmountToTransferWidget({
         label={label || ""}
         withAsterisk={required}
         rightSectionWidth={120}
+        min={0}
+        inputMode="decimal"
+        pattern="[\d\uff10-\uff19]*"
         onChange={(v) => {
           setAmount(Number(v));
           onChange(v);
@@ -870,6 +879,9 @@ export function CoinSwapWidget({
                 </>
               }
               rightSectionPointerEvents="all"
+              min={0}
+              inputMode="decimal"
+              pattern="[\d\uff10-\uff19]*"
             />
           </Box>
         </Box>

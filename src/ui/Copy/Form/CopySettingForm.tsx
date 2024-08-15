@@ -97,6 +97,8 @@ export function CopySettingForm({
           value={followAmount}
           max={maxAmountUSDT}
           min={1}
+          inputMode="decimal"
+          pattern="[\d\uff10-\uff19]*"
           disabled={maxAmountUSDT <= 0}
           step={1}
           onChange={(v) => setFollowAmount(Math.round(Number(v)))}
@@ -166,7 +168,9 @@ export function CopySettingForm({
           thousandSeparator=","
           size="sm"
           value={form?.maxAmount || 0}
-          min={0}
+          min={1}
+          inputMode="decimal"
+          pattern="[\d\uff10-\uff19]*"
           onChange={(v) =>
             setForm(_save(form, "maxAmount", Number(v)))
           }
@@ -177,7 +181,9 @@ export function CopySettingForm({
           thousandSeparator=","
           size="sm"
           value={form?.minAmount || 0}
-          min={0}
+          min={1}
+          inputMode="decimal"
+          pattern="[\d\uff10-\uff19]*"
           onChange={(v) =>
             setForm(_save(form, "minAmount", Number(v)))
           }
@@ -193,6 +199,8 @@ export function CopySettingForm({
         size="sm"
         value={form?.maxMarginPerMonth || 0}
         min={0}
+        inputMode="decimal"
+        pattern="[\d\uff10-\uff19]*"
         max={100}
         step={1}
         onChange={(v) =>
@@ -209,6 +217,8 @@ export function CopySettingForm({
         size="sm"
         value={form?.tpRatio || 0}
         min={0}
+        inputMode="decimal"
+        pattern="[\d\uff10-\uff19]*"
         max={100}
         step={1}
         onChange={(v) =>
@@ -225,6 +235,8 @@ export function CopySettingForm({
         size="sm"
         value={form?.slRatio || 0}
         min={0}
+        inputMode="decimal"
+        pattern="[\d\uff10-\uff19]*"
         max={100}
         step={1}
         onChange={(v) =>

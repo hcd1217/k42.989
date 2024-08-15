@@ -267,6 +267,9 @@ export function BindPhoneModal() {
                 </Box>
                 <Box flex={1}>
                   <NumberInput
+                    min={0}
+                    inputMode="decimal"
+                    pattern="[\d\uff10-\uff19]*"
                     hideControls
                     placeholder={t("Phone Number")}
                     key={form.key("mobile")}

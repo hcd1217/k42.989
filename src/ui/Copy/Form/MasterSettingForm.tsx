@@ -66,6 +66,9 @@ export function MasterSettingForm({
           size="sm"
           decimalSeparator="."
           thousandSeparator=","
+          min={0}
+          inputMode="decimal"
+          pattern="[\d\uff10-\uff19]*"
           rightSection={<></>}
           value={form.maxFollowers}
           onChange={(value) =>
@@ -80,6 +83,9 @@ export function MasterSettingForm({
             size="sm"
             decimalSeparator="."
             thousandSeparator=","
+            min={0}
+            inputMode="decimal"
+            pattern="[\d\uff10-\uff19]*"
             rightSection={<></>}
             value={form.minAmount}
             onChange={(value) =>
@@ -91,6 +97,9 @@ export function MasterSettingForm({
             rightSection={<></>}
             decimalSeparator="."
             thousandSeparator=","
+            min={0}
+            inputMode="decimal"
+            pattern="[\d\uff10-\uff19]*"
             value={form.maxAmount}
             onChange={(value) =>
               setForm({ ...form, maxAmount: Number(value) })

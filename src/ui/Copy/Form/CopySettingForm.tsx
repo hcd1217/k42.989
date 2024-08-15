@@ -79,9 +79,12 @@ export function CopySettingForm({
           thousandSeparator=","
           value={form?.ratio || 0}
           step={1}
-          onChange={(v) => {
-            setForm(_save(form, "ratio", Math.round(Number(v))));
-          }}
+          min={0}
+          inputMode="decimal"
+          pattern="[\d\uff10-\uff19]*"
+          onChange={(v) =>
+            setForm(_save(form, "ratio", Math.round(Number(v))))
+          }
         />
         <InputLabel fw={600} fz={14}>
           {t("Follow amount (USDT)")}
@@ -146,6 +149,9 @@ export function CopySettingForm({
         thousandSeparator=","
         value={form?.ratio || 0}
         step={1}
+        min={0}
+        inputMode="decimal"
+        pattern="[\d\uff10-\uff19]*"
         onChange={(v) =>
           setForm(_save(form, "ratio", Math.round(Number(v))))
         }

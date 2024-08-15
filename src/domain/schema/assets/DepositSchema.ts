@@ -30,13 +30,32 @@ const DepositSchema: FormSchema = {
         type: "string",
         readOnly: true,
       },
+      infoUSDT: {
+        type: "object",
+        title: "",
+        properties: {
+          chain: {
+            type: "string",
+            enum: ["TRON network", "Binance Smart Chain"],
+            default: "TRON network",
+            title: t(dictionary, "Chain"),
+          },
+          walletAddress: {
+            $ref: "#/definitions/walletAddress",
+          },
+          info: {
+            $ref: "#/definitions/info",
+          },
+        },
+        required: ["walletAddress", "chain"],
+      },
       infoETH: {
         type: "object",
         title: "",
         properties: {
           chain: {
             type: "string",
-            enum: ["Ethereum", "Binance Smart Chain"],
+            enum: ["Ethereum"],
             default: "Ethereum",
             title: t(dictionary, "Chain"),
           },
@@ -62,25 +81,6 @@ const DepositSchema: FormSchema = {
           walletAddress: {
             $ref: "#/definitions/walletAddress",
             readOnly: true,
-          },
-          info: {
-            $ref: "#/definitions/info",
-          },
-        },
-        required: ["walletAddress", "chain"],
-      },
-      infoUSDT: {
-        type: "object",
-        title: "",
-        properties: {
-          chain: {
-            type: "string",
-            enum: ["TRON network", "Binance Smart Chain"],
-            default: "TRON network",
-            title: t(dictionary, "Chain"),
-          },
-          walletAddress: {
-            $ref: "#/definitions/walletAddress",
           },
           info: {
             $ref: "#/definitions/info",

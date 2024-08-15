@@ -213,7 +213,7 @@ export function QrCodeWidget(props: WidgetProps) {
   const t = useTranslation();
   useEffect(() => {
     const coin = formData.coin || "USDT";
-    const chain = formData?.[`info${coin}`]?.chain || "Ethereum";
+    const chain = formData?.[`info${coin}`]?.chain || "TRON network";
     if (coin && chain) {
       fetchDepositAddressApi({ coin, chain }).then(
         (depositAddress) => {

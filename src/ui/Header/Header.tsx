@@ -621,9 +621,7 @@ function MenuUserInfo() {
                     <Text fz={12} c={"gray.5"}>
                       UID: {me.depositCode || ""}
                     </Text>
-                    <CopyButton
-                      value={`UID: ${me.depositCode || ""}`}
-                    >
+                    <CopyButton value={me.depositCode || ""}>
                       {({ copied, copy }) => (
                         <Tooltip
                           label={t(copied ? "Copied" : "Copy")}
@@ -729,7 +727,7 @@ function MenuUserInfo() {
                   <Text fz={12} c={"gray.5"}>
                     UID: {me.depositCode || ""}
                   </Text>
-                  <CopyButton value={`UID: ${me.depositCode || ""}`}>
+                  <CopyButton value={me.depositCode || ""}>
                     {({ copied, copy }) => (
                       <Tooltip
                         label={t(copied ? "Copied" : "Copy")}

@@ -17,6 +17,7 @@ import {
   InputLabel,
   LoadingOverlay,
   NumberInput,
+  SimpleGrid,
 } from "@mantine/core";
 import { modals } from "@mantine/modals";
 import { useEffect, useMemo, useState } from "react";
@@ -66,11 +67,8 @@ export function CopySettingForm({
         <NumberInput
           hideControls
           size="sm"
-          value={form?.ratio || 20}
-          description={t("Enter a percentage from 20% to 100%")}
+          value={form?.ratio || 0}
           step={1}
-          min={20}
-          max={100}
           onChange={(v) =>
             setForm(_save(form, "ratio", Math.round(Number(v))))
           }
@@ -129,11 +127,8 @@ export function CopySettingForm({
       <NumberInput
         hideControls
         size="sm"
-        value={form?.ratio || 20}
+        value={form?.ratio || 0}
         step={1}
-        description={t("Enter a percentage from 20% to 100%")}
-        min={20}
-        max={100}
         onChange={(v) =>
           setForm(_save(form, "ratio", Math.round(Number(v))))
         }
@@ -141,7 +136,7 @@ export function CopySettingForm({
       <InputLabel fw={600} fz={14}>
         {t("Min./Max. Margin Per Order")}
       </InputLabel>
-      <Flex align="center" justify="space-between">
+      <SimpleGrid cols={2}>
         <NumberInput
           hideControls
           thousandSeparator
@@ -162,7 +157,7 @@ export function CopySettingForm({
             setForm(_save(form, "minAmount", Number(v)))
           }
         />
-      </Flex>
+      </SimpleGrid>
       <InputLabel fw={600} fz={14}>
         {t("Max. Margin Per Month (%)")}
       </InputLabel>

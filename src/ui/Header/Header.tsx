@@ -621,7 +621,9 @@ function MenuUserInfo() {
                     <Text fz={12} c={"gray.5"}>
                       UID: {me.depositCode || ""}
                     </Text>
-                    <CopyButton value={`UID: ${me.uid || ""}`}>
+                    <CopyButton
+                      value={`UID: ${me.depositCode || ""}`}
+                    >
                       {({ copied, copy }) => (
                         <Tooltip
                           label={t(copied ? "Copied" : "Copy")}
@@ -689,7 +691,9 @@ function MenuUserInfo() {
             >
               <Menu.Divider />
               <Menu.Item
-                onClick={authStore.getState().logout}
+                onClick={() => {
+                  authStore.getState().logout();
+                }}
                 color="red"
                 fz={16}
                 fw={700}
@@ -725,7 +729,7 @@ function MenuUserInfo() {
                   <Text fz={12} c={"gray.5"}>
                     UID: {me.depositCode || ""}
                   </Text>
-                  <CopyButton value={`UID: ${me.uid || ""}`}>
+                  <CopyButton value={`UID: ${me.depositCode || ""}`}>
                     {({ copied, copy }) => (
                       <Tooltip
                         label={t(copied ? "Copied" : "Copy")}
@@ -755,7 +759,7 @@ function MenuUserInfo() {
             <Box p={"sm"} hiddenFrom="md">
               <ActionIcon
                 size="xs"
-                onClick={authStore.getState().logout}
+                onClick={() => authStore.getState().logout()}
                 color="red"
                 variant="transparent"
               >

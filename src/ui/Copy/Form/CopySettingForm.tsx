@@ -7,6 +7,7 @@ import {
 } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import { error, success } from "@/utils/notifications";
+import { reloadWindow } from "@/utils/utility";
 import {
   Alert,
   Box,
@@ -78,9 +79,9 @@ export function CopySettingForm({
           thousandSeparator=","
           value={form?.ratio || 0}
           step={1}
-          onChange={(v) =>
-            setForm(_save(form, "ratio", Math.round(Number(v))))
-          }
+          onChange={(v) => {
+            setForm(_save(form, "ratio", Math.round(Number(v))));
+          }}
         />
         <InputLabel fw={600} fz={14}>
           {t("Follow amount (USDT)")}
@@ -243,6 +244,7 @@ export function CopySettingForm({
                 })
                 .finally(() => {
                   modals.closeAll();
+                  reloadWindow();
                 });
           }}
         >

@@ -55,8 +55,7 @@ export function AddFundForm({
         {t("Amount")}
       </InputLabel>
       <NumberInput
-        decimalSeparator="."
-        thousandSeparator=","
+        thousandSeparator
         size="sm"
         value={form.amount || ""}
         onChange={(v) =>

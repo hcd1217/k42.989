@@ -14,9 +14,7 @@ export const optionalStringSchema = stringSchema.optional();
 
 export const speNumberSchema = stringSchema.or(numberSchema);
 
-export const nullableSpeNumberSchema = speNumberSchema
-  .or(z.null())
-  .transform((val) => val ?? 0);
+export const nullableSpeNumberSchema = speNumberSchema.or(z.null()).transform((val) => val ?? 0);
 
 export const binanceOrderParamSchema = z.object({
   isSpot: booleanSchema,

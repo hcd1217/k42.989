@@ -14,9 +14,9 @@ type MobileFormData = {
 export type ResetPasswordFormData = {
   type: "1" | "2";
   email: EmailFormData &
-    PasswordFormData & { code: string; mfaCode?: string };
+  PasswordFormData & { code: string; mfaCode?: string };
   mobile?: MobileFormData &
-    PasswordFormData & { code: string; mfaCode?: string };
+  PasswordFormData & { code: string; mfaCode?: string };
 };
 
 export type ResetPasswordPayload = LoginPayload & {

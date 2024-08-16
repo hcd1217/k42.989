@@ -137,9 +137,6 @@ export function TriggerPriceInputFieldWidget({
       value={value || _lastPrice(formData.symbol)}
       onChange={(value) => onChange(Number(value))}
       size="sm"
-      min={0}
-      inputMode="decimal"
-      pattern="[\d\uff10-\uff19]*"
       rightSection={<></>}
     />
   );
@@ -224,9 +221,6 @@ export function OrderPriceInputFieldWidget({
       step={0.001}
       onChange={(value) => onChange(Number(value))}
       size="sm"
-      min={0}
-      inputMode="decimal"
-      pattern="[\d\uff10-\uff19]*"
       rightSection={
         <AppText
           onClick={changeByLast}
@@ -396,8 +390,6 @@ export function VolumeInputFieldWidget({
             {formData.base}
           </AppText>
         }
-        inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
       />
       <Flex px={2} gap={2} align="center" justify="end">
         <Text size="xs" c="gray">

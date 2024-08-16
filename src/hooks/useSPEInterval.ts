@@ -7,7 +7,7 @@ export default function useSPEInterval(
   fetch: () => void,
   intervalTime: number,
   skipFirstFetch = false,
-  key?: string,
+  key?: string
 ) {
   const _fetch = useCallback(() => {
     if (isBlur()) {

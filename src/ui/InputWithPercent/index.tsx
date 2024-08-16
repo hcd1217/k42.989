@@ -34,9 +34,6 @@ export function InputWithPercent({
             </AppText>
           }
           size="sm"
-          min={0}
-          inputMode="decimal"
-          pattern="[\d\uff10-\uff19]*"
         ></NumberInput>
         <Box py={20} mb={10} px={2}>
           <Slider

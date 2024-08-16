@@ -66,6 +66,9 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
       ),
       body: rows.map((row) => [
         <>
+          {/* <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Coin")}
+          </Text> */}
           <Flex align={"center"} gap={10}>
             <Box>
               <Image w={30} h={30} src={COIN_IMAGES[row.coin]} />
@@ -115,6 +118,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
             {t("BTC Valuation")}
           </Text>
           <Title order={6}>
+            {row.btcValue}
             {
               <NumberFormat
                 decimalPlaces={8}

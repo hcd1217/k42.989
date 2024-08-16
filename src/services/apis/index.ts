@@ -127,12 +127,12 @@ export async function fetchDepositAddressApi(params: {
   chain: string;
   coin: string;
 }) {
-  const { depositAddress } = await _fetchAndCache(
+  const res = await _fetchAndCache(
     `deposit.address.${params.chain}`,
     _fetch,
     30e3,
   );
-  return depositAddress;
+  return res?.depositAddress || "";
 
   function _fetch() {
     return getApi<{ depositAddress: string }>(
@@ -561,8 +561,7 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -574,8 +573,7 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.transactions);
 }

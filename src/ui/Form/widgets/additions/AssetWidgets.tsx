@@ -6,8 +6,12 @@ import {
   convertCoinToCoinUsingRate,
   SwapSideAsName,
 } from "@/domain/marketPrice";
-import useTranslation from "@/hooks/useSPETranslation";
+import {
+  default as useSPETranslation,
+  default as useTranslation,
+} from "@/hooks/useSPETranslation";
 import { fetchDepositAddressApi } from "@/services/apis";
+import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
 import tradeStore from "@/store/trade";
 import NumberFormat from "@/ui/NumberFormat";
@@ -37,7 +41,6 @@ import {
   IconCaretUpFilled,
   IconSwitchVertical,
 } from "@tabler/icons-react";
-import { cloneDeep } from "lodash";
 import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -149,12 +152,18 @@ export function SelectCoinWidget(props: WidgetProps) {
 }
 
 export function SelectChainWidget(props: WidgetProps) {
+  const t = useSPETranslation();
   const options = useMemo(() => {
-    return cloneDeep(props.options.enumOptions);
-  }, [props.options.enumOptions]);
+    logger.debug("SelectChainWidget", props.options.enumOptions);
+    return props.options.enumOptions?.map(({ label, value }) => ({
+      label: t(label),
+      value,
+    }));
+  }, [t, props.options.enumOptions]);
   return (
     <>
       <Select
+        disabled={(options?.length || 0) < 2}
         placeholder={props.placeholder}
         value={props.value}
         data={options}
@@ -192,6 +201,7 @@ export function SelectChainWidget(props: WidgetProps) {
             borderRadius: "0px",
             background: "light-dark(#f3f5f7, #26282c)",
             fontWeight: "bold",
+            color: "light-dark(#000, white)",
           },
           dropdown: {
             borderRadius: "0px",
@@ -213,7 +223,7 @@ export function QrCodeWidget(props: WidgetProps) {
   const t = useTranslation();
   useEffect(() => {
     const coin = formData.coin || "USDT";
-    const chain = formData?.[`info${coin}`]?.chain || "TRON network";
+    const chain = formData?.[`info${coin}`]?.chain || "Ethereum";
     if (coin && chain) {
       fetchDepositAddressApi({ coin, chain }).then(
         (depositAddress) => {
@@ -287,9 +297,6 @@ export function AmountWidget({
       thousandSeparator=","
       decimalSeparator="."
       hideControls
-      min={0}
-      inputMode="decimal"
-      pattern="[\d\uff10-\uff19]*"
       onChange={(v) => props.onChange(v)}
       styles={{
         input: {
@@ -399,9 +406,6 @@ export function AmountToWithdrawWidget({
         withAsterisk={required}
         onChange={(v) => onChange(v)}
         rightSectionPointerEvents="all"
-        min={0}
-        inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
         styles={{
           label: {
             fontSize: "14px",
@@ -489,9 +493,6 @@ export function AmountToTransferWidget({
         label={label || ""}
         withAsterisk={required}
         rightSectionWidth={120}
-        min={0}
-        inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
         onChange={(v) => {
           setAmount(Number(v));
           onChange(v);
@@ -879,9 +880,6 @@ export function CoinSwapWidget({
                 </>
               }
               rightSectionPointerEvents="all"
-              min={0}
-              inputMode="decimal"
-              pattern="[\d\uff10-\uff19]*"
             />
           </Box>
         </Box>

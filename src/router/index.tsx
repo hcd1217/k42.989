@@ -137,6 +137,11 @@ const configs: Config[] = [
     guestOnly: true,
   },
   {
+    path: "/register/:referer",
+    element: "SignUp",
+    guestOnly: true,
+  },
+  {
     path: "/register",
     element: "SignUp",
     guestOnly: true,

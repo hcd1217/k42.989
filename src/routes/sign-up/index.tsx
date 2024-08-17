@@ -1,6 +1,4 @@
-import { schema } from "@/domain/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import AppForm from "@/ui/Form/Form";
 import { svgLogo } from "@/ui/Logo/Logo";
 import { SwitchDarkLightMode } from "@/ui/SwitchDarkLight";
 import SwitchLanguage from "@/ui/SwitchLanguage/SwitchLanguage";
@@ -15,11 +13,19 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { convertToSignUpFormData } from "./config";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Form from "./form";
 import classes from "./index.module.scss";
 
 const SignUp = () => {
   const t = useSPETranslation();
+  const params = useParams();
+  useEffect(() => {
+    if (params.referer) {
+      localStorage.__REFERRER_CODE__ = params.referer as string;
+    }
+  }, [params]);
 
   return (
     <>
@@ -56,25 +62,8 @@ const SignUp = () => {
                   )}
                 </Title>
                 <Space h={30} />
-                <AppForm
-                  schema={schema.SignUp.schema}
-                  uiSchema={schema.SignUp.uiSchema}
-                  formData={schema.SignUp.formData}
-                  w={"100%"}
-                  api="/api/register"
-                  formDataConverter={convertToSignUpFormData}
-                  messages={{
-                    titleError: t("Account Registration Failed"),
-                    titleSuccess: t(
-                      "Account Registration Successful",
-                    ),
-                    msgSuccess: t(
-                      "Congratulations! Your account has been successfully created. Welcome to our community. Please check your email for a verification link to complete your registration.",
-                    ),
-                  }}
-                  onSuccess={() => {
-                    window.open("/login", "_self");
-                  }}
+                <Form
+                  onSuccess={() => window.open("/login", "_self")}
                 />
                 <Group justify="center" mt={"lg"}>
                   <div>
@@ -103,23 +92,8 @@ const SignUp = () => {
                 )}
               </Title>
               <Space h={30} />
-              <AppForm
-                schema={schema.SignUp.schema}
-                uiSchema={schema.SignUp.uiSchema}
-                formData={schema.SignUp.formData}
-                w={"100%"}
-                api="/api/register"
-                formDataConverter={convertToSignUpFormData}
-                messages={{
-                  titleError: t("Account Registration Failed"),
-                  titleSuccess: t("Account Registration Successful"),
-                  msgSuccess: t(
-                    "Congratulations! Your account has been successfully created. Welcome to our community. Please check your email for a verification link to complete your registration.",
-                  ),
-                }}
-                onSuccess={() => {
-                  window.open("/login", "_self");
-                }}
+              <Form
+                onSuccess={() => window.open("/login", "_self")}
               />
             </Card>
             <Group justify="center" my={"lg"}>

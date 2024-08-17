@@ -1,6 +1,5 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import MyTraders from "@/routes/copy/my-traders";
-import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
@@ -16,7 +15,6 @@ export function TabsWallet() {
   const [hideZero, setHideZero] = useState(false);
   const { masterTraders } = assetStore();
   const { hash } = useLocation();
-  logger.debug("TabsWallet", { hash }, hash?.slice(1));
   const t = useSPETranslation();
   return (
     <>

@@ -32,6 +32,7 @@ import {
   Trade,
   UserUpdateType,
 } from "@/common/types";
+import { cleanObj } from "@/common/utils";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
@@ -561,7 +562,8 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -573,7 +575,8 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.transactions);
 }
@@ -689,6 +692,40 @@ export async function login({
       return res.data?.result;
     } else {
       throw new Error(res.data.message || "Token not found");
+    }
+  } catch (err) {
+    throw new Error(
+      (err as Error)?.message || "Something went wrong",
+    );
+  }
+}
+
+export async function register({
+  email,
+  mobile,
+  password,
+}: {
+  password: string;
+  mobile?: string;
+  email?: string;
+}): Promise<{ success: boolean } | undefined> {
+  try {
+    const res = await axios.post(
+      "/api/register",
+      cleanObj({
+        type: email ? 1 : 2,
+        email,
+        mobile,
+        password,
+        referrerCode: localStorage.__REFERRER_CODE__ || undefined,
+      }),
+    );
+    logger.debug(res);
+
+    if (res.data.result) {
+      return res.data.result;
+    } else {
+      throw new Error(res.data.message || "Something went wrong");
     }
   } catch (err) {
     throw new Error(

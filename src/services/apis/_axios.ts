@@ -1,5 +1,5 @@
 import { IS_DEV } from "@/domain/config";
-import { ONE_HOUR } from "@/utils";
+import { ONE_DAY, ONE_HOUR } from "@/utils";
 import _axios from "axios";
 import { Md5 } from "ts-md5";
 
@@ -97,6 +97,10 @@ function _check(uid: string, end = "000") {
 }
 
 function _initUid() {
+  const last = Number(localStorage?.__X_UID__?.split(".")[0] || 0);
+  if (Date.now() - last > ONE_DAY) {
+    delete localStorage.__X_UID__;
+  }
   if (
     !localStorage.__X_UID__ ||
     !/.*\..*/.test(localStorage.__X_UID__)

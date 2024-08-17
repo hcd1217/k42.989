@@ -112,7 +112,7 @@ export function CardTraderTop1({
               <Flex
                 gap={10}
                 styles={{
-                  root: { whiteSpace: "nowrap" }
+                  root: { whiteSpace: "nowrap" },
                 }}
               >
                 <AppText instancetype="withTheadSmall" c={"dark"}>

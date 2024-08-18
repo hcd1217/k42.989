@@ -11,9 +11,6 @@ import {
   applicationFooterSchema,
   applicationSchema,
   authenticationPayloadSchema,
-  binanceCancelOrderParamSchema,
-  binanceModifyOrderParamSchema,
-  binanceOrderParamSchema,
   userConfigSchema,
 } from "./schema";
 
@@ -429,18 +426,6 @@ export type PublicCopyMasterDetail = {
   series: number[];
   pnlRatio: number; // TODO: calculate pnl ratio
 };
-
-export type BinanceOrderParam = z.infer<
-  typeof binanceOrderParamSchema
->;
-
-export type BinanceCancelOrderParam = z.infer<
-  typeof binanceCancelOrderParamSchema
->;
-
-export type BinanceModifyOrderParam = z.infer<
-  typeof binanceModifyOrderParamSchema
->;
 
 export type GenerateMfaLink = {
   issuer: string;

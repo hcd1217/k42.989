@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import BN from "@/common/big-number";
 import { priceDisplay } from "@/common/utils";
 import { MODAL_STYLES } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
@@ -113,9 +114,12 @@ function Banner(trader: PublicCopyMasterDetail) {
     fetchMasterTraders().then((traders) => {
       logger.debug("traders", traders);
       setMyTrader(
-        traders.find(
-          (t) => t.masterAccountId === trader.masterAccountId,
-        ),
+        traders.find((t) => {
+          if (t.masterAccountId === trader.masterAccountId) {
+            return BN.lt(t.ratio || 0, 0);
+          }
+          return false;
+        }),
       );
     });
   }, [trader.masterAccountId]);

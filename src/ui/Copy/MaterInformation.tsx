@@ -29,7 +29,7 @@ import NumberFormat from "../NumberFormat";
 
 export function MaterInformation() {
   const t = useSPETranslation();
-  const [hidden, toggle] = useToggle([false, true]);
+  const [hidden, toggle] = useToggle([true, false]);
   const [isUsdt, toggleUsdt] = useToggle([true, false]);
   const [information, setInformation] = useState<CopyMasterDetail>();
   useEffect(() => {

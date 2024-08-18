@@ -42,7 +42,7 @@ export function CopySettingForm({
     setFetching(true);
     fetchCopySetting(masterAccountId)
       .then((form) => {
-        setNewFollower(!form);
+        setNewFollower(Number(form?.ratio || 0) === 0);
         setForm(
           form || {
             masterAccountId,

@@ -145,7 +145,6 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
               {t("Swap")}
             </Button>
             <Button
-              disabled
               onClick={() => openModal("WITHDRAW", row.coin)}
               p={0}
               size="xs"
@@ -153,9 +152,6 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
             >
               {t("Withdraw")}
             </Button>
-            {/* <Button p={0} size="xs" variant="transparent">
-              {t("Address")} // TODO: Implement this
-            </Button> */}
             <Button
               onClick={() => openModal("TRANSFER", row.coin)}
               p={0}

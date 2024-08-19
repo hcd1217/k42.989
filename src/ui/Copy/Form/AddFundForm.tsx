@@ -5,6 +5,7 @@ import useSPETranslation from "@/hooks/useSPETranslation";
 import { addCopyFundApi } from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import NumberFormat from "@/ui/NumberFormat";
+import NumberInput from "@/ui/NumberInput";
 import { error, success } from "@/utils/notifications";
 import { reloadWindow } from "@/utils/utility";
 import {
@@ -12,7 +13,6 @@ import {
   Button,
   Flex,
   InputLabel,
-  NumberInput,
   Select,
   Text,
 } from "@mantine/core";
@@ -55,8 +55,6 @@ export function AddFundForm({
         {t("Amount")}
       </InputLabel>
       <NumberInput
-        decimalSeparator="."
-        thousandSeparator=","
         size="sm"
         value={form.amount || ""}
         onChange={(v) =>

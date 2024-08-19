@@ -1,6 +1,7 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { updateMasterSettingApi } from "@/services/apis";
 import { CopyMasterDetail, CopyMasterSetting } from "@/types";
+import NumberInput from "@/ui/NumberInput";
 import { error, success } from "@/utils/notifications";
 import {
   Avatar,
@@ -10,7 +11,6 @@ import {
   Flex,
   Input,
   InputLabel,
-  NumberInput,
   Text,
   Textarea,
 } from "@mantine/core";
@@ -64,11 +64,7 @@ export function MasterSettingForm({
         <InputLabel fz={14}>{t("Max Followers")}</InputLabel>
         <NumberInput
           size="sm"
-          decimalSeparator="."
-          thousandSeparator=","
           min={0}
-          inputMode="decimal"
-          pattern="[\d\uff10-\uff19]*"
           rightSection={<></>}
           value={form.maxFollowers}
           onChange={(value) =>
@@ -81,11 +77,7 @@ export function MasterSettingForm({
         <Flex justify={"space-between"} w={"100%"}>
           <NumberInput
             size="sm"
-            decimalSeparator="."
-            thousandSeparator=","
             min={0}
-            inputMode="decimal"
-            pattern="[\d\uff10-\uff19]*"
             rightSection={<></>}
             value={form.minAmount}
             onChange={(value) =>
@@ -95,11 +87,7 @@ export function MasterSettingForm({
           <NumberInput
             size="sm"
             rightSection={<></>}
-            decimalSeparator="."
-            thousandSeparator=","
             min={0}
-            inputMode="decimal"
-            pattern="[\d\uff10-\uff19]*"
             value={form.maxAmount}
             onChange={(value) =>
               setForm({ ...form, maxAmount: Number(value) })

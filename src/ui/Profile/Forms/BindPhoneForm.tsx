@@ -4,6 +4,7 @@ import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { sendVerifyCode } from "@/services/apis";
 import authStore from "@/store/auth";
 import phoneCode from "@/ui/Form/widgets/mocks/phone-code.json";
+import NumberInput from "@/ui/NumberInput";
 import { error } from "@/utils/notifications";
 import { extractPhoneNumber, maskEmail } from "@/utils/utility";
 import {
@@ -17,7 +18,6 @@ import {
   Flex,
   Image,
   InputLabel,
-  NumberInput,
   Select,
   SimpleGrid,
   Space,
@@ -268,8 +268,6 @@ export function BindPhoneModal() {
                 <Box flex={1}>
                   <NumberInput
                     min={0}
-                    inputMode="decimal"
-                    pattern="[\d\uff10-\uff19]*"
                     hideControls
                     placeholder={t("Phone Number")}
                     key={form.key("mobile")}

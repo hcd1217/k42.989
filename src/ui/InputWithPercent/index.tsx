@@ -1,5 +1,6 @@
-import { Box, NumberInput, Slider } from "@mantine/core";
+import { Box, Slider } from "@mantine/core";
 import AppText from "../Text/AppText";
+import NumberInput from "../NumberInput";
 type PropsInput = {
   label: string;
   value: string | number;
@@ -19,8 +20,6 @@ export function InputWithPercent({
     <>
       <Box>
         <NumberInput
-          thousandSeparator=","
-          decimalSeparator="."
           classNames={{
             label: "text-label-form",
           }}
@@ -35,8 +34,6 @@ export function InputWithPercent({
           }
           size="sm"
           min={0}
-          inputMode="decimal"
-          pattern="[\d\uff10-\uff19]*"
         ></NumberInput>
         <Box py={20} mb={10} px={2}>
           <Slider

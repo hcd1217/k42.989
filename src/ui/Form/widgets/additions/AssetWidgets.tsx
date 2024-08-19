@@ -294,12 +294,8 @@ export function AmountWidget({
       label={label}
       value={value || ""}
       rightSectionWidth={80}
-      thousandSeparator=","
-      decimalSeparator="."
       hideControls
       min={0}
-      inputMode="decimal"
-      pattern="[\d\uff10-\uff19]*"
       onChange={(v) => props.onChange(v)}
       styles={{
         input: {
@@ -403,15 +399,11 @@ export function AmountToWithdrawWidget({
         value={value || ""}
         rightSectionWidth={120}
         hideControls
-        thousandSeparator=","
-        decimalSeparator="."
         disabled={isZero}
         withAsterisk={required}
         onChange={(v) => onChange(v)}
         rightSectionPointerEvents="all"
         min={0}
-        inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
         styles={{
           label: {
             fontSize: "14px",
@@ -492,16 +484,12 @@ export function AmountToTransferWidget({
     <Box pos={"relative"}>
       <NumberInput
         hideControls
-        thousandSeparator=","
-        decimalSeparator="."
         value={amount || ""}
         disabled={isZero}
         label={label || ""}
         withAsterisk={required}
         rightSectionWidth={120}
         min={0}
-        inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
         onChange={(v) => {
           setAmount(Number(v));
           onChange(v);
@@ -842,8 +830,6 @@ export function CoinSwapWidget({
           >
             <NumberInput
               hideControls
-              thousandSeparator=","
-              decimalSeparator="."
               size="xs"
               ref={focusTrapRef}
               placeholder={isFrom ? "0.0005-2.9999" : "--"}
@@ -890,8 +876,6 @@ export function CoinSwapWidget({
               }
               rightSectionPointerEvents="all"
               min={0}
-              inputMode="decimal"
-              pattern="[\d\uff10-\uff19]*"
             />
           </Box>
         </Box>

@@ -8,6 +8,7 @@ import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import AppButton from "@/ui/Button/AppButton";
 import NumberFormat from "@/ui/NumberFormat";
+import NumberInput from "@/ui/NumberInput";
 import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
 import {
@@ -16,7 +17,6 @@ import {
   Flex,
   HoverCard,
   InputLabel,
-  NumberInput,
   SegmentedControl,
   Select,
   Slider,
@@ -130,16 +130,12 @@ export function TriggerPriceInputFieldWidget({
       disabled={!isLogin}
       label={t("Trigger Price")}
       classNames={{ label: "text-label-form" }}
-      thousandSeparator=","
-      decimalSeparator="."
       step={0.01}
       rightSectionWidth={50}
       value={value || _lastPrice(formData.symbol)}
       onChange={(value) => onChange(Number(value))}
       size="sm"
       min={0}
-      inputMode="decimal"
-      pattern="[\d\uff10-\uff19]*"
       rightSection={<></>}
     />
   );
@@ -217,16 +213,12 @@ export function OrderPriceInputFieldWidget({
       disabled={!isLogin}
       label={t("Order Price")}
       classNames={{ label: "text-label-form" }}
-      thousandSeparator=","
-      decimalSeparator="."
       rightSectionWidth={50}
       value={value || _lastPrice(formData.symbol)}
       step={0.001}
       onChange={(value) => onChange(Number(value))}
       size="sm"
       min={0}
-      inputMode="decimal"
-      pattern="[\d\uff10-\uff19]*"
       rightSection={
         <AppText
           onClick={changeByLast}
@@ -372,8 +364,6 @@ export function VolumeInputFieldWidget({
       <NumberInput
         max={max}
         disabled={!isLogin}
-        thousandSeparator=","
-        decimalSeparator="."
         classNames={{ label: "text-label-form" }}
         label={t("Volume")}
         step={Number(config?.volumeStepSize) || 1}
@@ -396,8 +386,6 @@ export function VolumeInputFieldWidget({
             {formData.base}
           </AppText>
         }
-        inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
       />
       <Flex px={2} gap={2} align="center" justify="end">
         <Text size="xs" c="gray">

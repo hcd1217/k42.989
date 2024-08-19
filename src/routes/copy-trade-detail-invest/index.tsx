@@ -68,7 +68,7 @@ export default function CopyTradeDetail() {
   }
   return (
     <>
-      <Banner {...trader} />
+      <Banner {...trader} key={trader?.name || ""} />
       <Box className="bg-copy-trade">
         <Container>
           <Grid gutter={21} py={21}>
@@ -112,17 +112,16 @@ function Banner(trader: PublicCopyMasterDetail) {
 
   useEffect(() => {
     fetchMasterTraders().then((traders) => {
-      logger.debug("traders", traders);
-      setMyTrader(
-        traders.find((t) => {
+      setMyTrader(() => {
+        return traders.find((t) => {
           if (t.masterAccountId === trader.masterAccountId) {
-            return BN.lt(t.ratio || 0, 0);
+            return BN.gt(t.ratio || 0, 0);
           }
           return false;
-        }),
-      );
+        });
+      });
     });
-  }, [trader.masterAccountId]);
+  }, [trader]);
 
   return (
     <>
@@ -445,7 +444,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                   </Group>
                 </Flex>
                 <Space mb={24} />
-                {myTrader ? (
+                {BN.gt(myTrader?.ratio || 0, 0) ? (
                   <AppButton
                     instancetype="WithGradient"
                     onClick={() => {

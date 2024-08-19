@@ -641,7 +641,7 @@ export async function fetchMasterTraders() {
     return [] as MasterTraderInformation[];
   }
   logger.debug("Fetching master traders...");
-  return _fetchAndCache("masterTraders", _fetch, 10 * ONE_MINUTE);
+  return _fetchAndCache("masterTraders", _fetch, ONE_MINUTE);
   function _fetch() {
     return getApi<{ traders: MasterTraderInformation[] }>(
       "/api/copy/mine/traders",

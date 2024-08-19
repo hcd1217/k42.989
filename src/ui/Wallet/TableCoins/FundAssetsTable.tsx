@@ -129,6 +129,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
           </Text>
           <Flex gap={8}>
             <Button
+              disabled
               onClick={() => openModal("DEPOSIT", row.coin)}
               p={0}
               size="xs"
@@ -145,6 +146,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
               {t("Swap")}
             </Button>
             <Button
+              disabled
               onClick={() => openModal("WITHDRAW", row.coin)}
               p={0}
               size="xs"

@@ -44,7 +44,7 @@ export default function Wallet() {
         overview.all?.totalInUsd,
         overview.all?.totalInBtc,
       );
-      totalCopyEquityInBtc = BN.mul(totalCopyEquity, ratio);
+      totalCopyEquityInBtc = BN.div(totalCopyEquity, ratio);
     }
     return {
       totalCopyEquity,

@@ -199,3 +199,29 @@ export function buildArray<T>(item: T | T[]): T[] {
 export function cleanEmpty<T>(arr: (T | undefined | null)[]) {
   return arr.filter((item) => !!item) as T[];
 }
+
+export function jsonToYaml(obj: GenericObject) {
+  function convert(obj: GenericObject, indent = 0) {
+    let yaml = "";
+    const spaces = "  ".repeat(indent);
+
+    for (const key in obj) {
+      // eslint-disable-next-line no-prototype-builtins
+      if (obj.hasOwnProperty(key)) {
+        const value = obj[key];
+        if (typeof value === "object" && value !== null) {
+          yaml += `${spaces}${key}:\n${convert(
+            value as GenericObject,
+            indent + 1,
+          )}`;
+        } else {
+          yaml += `${spaces}${key}: ${value as string}\n`;
+        }
+      }
+    }
+
+    return yaml;
+  }
+
+  return convert(obj);
+}

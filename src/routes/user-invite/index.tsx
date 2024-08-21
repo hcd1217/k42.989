@@ -25,15 +25,12 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
-import {
-  IconCalendar,
-  IconCheck,
-  IconCopy,
-} from "@tabler/icons-react";
+import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import classes from "./styles.module.css";
+import authStore from "@/store/auth";
+import { DateRangePicker } from "@/ui/DateRangePicker";
 
 export default function Invite() {
   return (
@@ -55,7 +52,10 @@ function Banner() {
   const t = useSPETranslation();
   const [code, refererLink] = useMemo(() => {
     const code = authStore.getState().me?.affiliateCode || "";
-    return [code, `${window.location.origin}/register/${code}`];
+    return [
+      code,
+      `${window.location.origin}/fdsfds/fdsfdsfds/fdsfdsfdsfds/register/${code}`,
+    ];
   }, []);
 
   return (
@@ -162,7 +162,7 @@ function Banner() {
                       <TextInput
                         readOnly
                         label={t("Referral Link")}
-                        rightSectionWidth={"fit-content"}
+                        rightSectionWidth={60}
                         value={refererLink}
                         rightSection={
                           <Flex
@@ -251,13 +251,13 @@ export function InviteInfo() {
     );
   });
   return (
-    <Card>
+    <Box>
       <Title order={2}>{t("Overview")}</Title>
       <Space my={"md"} />
       <SimpleGrid cols={{ xs: 0, sm: 3, md: 4, lg: 5 }}>
         {stats}
       </SimpleGrid>
-    </Card>
+    </Box>
   );
 }
 
@@ -321,7 +321,7 @@ export function RebatesHistory() {
   }, [balances, t]);
 
   return (
-    <Card>
+    <>
       <Flex
         justify={"space-between"}
         align={{
@@ -366,7 +366,7 @@ export function RebatesHistory() {
           </Table.ScrollContainer>
         </Box>
       </Box>
-    </Card>
+    </>
   );
 }
 
@@ -429,7 +429,7 @@ export function InvitationDetails() {
     };
   }, [balances, t]);
   return (
-    <Card>
+    <>
       <Flex
         justify={"space-between"}
         align={{
@@ -474,7 +474,7 @@ export function InvitationDetails() {
           </Table.ScrollContainer>
         </Box>
       </Box>
-    </Card>
+    </>
   );
 }
 
@@ -537,7 +537,7 @@ export function RebatesDetails() {
     };
   }, [balances, t]);
   return (
-    <Card>
+    <>
       <Flex
         justify={"space-between"}
         align={{
@@ -582,43 +582,6 @@ export function RebatesDetails() {
           </Table.ScrollContainer>
         </Box>
       </Box>
-    </Card>
-  );
-}
-
-import authStore from "@/store/auth";
-import "dayjs/locale/ja";
-
-function DateRangePicker() {
-  const t = useSPETranslation();
-  const [value, setValue] = useState<[Date | null, Date | null]>([
-    null,
-    null,
-  ]);
-  return (
-    <Flex
-      align={"center"}
-      gap={10}
-      w={{
-        xs: "100%",
-        md: 320,
-      }}
-    >
-      {/* <Title size={16}>{t("Period")}</Title> */}
-      <DatePickerInput
-        rightSection={
-          <>
-            <IconCalendar />
-          </>
-        }
-        placeholder={t("Start Date - End Date")}
-        w={"100%"}
-        size="md"
-        locale="ja"
-        type="range"
-        value={value}
-        onChange={setValue}
-      />
-    </Flex>
+    </>
   );
 }

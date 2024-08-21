@@ -657,6 +657,9 @@ function MenuUserInfo() {
             <Menu.Item fw={"bold"} component="a" href="/wallet">
               {t("Assets")}
             </Menu.Item>
+            <Menu.Item fw={"bold"} component="a" href="/user/invite">
+              {t("Referral")}
+            </Menu.Item>
             <Menu.Item
               fw={"bold"}
               onClick={() => {
@@ -782,6 +785,22 @@ function MenuUserInfo() {
             {t("Settings")}
           </Box>
           <Space my={"xs"} />
+          <Divider />
+          <Space my={"xs"} />
+          <Box
+            fw={"bold"}
+            component={Link}
+            style={{
+              all: "unset",
+              display: "block",
+            }}
+            to="/user/invite"
+          >
+            {t("Referral")}
+          </Box>
+          <Space my={"xs"} />
+          <Divider />
+          <Space my={"xs"} />
           <Box
             style={{
               all: "unset",
@@ -793,6 +812,8 @@ function MenuUserInfo() {
           >
             {t("Assets")}
           </Box>
+          <Space my={"xs"} />
+          <Divider />
           <Space my={"xs"} />
           <Box
             fw={"bold"}

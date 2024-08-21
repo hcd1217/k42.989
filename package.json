@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@mantine/carousel": "7.12.0",
+    "@mantine/dates": "^7.12.1",
     "@mantine/dropzone": "^7.11.2",
     "@mantine/tiptap": "^7.12.0",
     "@mantinex/mantine-logo": "^1.0.1",
@@ -38,7 +39,7 @@
     "bignumber.js": "^9.1.2",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
-    "dayjs": "^1.11.11",
+    "dayjs": "^1.11.13",
     "decimal.js": "^10.4.3",
     "deep-freeze-es6": "^3.0.2",
     "embla-carousel-autoplay": "^7.1.0",

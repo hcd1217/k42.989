@@ -433,5 +433,24 @@
   "The withdrawal function will be disabled for 24 hours after you change your login password.": "ログインパスワードを変更後、24時間は出金機能が無効となります。",
   "Enter a percentage from 20% to 100%": "20％から100％までの割合を入力してください",
   "Your amount is insufficient to proceed with this step. Please deposit more funds into your account to continue.": "このステップを進めるには金額が不足しています。続行するためにアカウントに資金を追加してください。",
-  "X": "X"
+  "X": "X",
+  "Refer a Friend": "友達を紹介する",
+  "Earn up to 40% commission on each of their trades": "「彼らの取引ごとに最大40％の手数料を稼ぐ」",
+  "Invitation Code": "招待コード",
+  "Referral Link": "紹介リンク",
+  "Total Friends Invited": "招待した友達の総数",
+  "Direct Invitees": "直接の招待者",
+  "Indirect Invitees": "間接の招待者",
+  "Direct Referral Rate": "直接紹介率",
+  "Indirect Referral Rate": "間接紹介率",
+  "Rebates History": "リベート履歴",
+  "Invitation Details": "招待詳細",
+  "Rebates Details": "リベート詳細",
+  "Overview": "概要",
+  "Scan QR code and join me at": "QRコードをスキャンして、私と一緒に参加してください",
+  "Date": "日付",
+  "Rebate Amount": "リベート額",
+  "No Data": "データがありません",
+  "Referral": "紹介"
+  
 }

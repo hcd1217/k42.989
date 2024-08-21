@@ -155,3 +155,7 @@ export function getDatesArray(time: number, total: number) {
 export function fmtDate(ts: number) {
   return new Date(ts).toLocaleString("ja-JP");
 }
+
+export function getInvitationLink() {
+  return location.origin;
+}

@@ -60,6 +60,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   MyTransactions: lazy(() => import("@/routes/copy/my-transactions")),
 
   User: lazy(() => import("@/routes/user")),
+  Invite: lazy(() => import("@/routes/user-invite")),
   BindGA: lazy(() => import("@/routes/user-bind-ga")),
   ReBindGA: lazy(() => import("@/routes/user-rebind-ga")),
   KYC: lazy(() => import("@/routes/user-kyc")),
@@ -207,6 +208,12 @@ const configs: Config[] = [
   {
     path: "/user",
     element: "User",
+    wrapper: "TradeWrapper",
+    authOnly: true,
+  },
+  {
+    path: "/user/invite",
+    element: "Invite",
     wrapper: "TradeWrapper",
     authOnly: true,
   },

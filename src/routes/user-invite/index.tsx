@@ -67,7 +67,7 @@ function Banner() {
             gap={20}
             wrap={{
               xs: "wrap",
-              sm: "nowrap",
+              md: "nowrap",
             }}
           >
             <Box>
@@ -97,7 +97,6 @@ function Banner() {
                 xs: "100%",
                 sm: "fit-content",
               }}
-              miw={"500px"}
               mih={"176px"}
               radius={12}
               p={0}
@@ -128,8 +127,9 @@ function Banner() {
                     >
                       <TextInput
                         readOnly
-                        placeholder={t("Invitation Code")}
+                        label={t("Invitation Code")}
                         rightSectionWidth={"fit-content"}
+                        value={code}
                         rightSection={
                           <Flex
                             w={"100%"}
@@ -138,9 +138,6 @@ function Banner() {
                             align={"center"}
                             px={"xs"}
                           >
-                            <Title order={6} fw={"bold"}>
-                              {code}
-                            </Title>
                             <CopyButton value={code}>
                               {({ copied, copy }) => (
                                 <Button
@@ -164,8 +161,9 @@ function Banner() {
                       />
                       <TextInput
                         readOnly
-                        placeholder={t("Referral Link")}
+                        label={t("Referral Link")}
                         rightSectionWidth={"fit-content"}
+                        value={refererLink}
                         rightSection={
                           <Flex
                             w={"100%"}
@@ -174,9 +172,6 @@ function Banner() {
                             align={"center"}
                             px={"xs"}
                           >
-                            <Title order={6} fw={"bold"}>
-                              {refererLink}
-                            </Title>
                             <CopyButton value={refererLink}>
                               {({ copied, copy }) => (
                                 <Button
@@ -327,9 +322,20 @@ export function RebatesHistory() {
 
   return (
     <Card>
-      <Flex justify={"space-between"}>
+      <Flex
+        justify={"space-between"}
+        align={{
+          xs: "stretch",
+          sm: "center",
+        }}
+        direction={{
+          xs: "column",
+          sm: "row",
+        }}
+        w={"100%"}
+      >
         <Title order={2}>{t("Rebates History")}</Title>
-        <Box>
+        <Box py={10}>
           <DateRangePicker />
         </Box>
       </Flex>
@@ -424,9 +430,22 @@ export function InvitationDetails() {
   }, [balances, t]);
   return (
     <Card>
-      <Flex justify={"space-between"} align={"center"}>
+      <Flex
+        justify={"space-between"}
+        align={{
+          xs: "stretch",
+          sm: "center",
+        }}
+        direction={{
+          xs: "column",
+          sm: "row",
+        }}
+        w={"100%"}
+      >
         <Title order={2}>{t("Invitation Details")}</Title>
-        <DateRangePicker />
+        <Box py={10}>
+          <DateRangePicker />
+        </Box>
       </Flex>
       <Space my={"md"} />
       <Box
@@ -519,9 +538,22 @@ export function RebatesDetails() {
   }, [balances, t]);
   return (
     <Card>
-      <Flex justify={"space-between"} align={"center"}>
+      <Flex
+        justify={"space-between"}
+        align={{
+          xs: "stretch",
+          sm: "center",
+        }}
+        direction={{
+          xs: "column",
+          sm: "row",
+        }}
+        w={"100%"}
+      >
         <Title order={2}>{t("Rebates Details")}</Title>
-        <DateRangePicker />
+        <Box py={10}>
+          <DateRangePicker />
+        </Box>
       </Flex>
       <Space my={"md"} />
       <Box
@@ -564,7 +596,14 @@ function DateRangePicker() {
     null,
   ]);
   return (
-    <Flex align={"center"} gap={10} w={320}>
+    <Flex
+      align={"center"}
+      gap={10}
+      w={{
+        xs: "100%",
+        md: 320,
+      }}
+    >
       {/* <Title size={16}>{t("Period")}</Title> */}
       <DatePickerInput
         rightSection={

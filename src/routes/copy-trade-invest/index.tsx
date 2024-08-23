@@ -2,10 +2,13 @@ import allTradersIcon from "@/assets/images/all-traders.svg";
 import topTradersIcon from "@/assets/images/top-traders.svg";
 import { shuffle } from "@/common/utils";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { fetchAllTraders } from "@/services/apis";
+import {
+  fetchAllTraders,
+  fetchMyCopyInformation,
+} from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
-import { CopyMaster } from "@/types";
+import { CopyInformation, CopyMaster } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
 import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
@@ -37,7 +40,7 @@ import {
 } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
 import { IconEye, IconEyeOff, IconSearch } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
@@ -445,6 +448,23 @@ function Banner() {
   const navigate = useNavigate();
   const [isOffPrice, togglePrice] = useToggle([true, false]);
 
+  const [information, setInformation] = useState<CopyInformation>();
+
+  useEffect(() => {
+    fetchMyCopyInformation().then((information) => {
+      setInformation(information);
+    });
+  }, []);
+
+  const { total, unRealizedPnl } = useMemo(() => {
+    const total = information?.total || 0;
+    const unRealizedPnl = information?.unRealizedPnl || 0;
+    return {
+      total: Number(total),
+      unRealizedPnl: Number(unRealizedPnl),
+    };
+  }, [information?.unRealizedPnl, information?.total]);
+
   return (
     <Box className="banner-copy">
       <Center w={"100%"} h={"100%"}>
@@ -544,7 +564,7 @@ function Banner() {
                     </Text>
                     <Title order={4}>
                       <NumberFormat
-                        value={0}
+                        value={unRealizedPnl}
                         decimalPlaces={2}
                         hidden={isOffPrice}
                       />
@@ -556,7 +576,7 @@ function Banner() {
                     </Text>
                     <Title order={4}>
                       <NumberFormat
-                        value={0}
+                        value={total}
                         decimalPlaces={2}
                         hidden={isOffPrice}
                       />

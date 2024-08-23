@@ -546,7 +546,24 @@ export async function fetchMyMasterDetail() {
 }
 
 export async function fetchMyCopyInformation() {
-  return getApi<CopyInformation>("/api/copy/mine/information");
+  if (!authStore.getState().me?.id) {
+    return {
+      total: 0,
+      unRealizedPnl: 0,
+      netPnL: 0,
+      available: 0,
+      withDrawable: 0,
+      settled: 0,
+      unSettled: 0,
+    } satisfies CopyInformation;
+  }
+  return _fetchAndCache(
+    "mine/information",
+    () => {
+      return getApi<CopyInformation>("/api/copy/mine/information");
+    },
+    ONE_MINUTE,
+  );
 }
 
 export async function updateMasterSettingApi(

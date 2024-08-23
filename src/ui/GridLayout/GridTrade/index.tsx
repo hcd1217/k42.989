@@ -396,8 +396,7 @@ function BoxInfoTradeFoot({
         }}
       >
         <AppButton
-          // disabled={!isLogin}
-          disabled
+          disabled={!isLogin}
           size="xs"
           styles={{
             root: {

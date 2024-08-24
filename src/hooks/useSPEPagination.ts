@@ -32,8 +32,7 @@ export default function useSPEPagination<T extends GenericObject>(
             data.map((el) => el[cursorKey] as string),
           );
           setRawData(data);
-          const from = reverse ? 1 : 0;
-          setData(data.slice(from, from + limit));
+          setData(data.slice(0, limit));
           reverse
             ? setHavePreviousPage(data.length === _limit)
             : setHaveNextPage(data.length === _limit);

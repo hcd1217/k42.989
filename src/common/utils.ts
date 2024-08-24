@@ -1,5 +1,5 @@
 import BN from "./big-number";
-import { GenericObject } from "./types";
+import { GenericObject, SPENumber } from "./types";
 
 export function t(
   dictionary: Record<string, string>,
@@ -224,4 +224,8 @@ export function jsonToYaml(obj: GenericObject) {
   }
 
   return convert(obj);
+}
+
+export function roundNumber(value: SPENumber, k: number) {
+  return Number(Number(value).toFixed(k));
 }

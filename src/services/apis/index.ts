@@ -1,5 +1,3 @@
-export * as axios from "./_axios";
-
 import { OrderSide, OrderType } from "@/common/enums";
 import { updateUserPayloadSchema } from "@/common/schema";
 import {
@@ -32,7 +30,8 @@ import {
   Trade,
   UserUpdateType,
 } from "@/common/types";
-import { cleanObj } from "@/common/utils";
+import { cleanObj, t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
@@ -43,6 +42,8 @@ import queryString from "query-string";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
+export * as axios from "./_axios";
+const dictionary = getDictionary();
 
 type UserUpdatePayload = z.infer<typeof updateUserPayloadSchema>;
 
@@ -254,7 +255,7 @@ export async function inquiryApi(data: GenericObject) {
   await axios.post("/api/inquiry", data).then((res) => {
     if (res.data.code !== 0) {
       throw new Error(
-        "Failed to send inquiry: You send too many requests",
+        t(dictionary, "Failed to send inquiry: You send too many requests"),
       );
     }
   });
@@ -579,8 +580,7 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -592,8 +592,7 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
-      limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
     }`,
   ).then((res) => res.transactions);
 }

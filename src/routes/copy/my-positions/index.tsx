@@ -31,7 +31,7 @@ export default function MyOrders() {
         "Mark Price",
         "Volume",
         "Margin",
-        "Realized PnL",
+        "Unrealized PnL",
         "Time",
       ].map((label, idx) => (
         <SPETableHeader key={idx} label={label} />

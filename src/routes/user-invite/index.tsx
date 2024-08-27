@@ -2,6 +2,8 @@ import { ASSET_COIN_LIST } from "@/common/configs";
 import { COIN_IMAGES } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
+import authStore from "@/store/auth";
+import { DateRangePicker } from "@/ui/DateRangePicker";
 import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord } from "@/ui/SPEMisc";
 import AppText from "@/ui/Text/AppText";
@@ -29,8 +31,6 @@ import { IconCheck, IconCopy } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
 import { useMemo } from "react";
 import classes from "./styles.module.css";
-import authStore from "@/store/auth";
-import { DateRangePicker } from "@/ui/DateRangePicker";
 
 export default function Invite() {
   return (
@@ -54,7 +54,7 @@ function Banner() {
     const code = authStore.getState().me?.affiliateCode || "";
     return [
       code,
-      `${window.location.origin}/fdsfds/fdsfdsfds/fdsfdsfdsfds/register/${code}`,
+      `${window.location.origin}/register/${code}`,
     ];
   }, []);
 
@@ -110,9 +110,8 @@ function Banner() {
               >
                 <Flex align={"center"} gap={10} mb={10}>
                   <AppText fz={"16px"} fw={"bold"}>
-                    {`${t("Scan QR code and join me at")} ${
-                      localStorage.__APP_NAME__ || ""
-                    } !`}
+                    {`${t("Scan QR code and join me at")} ${localStorage.__APP_NAME__ || ""
+                      } !`}
                   </AppText>
                 </Flex>
                 <Box>

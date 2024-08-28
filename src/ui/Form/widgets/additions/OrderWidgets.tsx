@@ -136,7 +136,7 @@ export function TriggerPriceInputFieldWidget({
       onChange={(value) => onChange(Number(value))}
       size="sm"
       min={0}
-      rightSection={<></>}
+      hideControls
     />
   );
 }
@@ -400,7 +400,8 @@ export function VolumeInputFieldWidget({
           disabled={!isLogin}
           onChange={(percent) => {
             setPercent(percent);
-            onChange(Number(BN.div(BN.mul(max, percent), 100, 3)));
+            const v = Number(BN.div(BN.mul(max, percent), 100, 3));
+            onChange(v);
           }}
           value={percent}
           color="primary"

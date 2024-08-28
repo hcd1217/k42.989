@@ -1,14 +1,13 @@
 import { NumberInput as Nb, NumberInputProps } from "@mantine/core";
-
-export default function NumberInput({ ...props }: NumberInputProps) {
+// const pt = "[\d\uff10-\uff19]*"
+export default function NumberInput({ value, ...props }: NumberInputProps) {
   return (
     <>
       <Nb
-        step={1}
         min={0}
         inputMode="decimal"
-        pattern="[\d\uff10-\uff19]*"
         {...props}
+        value={value !== undefined ? isNaN(parseFloat(value.toString())) ? "" : value : ""}
       />
     </>
   );

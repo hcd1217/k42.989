@@ -52,10 +52,7 @@ function Banner() {
   const t = useSPETranslation();
   const [code, refererLink] = useMemo(() => {
     const code = authStore.getState().me?.affiliateCode || "";
-    return [
-      code,
-      `${window.location.origin}/register/${code}`,
-    ];
+    return [code, `${window.location.origin}/register/${code}`];
   }, []);
 
   return (

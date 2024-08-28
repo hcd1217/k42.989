@@ -31,10 +31,7 @@ export default function MfaModal({
           inputType="tel"
           inputMode="numeric"
         />
-        <Button
-          disabled={value?.length < 6}
-          onClick={handleSubmit}
-        >
+        <Button disabled={value?.length < 6} onClick={handleSubmit}>
           {t("Submit")}
         </Button>
       </Stack>

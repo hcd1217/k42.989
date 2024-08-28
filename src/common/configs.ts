@@ -49,16 +49,18 @@ export const SYMBOL_MAP = {
   } as Record<string, string>,
 };
 
+export const AFFILIATE_REWARD_RATIO = 0.36;
+
 export const FEE = {
   // https://www.binance.com/en/fee/schedule
   SPOT: {
-    MAKER: 0.001,
-    TAKER: 0.001,
+    MAKER: 0.0015,
+    TAKER: 0.0015,
   },
   // https://www.binance.com/en/fee/futureFee
   FUTURE: {
-    MAKER: 0.0002,
-    TAKER: 0.0005,
+    MAKER: 0.001,
+    TAKER: 0.001,
   },
 };
 

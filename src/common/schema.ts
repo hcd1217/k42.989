@@ -14,6 +14,8 @@ export const optionalNumberSchema = z.number().optional();
 
 export const optionalStringSchema = stringSchema.optional();
 
+export const optionalBooleanSchema = booleanSchema.optional();
+
 export const speNumberSchema = stringSchema.or(numberSchema);
 
 export const nullableSpeNumberSchema = speNumberSchema
@@ -159,6 +161,8 @@ export const copyMasterPerformanceSchema = z.object({
 export const authenticationPayloadSchema = z.object({
   id: stringSchema,
   uid: stringSchema,
+  isAdmin: optionalBooleanSchema,
+  isAgent: optionalBooleanSchema,
   nickName: optionalStringSchema,
   avatar: optionalStringSchema,
   depositCode: stringSchema,
@@ -174,6 +178,11 @@ export const authenticationPayloadSchema = z.object({
   isCopyMaster: booleanSchema,
   masterAccountId: optionalStringSchema,
   config: userConfigSchema.optional(),
+  affiliateData: z.object({
+    ratio: numberSchema,
+    totalEarned: numberSchema,
+    totalReferrals: numberSchema,
+  }).optional(),
   accounts: z
     .object({
       fundingAccountId: optionalStringSchema,

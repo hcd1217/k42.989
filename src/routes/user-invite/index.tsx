@@ -107,8 +107,9 @@ function Banner() {
               >
                 <Flex align={"center"} gap={10} mb={10}>
                   <AppText fz={"16px"} fw={"bold"}>
-                    {`${t("Scan QR code and join me at")} ${localStorage.__APP_NAME__ || ""
-                      } !`}
+                    {`${t("Scan QR code and join me at")} ${
+                      localStorage.__APP_NAME__ || ""
+                    } !`}
                   </AppText>
                 </Flex>
                 <Box>

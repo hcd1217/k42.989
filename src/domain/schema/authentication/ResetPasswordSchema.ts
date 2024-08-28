@@ -1,5 +1,9 @@
+import { t } from "@/common/utils";
+import { getDictionary } from "@/services/languages";
 import { FormSchema } from "@/types";
 import { REGEX } from "@/utils/regex";
+
+const dictionary = getDictionary();
 
 const ResetPasswordSchema: FormSchema = {
   schema: {
@@ -31,7 +35,7 @@ const ResetPasswordSchema: FormSchema = {
         properties: {
           email: {
             type: "string",
-            title: "Email",
+            title: t(dictionary, "Email"),
             pattern: REGEX.EMAIL,
           },
           password: {
@@ -46,7 +50,7 @@ const ResetPasswordSchema: FormSchema = {
       },
       Password: {
         type: "string",
-        title: "Password",
+        title: t(dictionary, "New Password"),
       },
       type: {
         type: "string",
@@ -56,11 +60,11 @@ const ResetPasswordSchema: FormSchema = {
       PhoneLocal: {
         type: "string",
         default: "+81 Japan",
-        title: "Region",
+        title: t(dictionary, "Region"),
       },
       Code: {
         type: "string",
-        title: "Code",
+        title: t(dictionary, "Verification Code"),
         minLength: 6,
       },
     },

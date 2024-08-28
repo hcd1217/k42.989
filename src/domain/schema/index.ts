@@ -12,8 +12,8 @@ import PostOrderSchema from "./trades/PostOrderSchema";
 
 const _schema: Record<string, FormSchema> = {
   SignUp: SignUp,
-  ForgotPassword: ForgotPassword,
-  ResetPassword: ResetPassword,
+  ForgotPassword,
+  ResetPassword,
   Login: LoginForm,
   PostOrderSchema,
   DepositSchema,

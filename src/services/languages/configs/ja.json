@@ -415,6 +415,7 @@
   "Invalid password": "無効なパスワード",
   "Please Enter Current Password": "パスワードを入力してください",
   "The passwords are inconsistent. Please try again.": "パスワードが一致していません。もう一度お試しください",
+  "Send my password reset code": "パスワードリセットコード送信",
   "Invalid verification code": "無効な認証コードです",
   "Verification Email Code Failed": "認証メールコードが無効です",
   "There was an error sending the verification code.": "認証コードの送信中にエラーが発生しました。",

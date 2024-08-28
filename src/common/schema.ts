@@ -178,11 +178,13 @@ export const authenticationPayloadSchema = z.object({
   isCopyMaster: booleanSchema,
   masterAccountId: optionalStringSchema,
   config: userConfigSchema.optional(),
-  affiliateData: z.object({
-    ratio: numberSchema,
-    totalEarned: numberSchema,
-    totalReferrals: numberSchema,
-  }).optional(),
+  affiliateData: z
+    .object({
+      ratio: numberSchema,
+      totalEarned: numberSchema,
+      totalReferrals: numberSchema,
+    })
+    .optional(),
   accounts: z
     .object({
       fundingAccountId: optionalStringSchema,

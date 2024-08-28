@@ -397,6 +397,7 @@
   "Password Change Failed": "Password Change Failed",
   "Please Enter Old Password": "Please Enter Old Password",
   "Invalid password": "Invalid password",
+  "Send my password reset code": "Send my password reset code",
   "Invalid verification code": "Invalid verification code",
   "Verification Email Code Failed": "Verification Email Code Failed",
   "There was an error sending the verification code.": "There was an error sending the verification code.",

@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
 import useSPEPagination from "@/hooks/useSPEPagination";
@@ -63,6 +64,7 @@ export function WithdrawRecords() {
         "Time",
         "Coin",
         "Amount",
+        "Withdraw Fee",
         "Withdraw Address",
         "Status",
         "Remark",
@@ -88,7 +90,18 @@ export function WithdrawRecords() {
             {t("Amount")}
           </Text>
           <Title order={6} fz={12} key={`${row.id}.amount`}>
-            <NumberFormat decimalPlaces={8} value={row.amount} />
+            <NumberFormat
+              decimalPlaces={3}
+              value={BN.sub(row.amount, row.fee)}
+            />
+          </Title>
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"dimmed"}>
+            {t("Withdraw Fee")}
+          </Text>
+          <Title order={6} fz={12} key={`${row.id}.fee`}>
+            <NumberFormat decimalPlaces={3} value={row.fee} />
           </Title>
         </>,
         <>
@@ -119,9 +132,9 @@ export function WithdrawRecords() {
           </Title>
         </>,
         <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
+          {/* <Text hiddenFrom="sm" c={"dimmed"}>
             {t("Actions")}
-          </Text>
+          </Text> */}
           <Flex gap={5} key={`${row.id}.action`}>
             <Button
               onClick={() => openModal(row.asset)}
@@ -129,7 +142,7 @@ export function WithdrawRecords() {
               size="xs"
               variant="transparent"
             >
-              Withdraw
+              {t("Withdraw")}
             </Button>
           </Flex>
         </>,

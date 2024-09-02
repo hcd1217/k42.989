@@ -563,26 +563,50 @@ export function AmountToTransferWidget({
   );
 }
 
-export function WithdrawAddressWidget(props: WidgetProps) {
+export function WithdrawAddressWidget({
+  formContext: { formData },
+  ...props
+}: WidgetProps) {
+  const t = useTranslation();
+  const chain = useMemo(() => {
+    return formData[`info${formData.coin}`]?.["chain"];
+  }, [formData]);
   return (
-    <TextInput
-      onChange={(v) => props.onChange(v.target.value || "")}
-      value={props.value}
-      styles={{
-        label: {
+    <>
+      <TextInput
+        onChange={(v) => props.onChange(v.target.value || "")}
+        value={props.value}
+        styles={{
+          label: {
+            fontSize: "14px",
+          },
+          input: {
+            fontSize: "14px",
+            background: "light-dark(#f3f5f7, #26282c)",
+            border: "none",
+            fontWeight: "bolder",
+          },
+        }}
+        label={props.label ? props.label : ""}
+        withAsterisk={props.required}
+        {...(props.options?.props as any)} // eslint-disable-line
+      />
+      <span
+        style={{
+          width: "100%",
+          textAlign: "right",
+          marginTop: "5px",
           fontSize: "14px",
-        },
-        input: {
-          fontSize: "14px",
-          background: "light-dark(#f3f5f7, #26282c)",
-          border: "none",
-          fontWeight: "bolder",
-        },
-      }}
-      label={props.label ? props.label : ""}
-      withAsterisk={props.required}
-      {...(props.options?.props as any)} // eslint-disable-line
-    />
+          color: "red",
+          display: "block",
+        }}
+      >
+        {t("Withdraw Fee")}: &nbsp;
+        {WITHDRAW_FEE_MAPS[chain]?.[formData.coin] || 0}
+        &nbsp;
+        {formData.coin}
+      </span>
+    </>
   );
 }
 

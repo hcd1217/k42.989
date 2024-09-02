@@ -76,7 +76,7 @@ const WithdrawSchema: FormSchema = {
         properties: {
           chain: {
             type: "string",
-            enum: ["TRON network"],
+            enum: ["TRON network", "Ethereum"],
             default: "TRON network",
             title: t(dictionary, "Chain"),
           },

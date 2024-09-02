@@ -3,11 +3,13 @@ import AppForm from "@/ui/Form/Form";
 import { Card, Space, Title } from "@mantine/core";
 import { IChangeEvent } from "@rjsf/core";
 import { convertToWithdrawFormData } from "./config";
+import useSPETranslation from "@/hooks/useSPETranslation";
 
 export function WithdrawForm(props: {
   coin?: string;
   onSubmit: (res: IChangeEvent) => void;
 }) {
+  const t = useSPETranslation();
   return (
     <>
       <Card
@@ -19,7 +21,7 @@ export function WithdrawForm(props: {
         w={"100%"}
         mx={"auto"}
       >
-        <Title order={3}>Withdraw</Title>
+        <Title order={3}>{t("Withdraw")}</Title>
         <Space my={10} />
         <AppForm
           w={"100%"}

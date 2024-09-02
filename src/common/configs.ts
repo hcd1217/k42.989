@@ -1,5 +1,21 @@
 import { TransactionStatus } from "./enums";
 
+export const WITHDRAW_FEE_MAPS: Record<
+  string,
+  Record<string, number>
+> = {
+  "TRON network": {
+    USDT: 5,
+  },
+  "Ethereum": {
+    USDT: 20,
+    ETH: 0.003,
+  },
+  "Bitcoin": {
+    BTC: 0.0007,
+  },
+};
+
 export const MMR = [
   [10000, 0.02],
   [30000, 0.03],

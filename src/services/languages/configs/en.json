@@ -93,6 +93,8 @@
   "Log In Failed": "Log In Failed",
   "User not found or invalid password": "User not found or invalid password",
   "Copy trading": "Copy trading",
+  "Choose coin to transfer": "Choose coin to transfer",
+  "Ethereum": "Ethereum network (ERC20)",
   "TRON network": "TRON network (TRC20)",
   "Copy Trading": "Copy Trading",
   "Copy": "Copy",

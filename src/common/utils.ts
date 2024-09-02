@@ -1,4 +1,5 @@
 import BN from "./big-number";
+import { ONE_HOUR } from "./constants";
 import { GenericObject, SPENumber } from "./types";
 
 export function t(
@@ -228,4 +229,21 @@ export function jsonToYaml(obj: GenericObject) {
 
 export function roundNumber(value: SPENumber, k: number) {
   return Number(Number(value).toFixed(k));
+}
+
+export function endOfMonth(now = 0, timezoneOffset = 9) {
+  const offset = timezoneOffset * ONE_HOUR;
+  const today = new Date((now || Date.now()) + offset);
+  today.setUTCDate(1);
+  today.setUTCMonth(today.getUTCMonth() + 1);
+  today.setUTCHours(0, 0, 0, 0);
+  return today.getTime() - offset - 1;
+}
+
+export function beginOfMonth(now = 0, timezoneOffset = 9) {
+  const offset = timezoneOffset * ONE_HOUR;
+  const today = new Date((now || Date.now()) + offset);
+  today.setUTCDate(1);
+  today.setUTCHours(0, 0, 0, 0);
+  return today.getTime() - offset;
 }

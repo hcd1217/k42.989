@@ -1,5 +1,10 @@
 import BN from "@/common/big-number";
-import { ASSET_COIN_LIST, SWAP_RATE } from "@/common/configs";
+import {
+  ASSET_COIN_LIST,
+  SWAP_RATE,
+  WITHDRAW_FEE_MAPS,
+} from "@/common/configs";
+import { AccountType } from "@/common/enums";
 import { buildOptions, freeAmount } from "@/common/utils";
 import { ASSET_COIN_OPTIONS, COIN_IMAGES } from "@/domain/config";
 import {
@@ -185,7 +190,7 @@ export function SelectChainWidget(props: WidgetProps) {
                 },
               }}
             >
-              {option.value}
+              {option.label}
             </Text>
           );
         }}
@@ -314,7 +319,14 @@ export function AmountWidget({
 export function SelectAccountWidget(props: WidgetProps) {
   const { accounts } = assetStore();
   const options = useMemo(
-    () => buildOptions(accounts, "name", "id"),
+    () =>
+      buildOptions(
+        accounts.filter((el) => {
+          return el.type === AccountType.MAIN;
+        }),
+        "name",
+        "id",
+      ),
     [accounts],
   );
 

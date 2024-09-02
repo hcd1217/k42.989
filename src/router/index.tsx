@@ -39,6 +39,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   CopyTradeDetailInvest: lazy(() => import("@/routes/copy-trade-detail-invest")),
   SpotTrade: lazy(() => import("@/routes/spot")),
   FutureTrade: lazy(() => import("@/routes/future")),
+  Logout: lazy(() => import("@/routes/logout")),
   Wallet: lazy(() => import("@/routes/wallet")),
   FiatDeposit: lazy(() => import("@/routes/wallet/history/fiat-deposit")),
   SwapHistory: lazy(() => import("@/routes/wallet/history/swap")),
@@ -136,6 +137,10 @@ const configs: Config[] = [
     path: "/login",
     element: "Login",
     guestOnly: true,
+  },
+  {
+    path: "/logout",
+    element: "Logout",
   },
   {
     path: "/register/:referer",

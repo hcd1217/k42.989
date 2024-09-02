@@ -348,3 +348,13 @@ export const verificationCodeSchema = z
     }
     return val.toUpperCase();
   });
+
+export const natsPayloadSchema = z.object({
+  __NATS_CHANNEL: stringSchema,
+  __NATS_DATA: z.unknown(),
+  __NATS_ID: stringSchema,
+  __NATS_UNIQUE_ID: optionalStringSchema,
+  __NATS_COUNTER: numberSchema,
+  __NATS_TIMESTAMP: numberSchema,
+  __NATS_SOURCE: stringSchema,
+});

@@ -199,7 +199,12 @@ export default function Profile() {
                 <Button
                   disabled={kycLevel === "3"}
                   component="a"
-                  href="/user/kyc"
+                  onClick={() => {
+                    if (kycLevel === "3") {
+                      return;
+                    }
+                    window.location.href = "/user/kyc";
+                  }}
                   variant="gradient"
                   miw={150}
                   px={"xs"}
@@ -339,9 +344,11 @@ export default function Profile() {
               <Flex justify={"end"} align={"center"} h={"100%"}>
                 <Button
                   component="a"
-                  href={
-                    me?.hasMfa ? "user/rebind-ga" : "/user/bind-ga"
-                  }
+                  onClick={() => {
+                    window.location.href = me?.hasMfa
+                      ? "user/rebind-ga"
+                      : "/user/bind-ga";
+                  }}
                   variant="gradient"
                   miw={150}
                   px={"xs"}

@@ -27,7 +27,8 @@ const authStore = create<AuthState>((set) => ({
       me,
       avatar: avatarUrl(me?.avatar),
       isLogin: Boolean(me?.id),
-      displayName: me?.nickName || masking(me?.email || me?.mobile || ""),
+      displayName:
+        me?.nickName || masking(me?.email || me?.mobile || ""),
       kycLevel: me.kycLevel.toString() as KycLvType,
       isPendingKyc: me.isPendingVerification || false,
       isRejectedKyc: me.isRejectedVerification || false,

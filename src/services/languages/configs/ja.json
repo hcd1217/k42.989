@@ -508,6 +508,7 @@
   "Not Configured": "未設定",
   "Configured": "設定済",
   "Bind": "設定済",
+  "ReBind GA": "GA再設定",
   "PASSPORT": "パスポート",
   "Congratulations! Your KYC Verification is Complete": "おめでとうございます！KYC認証が完了しました",
   "Thank you for completing the KYC verification process. Your account is now fully verified and you can proceed with trading on the platform.": "KYC認証プロセスの完了をありがとうございます。あなたのアカウントは完全に認証され、プラットフォームでの取引を続行できます。",

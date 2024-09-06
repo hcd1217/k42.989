@@ -5,7 +5,6 @@ import useUploader from "@/hooks/useUploader";
 import { ImageType } from "@/types";
 import { PictureUploader } from "@/ui/AvatarUploader";
 import phoneCodes from "@/ui/Form/widgets/mocks/phone-code.json";
-import { requiredFieldValidate } from "@/utils/validates";
 import {
   ActionIcon,
   Alert,
@@ -60,7 +59,7 @@ export function KYCVerifyIdentityOneForm() {
       }
     },
   });
-  const { submit, loading } =
+  const { submitKycData, loading } =
     useSPEUserSettings<UserKycData>("KYC_DATA");
   const form = useForm<UserKycData>({
     mode: "uncontrolled",
@@ -77,40 +76,19 @@ export function KYCVerifyIdentityOneForm() {
     },
     validate: {
       country: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          return t("Please choose country");
-        }
+        return value ? null : t("Please choose country");
       },
       idType: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          return t("Please choose document type");
-        }
+        return value ? null : t("Please choose document type");
       },
       images: (value) => {
-        try {
-          requiredFieldValidate().parse(value?.kycLvl1Front);
-          requiredFieldValidate().parse(value?.kycLvl1Back);
+        if (value?.kycLvl1Front && value?.kycLvl1Back) {
           return null;
-        } catch (error: unknown) {
-          return t("Please upload document picture");
         }
+        return t("Please upload document picture");
       },
     },
   });
-
-  const values = useMemo(() => {
-    const _v = form.getValues();
-    const formData = {
-      ..._v,
-    };
-    return formData;
-  }, [form]);
 
   const _countryInfo = useMemo(() => {
     const i = phoneCodes.find((i) => i.value === _values?.country);
@@ -125,7 +103,7 @@ export function KYCVerifyIdentityOneForm() {
       <Title order={2}>{t("Verify identity")}</Title>
       <Space mb={"lg"} />
 
-      <form onSubmit={(e) => submit(e, form, values)}>
+      <form onSubmit={(e) => submitKycData(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
           <div>
             <InputLabel size="lg">
@@ -321,10 +299,10 @@ export function KYCVerifyIdentityOneForm() {
                         setFile(files[0]);
                         const reader = new FileReader();
                         reader.onloadend = () => {
-                          // setPreview(reader.result as string);
                           uploadFile(
                             files[0],
                             ImageType.KYC_DATA_LEVEL_1_FRONT,
+                            `${Date.now()}_kyc_lvl1_front`,
                           );
                         };
                         reader.readAsDataURL(files[0]);
@@ -373,10 +351,10 @@ export function KYCVerifyIdentityOneForm() {
                         setFile(files[0]);
                         const reader = new FileReader();
                         reader.onloadend = () => {
-                          // setPreview(reader.result as string);
                           uploadFile(
                             files[0],
                             "KYC_DATA_LEVEL_1_BACK",
+                            `${Date.now()}_kyc_lvl1_back`,
                           );
                         };
                         reader.readAsDataURL(files[0]);

@@ -2,7 +2,6 @@ import { userKycDataSchema } from "@/common/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { Language } from "@/services/languages";
-import { requiredFieldValidate } from "@/utils/validates";
 import {
   Button,
   Flex,
@@ -27,7 +26,6 @@ const years = Array.from(
   (_, idx) => 1970 + idx,
 );
 const dates = Array.from({ length: 31 }, (_, idx) => idx + 1);
-// const months = Array.from({ length: 12 }, (_, idx) => idx + 1);
 const monthsEn = [
   "January",
   "February",
@@ -42,7 +40,6 @@ const monthsEn = [
   "November",
   "December",
 ];
-
 const monthsJa = [
   "1月",
   "2月",
@@ -66,7 +63,7 @@ type UserKycData = z.infer<typeof userKycDataSchema> & {
 
 //
 export function KYCVerifyIdentityFirstForm() {
-  const { submit, loading } =
+  const { loading, submitKycData } =
     useSPEUserSettings<UserKycData>("KYC_DATA");
   const form = useForm<UserKycData>({
     mode: "uncontrolled",
@@ -84,7 +81,11 @@ export function KYCVerifyIdentityFirstForm() {
       if (values.date && values.month && values.year) {
         form.setFieldValue(
           "dateOfBirth",
-          `${values.date} ${values.month} ${values.year}`,
+          [
+            values.year,
+            values.month?.replace("月", "").padStart(2, "0") || "",
+            values.date?.padStart(2, "0") || "",
+          ].join("/"),
         );
       } else {
         form.setFieldValue("dateOfBirth", "");
@@ -92,99 +93,16 @@ export function KYCVerifyIdentityFirstForm() {
     },
     validate: {
       firstName: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          if (
-            typeof error === "object" &&
-            error !== null &&
-            "errors" in error
-          ) {
-            const customError = error as {
-              errors: { message: string }[];
-            };
-            return customError.errors[0].message;
-          } else {
-            return t("Invalid mobile verification code");
-          }
-        }
+        return value ? null : t("Required");
       },
       lastName: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          if (
-            typeof error === "object" &&
-            error !== null &&
-            "errors" in error
-          ) {
-            const customError = error as {
-              errors: { message: string }[];
-            };
-            return customError.errors[0].message;
-          } else {
-            return t("Invalid mobile verification code");
-          }
-        }
+        return value ? null : t("Required");
       },
       address: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          if (
-            typeof error === "object" &&
-            error !== null &&
-            "errors" in error
-          ) {
-            const customError = error as {
-              errors: { message: string }[];
-            };
-            return customError.errors[0].message;
-          } else {
-            return t("Invalid mobile verification code");
-          }
-        }
+        return value ? null : t("Required");
       },
       gender: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          if (
-            typeof error === "object" &&
-            error !== null &&
-            "errors" in error
-          ) {
-            const customError = error as {
-              errors: { message: string }[];
-            };
-            return customError.errors[0].message;
-          } else {
-            return t("Invalid mobile verification code");
-          }
-        }
-      },
-      dateOfBirth: (value) => {
-        try {
-          requiredFieldValidate().parse(value);
-          return null;
-        } catch (error: unknown) {
-          if (
-            typeof error === "object" &&
-            error !== null &&
-            "errors" in error
-          ) {
-            const customError = error as {
-              errors: { message: string }[];
-            };
-            return customError.errors[0].message;
-          } else {
-            return t("Invalid mobile verification code");
-          }
-        }
+        return value ? null : t("Required");
       },
     },
   });
@@ -197,19 +115,11 @@ export function KYCVerifyIdentityFirstForm() {
     return monthsJa;
   }, []);
 
-  const values = useMemo(() => {
-    const _v = form.getValues();
-    const formData = {
-      ..._v,
-    };
-    return formData;
-  }, [form]);
-
   return (
     <>
       <Title order={2}>{t("KYC Information")}</Title>
       <Space mb={"lg"} />
-      <form onSubmit={(e) => submit(e, form, values)}>
+      <form onSubmit={(e) => submitKycData(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
           <TextInput
             key={form.key("lastName")}
@@ -232,7 +142,6 @@ export function KYCVerifyIdentityFirstForm() {
               name="favoriteFramework"
               label={t("Your gender")}
               size="lg"
-              withAsterisk
               key={form.key("gender")}
               {...form.getInputProps("gender")}
             >
@@ -259,9 +168,7 @@ export function KYCVerifyIdentityFirstForm() {
             </Radio.Group>
           </div>
           <div>
-            <InputLabel required size="lg">
-              {t("Date of Birth")}
-            </InputLabel>
+            <InputLabel size="lg">{t("Date of Birth")}</InputLabel>
             <Flex gap={10}>
               <Select
                 placeholder={t("Day")}

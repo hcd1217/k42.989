@@ -4,6 +4,7 @@ import {
   getMe,
   updateUserApi,
 } from "@/services/apis";
+import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { GenerateMfaLink, UserUpdateType } from "@/types";
 import { error, success } from "@/utils/notifications";
@@ -146,22 +147,26 @@ const useSPEUserSettings = <T>(
   }, []);
 
   const onSubmit = useCallback(
-    (
-      form: UseFormReturnType<T>,
-      values?: Record<string, unknown>,
-    ) => {
+    ({
+      form,
+      values,
+    }: {
+      form?: UseFormReturnType<T>;
+      values?: Record<string, unknown>;
+    }) => {
       const [titleS, msgS, titleF, msgF] = (
         INITIAL_DATA[type] || []
       ).map((el) => t(el));
       const formData =
-        values ?? omit(form.getValues() as Record<string, unknown>);
+        values ??
+        omit((form?.getValues() || {}) as Record<string, unknown>);
 
       setLoading(true);
       updateUserApi(type as UserUpdateType, formData)
         .then((res) => {
           if (res.data?.result?.success) {
             success(t(titleS), t(msgS));
-            form.setValues(form.values);
+            form?.setValues(form.values);
             getMe().then((me) => authStore.getState().setMe(me));
             setTimeout(() => {
               window.location.href = "/user";
@@ -184,12 +189,24 @@ const useSPEUserSettings = <T>(
       form: UseFormReturnType<T>,
       values?: Record<string, unknown>,
     ) => {
+      logger.debug("submit", form, values);
       e.preventDefault();
+      form.validate();
       if (form.isValid() === false) {
-        form.validate();
         return false;
       }
-      onSubmit(form, values);
+      onSubmit({ form, values });
+    },
+    [onSubmit],
+  );
+
+  const submitKycData = useCallback(
+    (e: FormEvent, form?: UseFormReturnType<T>) => {
+      e.preventDefault();
+      form?.validate();
+      if (form?.isValid()) {
+        onSubmit({ values: { kycData: form.getValues() } });
+      }
     },
     [onSubmit],
   );
@@ -204,6 +221,7 @@ const useSPEUserSettings = <T>(
     startSending1,
     startSending2,
     submit,
+    submitKycData,
     type,
     me,
     SECONDS,

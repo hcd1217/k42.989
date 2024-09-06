@@ -1,12 +1,12 @@
+import { S3_HOST } from "@/common/configs";
+import { getUploadUrlApi } from "@/services/apis";
 import authStore from "@/store/auth";
+import { ImageType } from "@/types";
+import { error } from "@/utils/notifications";
 import { FileWithPath } from "@mantine/dropzone";
+import axios from "axios";
 import { useCallback, useState } from "react";
 import useSPETranslation from "./useSPETranslation";
-import { ImageType } from "@/types";
-import { getUploadUrlApi } from "@/services/apis";
-import axios from "axios";
-import { S3_HOST } from "@/common/configs";
-import { error } from "@/utils/notifications";
 
 type propsType = {
   onSuccess?: (file: string, type: `${ImageType}`) => void;
@@ -20,12 +20,20 @@ export default function useUploader(props: propsType) {
 
   const t = useSPETranslation();
   const uploadFile = useCallback(
-    async (file: FileWithPath, type: `${ImageType}`) => {
+    async (
+      file: FileWithPath,
+      type: `${ImageType}`,
+      fileName?: string,
+    ) => {
       if (!file) {
         return;
       }
+      const ext = file.name.split(".").pop();
       setLoading(true);
-      const endPoint = await getUploadUrlApi(type, file.name);
+      const uploadFileName = fileName
+        ? `${fileName}.${ext}`
+        : file.name;
+      const endPoint = await getUploadUrlApi(type, uploadFileName);
       const reader = new FileReader();
       reader.onloadend = async () => {
         try {
@@ -33,7 +41,7 @@ export default function useUploader(props: propsType) {
             headers: { "Content-Type": file.type },
           });
           if (props.onSuccess) {
-            const _file = `${S3_HOST}/upload/images/${me?.id}/${file.name}`;
+            const _file = `${S3_HOST}/upload/images/${me?.id}/${uploadFileName}`;
             props?.onSuccess(_file, type);
           }
           setLoading(false);

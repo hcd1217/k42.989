@@ -60,9 +60,7 @@ export const emailVerificationCodeValidate = () => {
 };
 
 export const requiredFieldValidate = () => {
-  return z
-    .string()
-    .min(1, { message: _t(dictionary, "Required") });
+  return z.string().min(1, { message: _t(dictionary, "Required") });
 };
 
 export const emailValidate = () => {

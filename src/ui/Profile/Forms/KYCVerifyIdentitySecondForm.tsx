@@ -3,7 +3,6 @@ import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import useUploader from "@/hooks/useUploader";
 import { PictureUploader } from "@/ui/AvatarUploader";
-import { requiredFieldValidate } from "@/utils/validates";
 import {
   ActionIcon,
   Alert,
@@ -43,7 +42,7 @@ export function KYCVerifyIdentitySecondForm() {
       }
     },
   });
-  const { submit, loading } =
+  const { submitKycData, loading } =
     useSPEUserSettings<UserKycData>("KYC_DATA");
   const form = useForm<UserKycData>({
     mode: "uncontrolled",
@@ -54,12 +53,9 @@ export function KYCVerifyIdentitySecondForm() {
     },
     validate: {
       images: (value) => {
-        try {
-          requiredFieldValidate().parse(value?.kycLvl2);
-          return null;
-        } catch (error: unknown) {
-          return t("Please upload document picture");
-        }
+        return value?.kycLvl2
+          ? null
+          : t("Please upload document picture");
       },
     },
   });
@@ -83,7 +79,7 @@ export function KYCVerifyIdentitySecondForm() {
         </Alert>
       </Box>
       <Space mb={"lg"} />
-      <form onSubmit={(e) => submit(e, form)}>
+      <form onSubmit={(e) => submitKycData(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
           <div>
             <Space my={"xs"} />
@@ -196,8 +192,11 @@ export function KYCVerifyIdentitySecondForm() {
                       setFile(files[0]);
                       const reader = new FileReader();
                       reader.onloadend = () => {
-                        // setPreview(reader.result as string);
-                        uploadFile(files[0], "KYC_DATA_LEVEL_2");
+                        uploadFile(
+                          files[0],
+                          "KYC_DATA_LEVEL_2",
+                          `${Date.now()}_kyc_lvl2`,
+                        );
                       };
                       reader.readAsDataURL(files[0]);
                     }}

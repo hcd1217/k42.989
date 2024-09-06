@@ -1,7 +1,10 @@
 import { userKycDataSchema } from "@/common/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
+import useUploader from "@/hooks/useUploader";
+import { ImageType } from "@/types";
 import { PictureUploader } from "@/ui/AvatarUploader";
+import phoneCodes from "@/ui/Form/widgets/mocks/phone-code.json";
 import { requiredFieldValidate } from "@/utils/validates";
 import {
   ActionIcon,
@@ -32,13 +35,13 @@ import {
 } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { z } from "zod";
-import phoneCodes from "@/ui/Form/widgets/mocks/phone-code.json";
-import useUploader from "@/hooks/useUploader";
 
 type UserKycData = z.infer<typeof userKycDataSchema>;
 const getImageByPhone = memoize((code: string) => {
   return phoneCodes.find((p) => p.value === code)?.image;
 });
+
+// TODO: KYCLevel1Form
 export function KYCVerifyIdentityOneForm() {
   const t = useSPETranslation();
   const [countries] = useState(phoneCodes);
@@ -49,10 +52,10 @@ export function KYCVerifyIdentityOneForm() {
     loading: _loadingFile,
   } = useUploader({
     onSuccess(file, type) {
-      if (type === "KYC_DATA_LEVEL_1_FRONT") {
+      if (type === ImageType.KYC_DATA_LEVEL_1_FRONT) {
         form.setFieldValue("images.kycLvl1Front", file);
       }
-      if (type === "KYC_DATA_LEVEL_1_BACK") {
+      if (type === ImageType.KYC_DATA_LEVEL_1_BACK) {
         form.setFieldValue("images.kycLvl1Back", file);
       }
     },
@@ -117,12 +120,6 @@ export function KYCVerifyIdentityOneForm() {
     };
   }, [_values]);
 
-  const _labelDoc = useMemo(() => {
-    return `${t("3. Take photo of ")} ${_values?.idType ?? ""} ${t(
-      " document",
-    )}`;
-  }, [t, _values]);
-
   return (
     <>
       <Title order={2}>{t("Verify identity")}</Title>
@@ -132,8 +129,9 @@ export function KYCVerifyIdentityOneForm() {
         <SimpleGrid cols={1} spacing={20}>
           <div>
             <InputLabel size="lg">
+              1.{" "}
               {t(
-                "1. Select the country/region that issued your identity document",
+                "Select the country/region that issued your identity document",
               )}
             </InputLabel>
             <Space my={"xs"} />
@@ -176,7 +174,7 @@ export function KYCVerifyIdentityOneForm() {
           </div>
           <div>
             <InputLabel size="lg">
-              {t("2. Select your identity document")}
+              2. {t("Select your identity document")}
             </InputLabel>
             <Radio.Group
               name="favoriteFramework"
@@ -191,7 +189,7 @@ export function KYCVerifyIdentityOneForm() {
                     <Radio
                       key={idx}
                       value={val}
-                      label={val}
+                      label={t(val)}
                       styles={{
                         body: {
                           alignItems: "center",
@@ -204,7 +202,9 @@ export function KYCVerifyIdentityOneForm() {
             </Radio.Group>
           </div>
           <div>
-            <InputLabel size="lg">{_labelDoc}</InputLabel>
+            <InputLabel size="lg">
+              2. {t("Take photo of document")}
+            </InputLabel>
             <Space my={"xs"} />
             <Alert
               variant="light"
@@ -324,7 +324,7 @@ export function KYCVerifyIdentityOneForm() {
                           // setPreview(reader.result as string);
                           uploadFile(
                             files[0],
-                            "KYC_DATA_LEVEL_1_FRONT",
+                            ImageType.KYC_DATA_LEVEL_1_FRONT,
                           );
                         };
                         reader.readAsDataURL(files[0]);

@@ -34,7 +34,7 @@ export default function Page() {
             {t("My Account")}
           </Anchor>
           <Anchor fz={16} fw={400}>
-            {t("ID Verification")}
+            {t("KYC Verification")}
           </Anchor>
         </Breadcrumbs>
         <Card
@@ -51,12 +51,12 @@ export default function Page() {
               <Alert
                 icon={<IconProgressAlert />}
                 title={t(
-                  "Your KYC Verification is in Progress and Awaiting Final Approval",
+                  "Your KYC Verification is in Progress: Please Wait for Approval",
                 )}
               >
                 <Text>
                   {t(
-                    "Your KYC verification is currently under review. Please allow some additional time for processing.",
+                    "Your KYC verification is currently under review. Please wait for the approval of your documents. If you need assistance, contact support for further guidance.",
                   )}
                 </Text>
               </Alert>
@@ -92,6 +92,23 @@ export default function Page() {
               {kycLevel === "2" && (
                 <Box>
                   <KYCVerifyIdentitySecondForm />
+                </Box>
+              )}
+              {kycLevel === "3" && (
+                <Box>
+                  <Alert
+                    c={"green"}
+                    icon={<IconProgressAlert />}
+                    title={t(
+                      "Congratulations! Your KYC Verification is Complete",
+                    )}
+                  >
+                    <Text>
+                      {t(
+                        "Thank you for completing the KYC verification process. Your account is now fully verified and you can proceed with trading on the platform.",
+                      )}
+                    </Text>
+                  </Alert>
                 </Box>
               )}
             </Box>

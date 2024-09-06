@@ -62,7 +62,7 @@ export const emailVerificationCodeValidate = () => {
 export const requiredFieldValidate = () => {
   return z
     .string()
-    .min(1, { message: _t(dictionary, "It cannot be empty") });
+    .min(1, { message: _t(dictionary, "Required") });
 };
 
 export const emailValidate = () => {

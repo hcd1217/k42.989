@@ -63,12 +63,14 @@ export const userKycDataSchema = z.object({
   dateOfBirth: optionalStringSchema, // 1990-01-01
   address: optionalStringSchema,
   gender: optionalStringSchema,
+  verificationLevel: optionalStringSchema,
+  isPendingVerification: optionalBooleanSchema,
+  isRejectedVerification: optionalBooleanSchema,
   images: z
     .object({
       kycLvl1Front: optionalStringSchema,
       kycLvl1Back: optionalStringSchema,
-      kycLvl2Front: optionalStringSchema,
-      kycLvl2Back: optionalStringSchema,
+      kycLvl2: optionalStringSchema,
     })
     .optional(),
 });
@@ -176,7 +178,8 @@ export const authenticationPayloadSchema = z.object({
   hasMfa: booleanSchema,
   hasAntiPhishingCode: booleanSchema,
   kycLevel: numberSchema.int().positive().min(0).max(4),
-  kycStatus: z.enum(["pending", "rejected", "available"]),
+  isPendingVerification: optionalBooleanSchema,
+  isRejectedVerification: optionalBooleanSchema,
   email: optionalStringSchema,
   mobile: optionalStringSchema,
   isCopyMaster: booleanSchema,

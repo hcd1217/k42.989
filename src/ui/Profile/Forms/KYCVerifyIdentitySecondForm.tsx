@@ -1,23 +1,19 @@
 import { userKycDataSchema } from "@/common/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
+import useUploader from "@/hooks/useUploader";
 import { PictureUploader } from "@/ui/AvatarUploader";
 import { requiredFieldValidate } from "@/utils/validates";
 import {
   ActionIcon,
   Alert,
-  Avatar,
   Box,
   Button,
-  Flex,
   Image,
   InputError,
   InputLabel,
   List,
   LoadingOverlay,
-  memoize,
-  Radio,
-  Select,
   SimpleGrid,
   Space,
   Text,
@@ -26,36 +22,24 @@ import {
 import { FileWithPath } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
 import {
-  IconCheck,
   IconInfoCircle,
   IconProgressCheck,
   IconTrash,
 } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
 import { z } from "zod";
-import phoneCodes from "@/ui/Form/widgets/mocks/phone-code.json";
-import useUploader from "@/hooks/useUploader";
-import { pick } from "lodash";
 
 type UserKycData = z.infer<typeof userKycDataSchema>;
-const getImageByPhone = memoize((code: string) => {
-  return phoneCodes.find((p) => p.value === code)?.image;
-});
+
 export function KYCVerifyIdentitySecondForm() {
   const t = useSPETranslation();
-  const [countries] = useState(phoneCodes);
-  const [_values, setValues] = useState<UserKycData>();
   const {
     uploadFile,
     setFile,
     loading: _loadingFile,
   } = useUploader({
     onSuccess(file, type) {
-      if (type === "KYC_DATA_LEVEL_2_FRONT") {
-        form.setFieldValue("images.kycLvl2Front", file);
-      }
-      if (type === "KYC_DATA_LEVEL_2_BACK") {
-        form.setFieldValue("images.kycLvl2Back", file);
+      if (type === "KYC_DATA_LEVEL_2") {
+        form.setFieldValue("images.kycLvl2", file);
       }
     },
   });
@@ -64,21 +48,14 @@ export function KYCVerifyIdentitySecondForm() {
   const form = useForm<UserKycData>({
     mode: "uncontrolled",
     initialValues: {
-      country: "",
-      idType: undefined,
       images: {
-        kycLvl2Front: "",
-        kycLvl2Back: "",
+        kycLvl2: "",
       },
-    },
-    onValuesChange(values) {
-      setValues(values);
     },
     validate: {
       images: (value) => {
         try {
-          requiredFieldValidate().parse(value?.kycLvl2Front);
-          requiredFieldValidate().parse(value?.kycLvl2Back);
+          requiredFieldValidate().parse(value?.kycLvl2);
           return null;
         } catch (error: unknown) {
           return t("Please upload document picture");
@@ -87,124 +64,28 @@ export function KYCVerifyIdentitySecondForm() {
     },
   });
 
-  const values = useMemo(() => {
-    const _v = form.getValues();
-    return pick(_v, ["images"]);
-  }, [form]);
-
-  const _countryInfo = useMemo(() => {
-    const i = phoneCodes.find((i) => i.value === _values?.country);
-    return {
-      image: i?.image,
-      country: _values?.country ?? "",
-    };
-  }, [_values]);
-
-  const _labelDoc = useMemo(() => {
-    return `${t("3. Take photo of ")} ${_values?.idType ?? ""} ${t(
-      " document",
-    )}`;
-  }, [t, _values]);
-
   return (
     <>
-      <Title order={2}>{t("Verify identity")}</Title>
+      <Title order={2}>{t("Verify address")}</Title>
       <Space mb={"lg"} />
       <Box>
         <Alert
           icon={<IconProgressCheck />}
           title={t(
-            "KYC Step 1 Verified Successfully: Please Provide Additional Documents for Address Verification",
+            "KYC Level 1 Verified Successfully: Please Provide Additional Documents for Address Verification",
           )}
         >
           <Text>
             {t(
-              "Congratulations! Your KYC Step 1 has been successfully verified. To complete the full verification process, please upload documents to verify your residential address. This step is required to finalize your KYC.",
+              "Congratulations! Your KYC Level 1 has been successfully verified. To complete the full verification process, please upload documents to verify your residential address. This step is required to finalize your KYC.",
             )}
           </Text>
         </Alert>
       </Box>
       <Space mb={"lg"} />
-      <form onSubmit={(e) => submit(e, form, values)}>
+      <form onSubmit={(e) => submit(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
           <div>
-            <InputLabel size="lg">
-              {t(
-                "1. Select the country/region that issued your identity document",
-              )}
-            </InputLabel>
-            <Space my={"xs"} />
-            <Box>
-              <Select
-                disabled
-                leftSection={
-                  <>
-                    <Avatar size={"sm"} src={_countryInfo.image} />
-                  </>
-                }
-                placeholder={t("Country")}
-                size="lg"
-                searchable
-                allowDeselect={false}
-                data={countries.map((y) => ({
-                  value: y.value,
-                  label: y.country,
-                  image: y.image,
-                }))}
-                renderOption={(item) => {
-                  return (
-                    <Flex w={"100%"} align={"center"} gap={10}>
-                      <Avatar
-                        size={"sm"}
-                        src={getImageByPhone(item.option.value)}
-                      />
-                      <Box>
-                        <Text>{item.option.label}</Text>
-                      </Box>
-                      <Box ml={"auto"}>
-                        {item.checked && <IconCheck />}
-                      </Box>
-                    </Flex>
-                  );
-                }}
-                key={form.key("country")}
-                {...form.getInputProps("country")}
-              />
-            </Box>
-          </div>
-          <div>
-            <InputLabel size="lg">
-              {t("2. Select your identity document")}
-            </InputLabel>
-            <Radio.Group
-              name="favoriteFramework"
-              size="lg"
-              withAsterisk
-              readOnly
-              key={form.key("idType")}
-              {...form.getInputProps("idType")}
-            >
-              <Flex gap={20} pt={10} direction={"column"}>
-                {["ID", "DRIVER_LICENSE", "PASSPORT", "OTHER"].map(
-                  (val, idx) => (
-                    <Radio
-                      disabled
-                      key={idx}
-                      value={val}
-                      label={val}
-                      styles={{
-                        body: {
-                          alignItems: "center",
-                        },
-                      }}
-                    />
-                  ),
-                )}
-              </Flex>
-            </Radio.Group>
-          </div>
-          <div>
-            <InputLabel size="lg">{_labelDoc}</InputLabel>
             <Space my={"xs"} />
             <Alert
               variant="light"
@@ -224,7 +105,7 @@ export function KYCVerifyIdentitySecondForm() {
             >
               <div>
                 <Text c={"green"} fw={"bold"}>
-                  Do
+                  {t("Do")}
                 </Text>
                 <List>
                   <List.Item>
@@ -284,117 +165,55 @@ export function KYCVerifyIdentitySecondForm() {
               zIndex={1000}
               overlayProps={{ radius: "sm", blur: 2 }}
             />
-            <SimpleGrid
-              cols={{
-                xs: 1,
-                md: 2,
-              }}
-            >
-              <div>
-                {form.getValues().images?.kycLvl2Front ? (
-                  <Box h={"300px"} pos={"relative"}>
-                    <ActionIcon
-                      onClick={() => {
-                        form.setFieldValue("images.kycLvl2Front", "");
-                      }}
-                      variant="transparent"
-                      pos={"absolute"}
-                      top={10}
-                      right={10}
-                    >
-                      <IconTrash color="red" />
-                    </ActionIcon>
-                    <Image
-                      mah={"100%"}
-                      mx={"auto"}
-                      maw={"100%"}
-                      src={form.getValues().images?.kycLvl2Front}
-                    />
-                  </Box>
-                ) : (
-                  <Box>
-                    <PictureUploader
-                      multiple={false}
-                      h={"300px"}
-                      title={t("Upload Avatar")}
-                      onDrop={(files: FileWithPath[]) => {
-                        setFile(files[0]);
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          // setPreview(reader.result as string);
-                          uploadFile(
-                            files[0],
-                            "KYC_DATA_LEVEL_2_FRONT",
-                          );
-                        };
-                        reader.readAsDataURL(files[0]);
-                      }}
-                    />
-                  </Box>
-                )}
-                <InputLabel
-                  w={"100%"}
-                  c={"dimmed"}
-                  ta={"center"}
-                  fw={"bold"}
-                  required
-                >
-                  {t("Front of document")}
-                </InputLabel>
-              </div>
-              <div>
-                {form.getValues().images?.kycLvl2Back ? (
-                  <Box h={"300px"} pos={"relative"}>
-                    <ActionIcon
-                      onClick={() => {
-                        form.setFieldValue("images.kycLvl2Back", "");
-                      }}
-                      variant="transparent"
-                      pos={"absolute"}
-                      top={10}
-                      right={10}
-                    >
-                      <IconTrash color="red" />
-                    </ActionIcon>
-                    <Image
-                      mah={"100%"}
-                      mx={"auto"}
-                      maw={"100%"}
-                      src={form.getValues().images?.kycLvl2Back}
-                    />
-                  </Box>
-                ) : (
-                  <Box>
-                    <PictureUploader
-                      multiple={false}
-                      h={"300px"}
-                      title={t("Upload Avatar")}
-                      onDrop={(files: FileWithPath[]) => {
-                        setFile(files[0]);
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          // setPreview(reader.result as string);
-                          uploadFile(
-                            files[0],
-                            "KYC_DATA_LEVEL_2_BACK",
-                          );
-                        };
-                        reader.readAsDataURL(files[0]);
-                      }}
-                    />
-                  </Box>
-                )}
-                <InputLabel
-                  w={"100%"}
-                  c={"dimmed"}
-                  ta={"center"}
-                  fw={"bold"}
-                  required
-                >
-                  {t("Back of document")}
-                </InputLabel>
-              </div>
-            </SimpleGrid>
+            <div>
+              {form.getValues().images?.kycLvl2 ? (
+                <Box h={"300px"} pos={"relative"}>
+                  <ActionIcon
+                    onClick={() => {
+                      form.setFieldValue("images.kycLvl2Front", "");
+                    }}
+                    variant="transparent"
+                    pos={"absolute"}
+                    top={10}
+                    right={10}
+                  >
+                    <IconTrash color="red" />
+                  </ActionIcon>
+                  <Image
+                    mah={"100%"}
+                    mx={"auto"}
+                    maw={"100%"}
+                    src={form.getValues().images?.kycLvl2}
+                  />
+                </Box>
+              ) : (
+                <Box>
+                  <PictureUploader
+                    multiple={false}
+                    h={"300px"}
+                    title={t("Upload Avatar")}
+                    onDrop={(files: FileWithPath[]) => {
+                      setFile(files[0]);
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        // setPreview(reader.result as string);
+                        uploadFile(files[0], "KYC_DATA_LEVEL_2");
+                      };
+                      reader.readAsDataURL(files[0]);
+                    }}
+                  />
+                </Box>
+              )}
+              <InputLabel
+                w={"100%"}
+                c={"dimmed"}
+                ta={"center"}
+                fw={"bold"}
+                required
+              >
+                {t("Front of document")}
+              </InputLabel>
+            </div>
           </Box>
           <InputError size="lg">{form.errors["images"]}</InputError>
           <Button

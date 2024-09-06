@@ -22,7 +22,7 @@ import { useState } from "react";
 
 export function EditNickNameForm() {
   const t = useSPETranslation();
-  const { avatar, me, displayName } = authStore();
+  const { avatar, me, displayName, kycLevel } = authStore();
 
   const onChangeNickName = () => {
     modals.open({
@@ -62,7 +62,7 @@ export function EditNickNameForm() {
               />
             }
           >
-            {t("Identity Verification Lv.")} {me?.kycLevel || 0}
+            {t("Identity Verification Lv.")} {kycLevel || "0"}
           </Badge>
         </Box>
       </Flex>

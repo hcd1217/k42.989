@@ -42,6 +42,7 @@ const monthsEn = [
   "November",
   "December",
 ];
+
 const monthsJa = [
   "1月",
   "2月",
@@ -56,6 +57,7 @@ const monthsJa = [
   "11月",
   "12月",
 ];
+
 type UserKycData = z.infer<typeof userKycDataSchema> & {
   date?: string;
   month?: string;
@@ -188,8 +190,8 @@ export function KYCVerifyIdentityFirstForm() {
   });
   const t = useSPETranslation();
   const activeMonths = useMemo(() => {
-    const lan = localStorage.__LANGUAGE__;
-    if (lan === Language.EN) {
+    const lang = localStorage.__LANGUAGE__;
+    if (lang === Language.EN) {
       return monthsEn;
     }
     return monthsJa;
@@ -205,10 +207,17 @@ export function KYCVerifyIdentityFirstForm() {
 
   return (
     <>
-      <Title order={2}>{t("Add Profile Information")}</Title>
+      <Title order={2}>{t("KYC Information")}</Title>
       <Space mb={"lg"} />
       <form onSubmit={(e) => submit(e, form, values)}>
         <SimpleGrid cols={1} spacing={20}>
+          <TextInput
+            key={form.key("lastName")}
+            {...form.getInputProps("lastName")}
+            withAsterisk
+            label={t("Last Name")}
+            description={t("Your last name as it appears on your ID")}
+          />
           <TextInput
             withAsterisk
             label={t("First Name")}
@@ -217,13 +226,6 @@ export function KYCVerifyIdentityFirstForm() {
             )}
             key={form.key("firstName")}
             {...form.getInputProps("firstName")}
-          />
-          <TextInput
-            key={form.key("lastName")}
-            {...form.getInputProps("lastName")}
-            withAsterisk
-            label={t("Last Name")}
-            description={t("Your last name as it appears on your ID")}
           />
           <div>
             <Radio.Group
@@ -237,7 +239,7 @@ export function KYCVerifyIdentityFirstForm() {
               <Flex gap={20} pt={10}>
                 <Radio
                   value="MALE"
-                  label="Male"
+                  label={t("Male")}
                   styles={{
                     body: {
                       alignItems: "center",
@@ -246,7 +248,7 @@ export function KYCVerifyIdentityFirstForm() {
                 />
                 <Radio
                   value="FEMALE"
-                  label="Female"
+                  label={t("Female")}
                   styles={{
                     body: {
                       alignItems: "center",
@@ -262,7 +264,7 @@ export function KYCVerifyIdentityFirstForm() {
             </InputLabel>
             <Flex gap={10}>
               <Select
-                placeholder={t("Date")}
+                placeholder={t("Day")}
                 searchable
                 defaultChecked
                 allowDeselect={false}
@@ -333,7 +335,7 @@ export function KYCVerifyIdentityFirstForm() {
             key={form.key("address")}
             {...form.getInputProps("address")}
             withAsterisk
-            label={t("Your residential address")}
+            label={t("Residential address")}
           />
           <Button
             disabled={loading}

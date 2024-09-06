@@ -1,4 +1,3 @@
-import { priceDisplay } from "@/common/utils";
 import useTranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import {
@@ -31,23 +30,31 @@ import {
   IconPhone,
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
+import { useMemo } from "react";
 // import { LoginHistories } from "./LoginHistory";
 
-const kycColors: Record<number, string> = {
+const kycColors: Record<string, string> = {
   0: "red",
-  1: "green",
+  1: "red",
   2: "green",
+  3: "green",
 };
-const kycLevels: Record<number, string> = {
+const kycLevels: Record<string, string> = {
   0: "Unverified",
-  1: "Basic",
-  2: "Advanced",
+  1: "Unverified",
+  2: "Basic",
+  3: "Advanced",
 };
 
 export default function Profile() {
   const t = useTranslation();
-  const { me } = authStore();
-
+  const { me, kycLevel, isPendingKyc } = authStore();
+  const kycLabel = useMemo(() => {
+    if (isPendingKyc) {
+      return t("Pending");
+    }
+    return kycLevel !== "3" ? t("Verify now") : t("Configured");
+  }, [isPendingKyc, kycLevel, t]);
   return (
     <Container>
       <Box py={"xl"}>
@@ -98,13 +105,7 @@ export default function Profile() {
                 {t("Security Level")}
               </Text>
               <Flex align={"center"} gap={10}>
-                <Text
-                  fz={20}
-                  fw={600}
-                  c={kycColors[me?.kycLevel || 0]}
-                >
-                  {t(kycLevels[me?.kycLevel || 0])}
-                </Text>
+                <KycLevel kycLevel={kycLevel} />
               </Flex>
             </Box>
             <Box hidden>
@@ -112,9 +113,7 @@ export default function Profile() {
                 {t("KYC (ID Verification)")}
               </Text>
               <Flex align={"center"} gap={10}>
-                <Text fz={20} fw={600} c={priceDisplay("-1").color}>
-                  Unverified
-                </Text>
+                <KycLevel kycLevel={kycLevel} />
               </Flex>
             </Box>
           </Flex>
@@ -142,7 +141,7 @@ export default function Profile() {
             <Grid.Col span={8}>
               <Flex align={"center"} gap={5} justify={"end"}>
                 <IconCircleCheckFilled color="green" />
-                <Text fz={14}>Settings</Text>
+                <Text fz={14}>{t("Configured")}</Text>
               </Flex>
             </Grid.Col>
             <Grid.Col span={6}>
@@ -166,60 +165,57 @@ export default function Profile() {
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
-            <Grid columns={24}>
-              <Grid.Col span={10}>
-                {/* KYC  */}
-                <Flex gap={12} align={"center"}>
-                  <Avatar size={44}>
-                    <IconId />
-                  </Avatar>
-                  <Box>
-                    <Text fz={16} fw={600}>
-                      {t("KYC (ID Verification)")}
-                    </Text>
-                    <Text fz={14} fw={400} c={"dimmed"}>
-                      {t(
-                        "Advanced KYC is required for withdrawal and applying for Master in copy trading.",
-                      )}
-                    </Text>
-                  </Box>
-                </Flex>
-              </Grid.Col>
-              <Grid.Col span={8}>
-                <Flex
-                  align={"center"}
-                  gap={5}
-                  justify={"end"}
-                  h={"100%"}
-                >
-                  <IconInfoCircleFilled color="gray" />
-                  <Text fz={14}>
-                    {t(kycLevels[me?.kycLevel || 0])}
+
+            <Grid.Col span={10}>
+              {/* KYC  */}
+              <Flex gap={12} align={"center"}>
+                <Avatar size={44}>
+                  <IconId />
+                </Avatar>
+                <Box>
+                  <Text fz={16} fw={600}>
+                    {t("KYC (ID Verification)")}
                   </Text>
-                </Flex>
-              </Grid.Col>
-              <Grid.Col span={6}>
-                <Flex justify={"end"} align={"center"} h={"100%"}>
-                  <Button
-                    component="a"
-                    href="/user/kyc"
-                    variant="gradient"
-                    miw={150}
-                    px={"xs"}
-                    gradient={{
-                      from: "orange",
-                      to: "yellow",
-                      deg: 90,
-                    }}
-                  >
-                    {t("Verify now")}
-                  </Button>
-                </Flex>
-              </Grid.Col>
-              <Grid.Col span={24}>
-                <Divider />
-              </Grid.Col>
-            </Grid>
+                  <Text fz={14} fw={400} c={"dimmed"}>
+                    {t(
+                      "Advanced KYC is required for withdrawal and applying for Master in copy trading.",
+                    )}
+                  </Text>
+                </Box>
+              </Flex>
+            </Grid.Col>
+            <Grid.Col span={8}>
+              <Flex
+                align={"center"}
+                gap={5}
+                justify={"end"}
+                h={"100%"}
+              >
+                <KycLevel kycLevel={kycLevel} />
+              </Flex>
+            </Grid.Col>
+            <Grid.Col span={6}>
+              <Flex justify={"end"} align={"center"} h={"100%"}>
+                <Button
+                  disabled={kycLevel === "3"}
+                  component="a"
+                  href="/user/kyc"
+                  variant="gradient"
+                  miw={150}
+                  px={"xs"}
+                  gradient={{
+                    from: "orange",
+                    to: "yellow",
+                    deg: 90,
+                  }}
+                >
+                  {kycLabel}
+                </Button>
+              </Flex>
+            </Grid.Col>
+            <Grid.Col span={24}>
+              <Divider />
+            </Grid.Col>
             <Grid.Col span={10}>
               {/* Email */}
               <Flex gap={12} align={"center"}>
@@ -419,5 +415,14 @@ export default function Profile() {
         {/* <LoginHistories /> */}
       </Box>
     </Container>
+  );
+}
+
+function KycLevel({ kycLevel }: { kycLevel?: string }) {
+  const t = useTranslation();
+  return (
+    <Text fz={20} fw={600} c={kycColors[kycLevel || "0"]}>
+      {t(kycLevels[kycLevel || 0])}
+    </Text>
   );
 }

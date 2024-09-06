@@ -93,8 +93,6 @@
   "Log In Failed": "Log In Failed",
   "User not found or invalid password": "User not found or invalid password",
   "Copy trading": "Copy trading",
-  "Launch Google Authenticator app and scan the QR code or enter the key.": "Launch Google Authenticator app and scan the QR code or enter the key.",
-  "You haven't enabled Two-Factor Authentication (2FA). Please set up 2FA to proceed.": "You haven't enabled Two-Factor Authentication (2FA). Please set up 2FA to proceed.",
   "Choose coin to transfer": "Choose coin to transfer",
   "Ethereum": "Ethereum network (ERC20)",
   "TRON network": "TRON network (TRC20)",

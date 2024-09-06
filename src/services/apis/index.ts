@@ -41,7 +41,6 @@ import { LRUCache } from "lru-cache";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
-import { WithdrawData } from "@/types";
 export * as axios from "./_axios";
 const dictionary = getDictionary();
 
@@ -758,21 +757,6 @@ export async function register({
     } else {
       throw new Error(res.data.message || "Something went wrong");
     }
-  } catch (err) {
-    throw new Error(
-      (err as Error)?.message || "Something went wrong",
-    );
-  }
-}
-
-export async function withdraw(params: WithdrawData) {
-  try {
-    await axios.post("/api/withdraw", params).then(({ data }) => {
-      if (data.code !== 0) {
-        throw new Error(data.message || "Something went wrong");
-      }
-      return data.result;
-    });
   } catch (err) {
     throw new Error(
       (err as Error)?.message || "Something went wrong",

@@ -3,7 +3,7 @@ import { TransactionStatus } from "./enums";
 export const APP_CONFIG = {
   FIAT_DEPOSIT: false,
   WITHDRAW: {
-    MFA: true,
+    MFA: false,
   },
 };
 

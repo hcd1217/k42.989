@@ -1,5 +1,4 @@
 import { cleanObj } from "@/common/utils";
-import MfaForm from "@/components/2FA";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { checkMfa, login } from "@/services/apis";
 import logger from "@/services/logger";
@@ -25,6 +24,7 @@ import { modals } from "@mantine/modals";
 import { IconMailHeart, IconPhone } from "@tabler/icons-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
+import MfaModal from "./2fa";
 import classes from "./login.module.scss";
 
 type Mode = "email" | "phone";
@@ -152,7 +152,7 @@ export default function LoginForm({
         title: t("Two-factor authentication"),
         withCloseButton: false,
         children: (
-          <MfaForm
+          <MfaModal
             onSubmit={(value) => {
               form.setFieldValue("mfaCode", value);
               onSubmit();

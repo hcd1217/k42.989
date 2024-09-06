@@ -53,14 +53,14 @@ export const userKycDataSchema = z.object({
     .enum(["ID", "DRIVER_LICENSE", "PASSPORT", "OTHER"])
     .optional(),
   country: optionalStringSchema, // JP or other
-  firstName: optionalStringSchema, // 太郎
-  lastName: optionalStringSchema, // 山田
-  kanaFirstName: optionalStringSchema, // ヤマダ
-  kanaLastName: optionalStringSchema,// タロウ
-  romanjiFirstName: optionalStringSchema, // TARO
-  romanjiLastName: optionalStringSchema, // YAMADA
-  fullName: optionalStringSchema, // YAMADA TARO
-  dateOfBirth: optionalStringSchema, // 1990-01-01
+  firstName: optionalStringSchema,
+  lastName: optionalStringSchema,
+  kanaFirstName: optionalStringSchema,
+  kanaLastName: optionalStringSchema,
+  romanjiFirstName: optionalStringSchema,
+  romanjiLastName: optionalStringSchema,
+  fullName: optionalStringSchema,
+  dateOfBirth: optionalStringSchema,
   address: optionalStringSchema,
   gender: optionalStringSchema,
   images: z

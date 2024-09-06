@@ -238,9 +238,9 @@ export function BindGaForm() {
                     style={{
                       display: me?.email ? undefined : "none",
                     }}
-                    label={`Current Email Verification（${maskEmail(
-                      me?.email ?? "",
-                    )}）`}
+                    label={`${t(
+                      "Current Email Verification",
+                    )}（${maskEmail(me?.email ?? "")}）`}
                     placeholder={t("Enter the verification code")}
                     rightSectionWidth={60}
                     rightSection={

@@ -170,7 +170,63 @@ export function SPEAvatar(props: AvatarProps) {
   );
 }
 
-function AvatarUploader(props: DropzoneProps) {
+export function AvatarUploader(props: DropzoneProps) {
+  return (
+    <>
+      <Dropzone
+        {...props}
+        maxSize={5 * 1024 ** 2}
+        accept={IMAGE_MIME_TYPE}
+        styles={{
+          inner: {
+            height: "100%",
+          },
+        }}
+      >
+        <Group
+          h={"100%"}
+          justify="center"
+          align="center"
+          gap="xl"
+          style={{ pointerEvents: "none" }}
+        >
+          <Dropzone.Accept>
+            <IconUpload
+              style={{
+                width: rem(52),
+                height: rem(52),
+                color: "var(--mantine-color-blue-6)",
+              }}
+              stroke={1.5}
+            />
+          </Dropzone.Accept>
+          <Dropzone.Reject>
+            <IconX
+              style={{
+                width: rem(52),
+                height: rem(52),
+                color: "var(--mantine-color-red-6)",
+              }}
+              stroke={1.5}
+            />
+          </Dropzone.Reject>
+          <Dropzone.Idle>
+            <IconPhoto
+              style={{
+                width: rem(52),
+                height: rem(52),
+                color: "var(--mantine-color-dimmed)",
+              }}
+              stroke={1.5}
+            />
+          </Dropzone.Idle>
+        </Group>
+      </Dropzone>
+    </>
+  );
+}
+
+export function PictureUploader(props: DropzoneProps) {
   return (
     <>
       <Dropzone

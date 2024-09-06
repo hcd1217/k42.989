@@ -3,6 +3,8 @@ import { masking } from "@/common/utils";
 import { avatarUrl } from "@/utils/utility";
 import { create } from "zustand";
 
+type KycLvType = "0" | "1" | "2";
+
 interface AuthState {
   token?: string;
   isLogin: boolean;
@@ -11,6 +13,9 @@ interface AuthState {
   avatar?: string;
   logout: (_?: boolean) => void;
   setMe: (me: AuthenticationPayload) => void;
+  kycLevel?: KycLvType;
+  isPendingKyc?: boolean;
+  isRejectedKyc?: boolean;
 }
 
 const authStore = create<AuthState>((set) => ({
@@ -23,6 +28,9 @@ const authStore = create<AuthState>((set) => ({
       isLogin: Boolean(me?.id),
       displayName:
         me?.nickName || masking(me?.email || me?.mobile || ""),
+      kycLevel: me.kycLevel.toString() as KycLvType,
+      isPendingKyc: me.kycStatus === "pending",
+      isRejectedKyc: me.kycStatus === "rejected",
     });
   },
   logout: (reload = true) => {

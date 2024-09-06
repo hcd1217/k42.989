@@ -166,7 +166,7 @@ export default function Profile() {
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
-            <Grid columns={24} hidden>
+            <Grid columns={24}>
               <Grid.Col span={10}>
                 {/* KYC  */}
                 <Flex gap={12} align={"center"}>

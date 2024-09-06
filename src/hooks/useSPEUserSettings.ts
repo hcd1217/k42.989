@@ -61,6 +61,12 @@ const INITIAL_DATA: Record<string, string[]> = {
     "Google Authenticator Binding Failed",
     "An error occurred while trying to bind Google Authenticator. Please verify the setup instructions and try again.",
   ],
+  [UserUpdateType.KYC_DATA]: [
+    "KYC Update Successful",
+    "Your KYC information has been successfully updated. Please wait for the system to verify your details.",
+    "KYC Update Failed",
+    "An error occurred while updating your KYC information. Please review your details and try again. If the issue persists, contact support for assistance.",
+  ],
 };
 
 const useSPEUserSettings = <T>(

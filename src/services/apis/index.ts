@@ -264,7 +264,10 @@ export async function inquiryApi(data: GenericObject) {
   });
 }
 
-export function getUploadUrlApi(type: ImageType, name: string) {
+export function getUploadUrlApi(
+  type: ImageType | `${ImageType}`,
+  name: string,
+) {
   return getApi<{ url: string }>(
     `/api/me/upload/url?type=${type}&name=${name}`,
   ).then((res) => res.url);

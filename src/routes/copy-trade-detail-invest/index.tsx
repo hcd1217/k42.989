@@ -43,7 +43,6 @@ import {
   IconChartPie,
   IconChevronRight,
   IconCoinBitcoin,
-  IconHelp,
   IconShare,
   IconStar,
 } from "@tabler/icons-react";
@@ -244,7 +243,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                             })}
                           ></AppPopover>
                           <AppText c={"white"} fw={"bolder"} fz={24}>
-                            --
+                            {_tradingDays(trader.startAt)}
                           </AppText>
                         </Box>
                         <Box>
@@ -299,16 +298,52 @@ function Banner(trader: PublicCopyMasterDetail) {
                           md: "nowrap",
                         }}
                       >
-                        <Box>
+                        {/* <Box>
                           <Group align="center" gap={5}>
                             <IconCoinBitcoin
                               color="white"
                               width={20}
                             />
                             <AppText c={"white"} fz={14}>
-                              {`AUM: ${trader.aum} USDT`}
+                              {`AUM: ${trader.aum.toLocaleString()} USDT`}
                             </AppText>
                           </Group>
+                        </Box> */}
+                        <Box>
+                          <AppPopover
+                            width={200}
+                            target={(props) => ({
+                              children: (
+                                <Group gap={5} align="center">
+                                  <IconCoinBitcoin
+                                    color="white"
+                                    width={20}
+                                  />
+                                  <AppText
+                                    c={"white"}
+                                    fz={14}
+                                    className="cursor-pointer"
+                                    onMouseEnter={props.open}
+                                    onMouseLeave={props.close}
+                                  >
+                                    {`AUM: ${trader.aum.toLocaleString()} USDT`}
+                                  </AppText>
+                                </Group>
+                              ),
+                            })}
+                            dropdown={() => ({
+                              children: (
+                                <AppText
+                                  fz={12}
+                                  style={{ textAlign: "center" }}
+                                >
+                                  {t(
+                                    "All assets owned in the Copy Trading Account",
+                                  )}
+                                </AppText>
+                              ),
+                            })}
+                          />
                         </Box>
                         <Box>
                           <Divider
@@ -335,7 +370,9 @@ function Banner(trader: PublicCopyMasterDetail) {
                                       onMouseEnter={props.open}
                                       onMouseLeave={props.close}
                                     >
-                                      {t("Total Assets")} ***** USDT
+                                      {`${t(
+                                        "Total Assets",
+                                      )}: ${trader.assets.toLocaleString()} USDT`}
                                     </AppText>
                                   </Group>
                                 ),
@@ -352,39 +389,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                                   </AppText>
                                 ),
                               })}
-                            ></AppPopover>
-                            <Flex align={"center"}>
-                              <AppPopover
-                                width={200}
-                                target={(props) => ({
-                                  children: (
-                                    <AppText
-                                      h={26}
-                                      className="cursor-pointer"
-                                      onMouseEnter={props.open}
-                                      onMouseLeave={props.close}
-                                    >
-                                      <IconHelp
-                                        color="gray"
-                                        width={14}
-                                      />
-                                    </AppText>
-                                  ),
-                                })}
-                                dropdown={() => ({
-                                  children: (
-                                    <AppText
-                                      fz={12}
-                                      style={{ textAlign: "center" }}
-                                    >
-                                      {t(
-                                        "This trader has hidden asset info from non-Followers",
-                                      )}
-                                    </AppText>
-                                  ),
-                                })}
-                              ></AppPopover>
-                            </Flex>
+                            />
                           </Group>
                         </Box>
                         <Box>
@@ -394,7 +399,11 @@ function Banner(trader: PublicCopyMasterDetail) {
                             color={"#404347"}
                           />
                         </Box>
-                        <Box>
+                        <Box
+                          style={{
+                            cursor: "pointer",
+                          }}
+                        >
                           <Flex align={"center"} gap={10}>
                             <IconChartPie color="white" width={20} />
                             <AppText c={"white"} fz={14}>
@@ -511,7 +520,10 @@ function Banner(trader: PublicCopyMasterDetail) {
 
 type Period = "All" | "7D" | "30D" | "90D";
 
-function Performance({ performance }: PublicCopyMasterDetail) {
+function Performance({
+  performance,
+  followerPnL,
+}: PublicCopyMasterDetail) {
   const t = useSPETranslation();
   const [time, setTime] = useState<Period>("All");
 
@@ -755,12 +767,12 @@ function Performance({ performance }: PublicCopyMasterDetail) {
           ></AppPopover>
           <AppText
             instancetype="withPriceLong"
-            c={priceDisplay(0).color}
+            c={priceDisplay(followerPnL).color}
           >
             <NumberFormat
-              prefix={priceDisplay(0).sub}
-              value={0}
-              suffix="%"
+              prefix={priceDisplay(followerPnL).sub}
+              value={followerPnL}
+              decimalPlaces={0}
             />
           </AppText>
         </Flex>
@@ -1249,4 +1261,13 @@ function TabsUI(props: PublicCopyMasterDetail) {
       </Tabs>
     </>
   );
+}
+
+function _tradingDays(startAt: number) {
+  if (startAt < 100) {
+    return "---";
+  }
+  return Math.round(
+    (Date.now() - startAt) / ONE_DAY,
+  ).toLocaleString();
 }

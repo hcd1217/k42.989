@@ -93,6 +93,9 @@
   "Log In Failed": "Log In Failed",
   "User not found or invalid password": "User not found or invalid password",
   "Copy trading": "Copy trading",
+  "All assets owned in the Copy Trading Account": "All assets owned in the Copy Trading Account",
+  "Launch Google Authenticator app and scan the QR code or enter the key.": "Launch Google Authenticator app and scan the QR code or enter the key.",
+  "You haven't enabled Two-Factor Authentication (2FA). Please set up 2FA to proceed.": "You haven't enabled Two-Factor Authentication (2FA). Please set up 2FA to proceed.",
   "Choose coin to transfer": "Choose coin to transfer",
   "Ethereum": "Ethereum network (ERC20)",
   "TRON network": "TRON network (TRC20)",
@@ -389,7 +392,6 @@
   "Closed Price": "Closed Price",
   "Entry Time": "Entry Time",
   "Closed Time": "Closed Time",
-  "X": "X",
   "Unknown error": "Unknown error",
   "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.": "Your account has been synchronized to the new system. To ensure your data is safe and secure, please change your password to continue using the service.",
   "Old password": "Old password",
@@ -439,5 +441,6 @@
   "No Data": "No Data",
   "Referral": "Referral",
   "Start Date - End Date": "Start Date - End Date",
-  "Submit": "Submit"
+  "Submit": "Submit",
+  "X": "X"
 }

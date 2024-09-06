@@ -1,26 +1,23 @@
 import { TransactionStatus } from "./enums";
 
 export const APP_CONFIG = {
+  INTERNAL_TRANSFER_FEE: 1,
   FIAT_DEPOSIT: false,
   WITHDRAW: {
-    MFA: false,
+    MFA: true,
   },
-};
-
-export const WITHDRAW_FEE_MAPS: Record<
-  string,
-  Record<string, number>
-> = {
-  "TRON network": {
-    USDT: 5,
-  },
-  "Ethereum": {
-    USDT: 20,
-    ETH: 0.003,
-  },
-  "Bitcoin": {
-    BTC: 0.0007,
-  },
+  WITHDRAW_FEE_MAPS: {
+    "TRON network": {
+      USDT: 5,
+    },
+    "Ethereum": {
+      USDT: 20,
+      ETH: 0.003,
+    },
+    "Bitcoin": {
+      BTC: 0.0007,
+    },
+  } as Record<string, Record<string, number>>,
 };
 
 export const MMR = [

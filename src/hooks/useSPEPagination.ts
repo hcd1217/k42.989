@@ -29,7 +29,8 @@ export default function useSPEPagination<T extends GenericObject>(
         fetch(cursor, _limit, reverse).then((data: T[]) => {
           logger.trace(
             "useSPEPagination",
-            data.map((el) => el[cursorKey] as string),
+            data.length,
+            // data.map((el) => el[cursorKey] as string),
           );
           setRawData(data);
           setData(data.slice(0, limit));

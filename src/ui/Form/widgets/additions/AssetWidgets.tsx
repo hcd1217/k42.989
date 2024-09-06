@@ -1,8 +1,8 @@
 import BN from "@/common/big-number";
 import {
+  APP_CONFIG,
   ASSET_COIN_LIST,
   SWAP_RATE,
-  WITHDRAW_FEE_MAPS,
 } from "@/common/configs";
 import { AccountType } from "@/common/enums";
 import { buildOptions, freeAmount } from "@/common/utils";
@@ -602,7 +602,7 @@ export function WithdrawAddressWidget({
         }}
       >
         {t("Withdraw Fee")}: &nbsp;
-        {WITHDRAW_FEE_MAPS[chain]?.[formData.coin] || 0}
+        {APP_CONFIG.WITHDRAW_FEE_MAPS[chain]?.[formData.coin] || 0}
         &nbsp;
         {formData.coin}
       </span>

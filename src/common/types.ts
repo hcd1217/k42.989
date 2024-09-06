@@ -420,6 +420,7 @@ export type PublicCopyMasterDetail = {
   avatar: string;
   masterAccountId: string;
   aum: number;
+  assets: number;
   sharing: number;
   performance: {
     all: CopyMasterPerformance;
@@ -427,7 +428,9 @@ export type PublicCopyMasterDetail = {
     m?: CopyMasterPerformance;
     q?: CopyMasterPerformance;
   };
+  startAt: number;
   followers: number;
+  followerPnL: number;
   series: number[];
   pnlRatio: number; // TODO: calculate pnl ratio
 };

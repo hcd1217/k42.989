@@ -1,5 +1,5 @@
-import { t as _t } from "@/common/utils";
 import { LanguageContext } from "@/context/LanguageContext";
+import { t as _t } from "@/utils/utility";
 import { useCallback, useContext } from "react";
 
 export default function useSPETranslation(): (

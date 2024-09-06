@@ -30,6 +30,10 @@ export enum UserUpdateType {
 
 export enum ImageType {
   AVATAR = "AVATAR",
+  KYC_DATA_LEVEL_1_FRONT = "KYC_DATA_LEVEL_1_FRONT",
+  KYC_DATA_LEVEL_1_BACK = "KYC_DATA_LEVEL_1_BACK",
+  KYC_DATA_LEVEL_2_FRONT = "KYC_DATA_LEVEL_2_FRONT",
+  KYC_DATA_LEVEL_2_BACK = "KYC_DATA_LEVEL_2_BACK",
 }
 
 export type GenericObject = Record<string, unknown>;
@@ -58,6 +62,7 @@ export type MarketInformation = {
 };
 
 export type SymbolConfig = {
+  id: string;
   name: string;
   symbol: string;
   description: string;

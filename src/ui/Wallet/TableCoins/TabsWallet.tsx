@@ -1,3 +1,4 @@
+import { APP_CONFIG } from "@/common/configs";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import MyTraders from "@/routes/copy/my-traders";
 import { assetStore } from "@/store/assets";
@@ -26,7 +27,9 @@ export function TabsWallet() {
               label={t("Hide small balances")}
               onChange={() => setHideZero(!hideZero)}
             />
-            {me?.fiatDepositMemo && <FiatDepositModal />}
+            {APP_CONFIG.FIAT_DEPOSIT && me?.fiatDepositMemo && (
+              <FiatDepositModal />
+            )}
           </Flex>
         </Box>
         <AppTabs
@@ -138,7 +141,9 @@ export function TabsWallet() {
               label={t("Hide small balances")}
               onChange={() => setHideZero(!hideZero)}
             />
-            {me?.fiatDepositMemo && <FiatDepositModal />}
+            {APP_CONFIG.FIAT_DEPOSIT && me?.fiatDepositMemo && (
+              <FiatDepositModal />
+            )}
           </Flex>
         </Box>
       </Box>

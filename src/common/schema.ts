@@ -48,27 +48,27 @@ export const chainSchema = z.enum([
 ]);
 
 export const userKycDataSchema = z.object({
-  country: optionalStringSchema,
-  firstName: optionalStringSchema,
-  lastName: optionalStringSchema,
-  kanaFirstName: optionalStringSchema,
-  kanaLastName: optionalStringSchema,
-  romanjiFirstName: optionalStringSchema,
-  romanjiLastName: optionalStringSchema,
-  fullName: optionalStringSchema,
-  dateOfBirth: optionalStringSchema,
   idNumber: optionalStringSchema,
   idType: z
     .enum(["ID", "DRIVER_LICENSE", "PASSPORT", "OTHER"])
     .optional(),
+  country: optionalStringSchema, // JP or other
+  firstName: optionalStringSchema, // 太郎
+  lastName: optionalStringSchema, // 山田
+  kanaFirstName: optionalStringSchema, // ヤマダ
+  kanaLastName: optionalStringSchema,// タロウ
+  romanjiFirstName: optionalStringSchema, // TARO
+  romanjiLastName: optionalStringSchema, // YAMADA
+  fullName: optionalStringSchema, // YAMADA TARO
+  dateOfBirth: optionalStringSchema, // 1990-01-01
   address: optionalStringSchema,
+  gender: optionalStringSchema,
   images: z
     .object({
-      IDCertificateFront: optionalStringSchema,
-      IDCertificateBack: optionalStringSchema,
-      proofOfAddress: optionalStringSchema,
-      selfie: optionalStringSchema,
-      selfieWithDocument: optionalStringSchema,
+      kycLvl1Front: optionalStringSchema,
+      kycLvl1Back: optionalStringSchema,
+      kycLvl2Front: optionalStringSchema,
+      kycLvl2Back: optionalStringSchema,
     })
     .optional(),
 });

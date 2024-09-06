@@ -2,37 +2,6 @@ import BN from "./big-number";
 import { ONE_HOUR } from "./constants";
 import { GenericObject, SPENumber } from "./types";
 
-export function t(
-  dictionary: Record<string, string>,
-  key?: string,
-  ...args: (string | number)[]
-) {
-  if (localStorage.___CHECK_LANGUAGE___ === "1") {
-    return "xxxxxxxxx";
-  }
-  if (!key) {
-    return "";
-  }
-  if (dictionary[key]) {
-    return _convert(dictionary[key], ...args);
-  } else {
-    return _convert(key, ...args);
-  }
-}
-
-function _convert(
-  template: string,
-  ...args: (string | number)[]
-): string {
-  let result = template;
-  args.forEach((arg) => {
-    result = arg
-      ? result.replace("%s", (arg || "").toString())
-      : result;
-  });
-  return result;
-}
-
 export function randomAddress(chain?: string) {
   let list = "0123456789abcdef".split("");
   let length = 40;

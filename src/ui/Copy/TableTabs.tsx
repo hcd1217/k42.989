@@ -1,5 +1,5 @@
+import { last } from "@/common/utils";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { last } from "lodash";
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AppTabs from "../Tabs";

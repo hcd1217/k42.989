@@ -1,6 +1,6 @@
-import { t } from "@/common/utils";
 import { getDictionary } from "@/services/languages";
 import { FormSchema } from "@/types";
+import { t } from "@/utils/utility";
 
 const dictionary = getDictionary();
 

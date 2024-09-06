@@ -1,7 +1,7 @@
 import { verificationCodeSchema } from "@/common/schema";
-import { t as _t, t } from "@/common/utils";
 import { getDictionary } from "@/services/languages";
 import logger from "@/services/logger";
+import { t as _t } from "@/utils/utility";
 import { z } from "zod";
 
 const dictionary = getDictionary();
@@ -38,7 +38,7 @@ export function _validateVerificationCode(
     return null;
   } catch (error) {
     logger.error(error);
-    return t(dictionary, "Invalid verification code");
+    return _t(dictionary, "Invalid verification code");
   }
 }
 

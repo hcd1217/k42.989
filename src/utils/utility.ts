@@ -3,6 +3,37 @@ import logger from "@/services/logger";
 import { format, subDays } from "date-fns";
 import debounce from "lodash/debounce";
 
+export function t(
+  dictionary: Record<string, string>,
+  key?: string,
+  ...args: (string | number)[]
+) {
+  if (localStorage.___CHECK_LANGUAGE___ === "1") {
+    return "xxxxxxxxx";
+  }
+  if (!key) {
+    return "";
+  }
+  if (dictionary[key]) {
+    return _convert(dictionary[key], ...args);
+  } else {
+    return _convert(key, ...args);
+  }
+}
+
+function _convert(
+  template: string,
+  ...args: (string | number)[]
+): string {
+  let result = template;
+  args.forEach((arg) => {
+    result = arg
+      ? result.replace("%s", (arg || "").toString())
+      : result;
+  });
+  return result;
+}
+
 export function reloadWindow(delay = 500) {
   setTimeout(() => {
     window.location.reload();

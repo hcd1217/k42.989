@@ -30,18 +30,18 @@ import {
   Trade,
   UserUpdateType,
 } from "@/common/types";
-import { cleanObj, t } from "@/common/utils";
+import { cleanObj } from "@/common/utils";
 import { getDictionary } from "@/services/languages";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
 import { delay, ONE_MINUTE } from "@/utils";
-import { avatarUrl } from "@/utils/utility";
+import { avatarUrl, t } from "@/utils/utility";
 import { LRUCache } from "lru-cache";
-import queryString from "query-string";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
+import { WithdrawData } from "@/types";
 export * as axios from "./_axios";
 const dictionary = getDictionary();
 
@@ -602,6 +602,16 @@ export async function fetchCopyTransactions(
   ).then((res) => res.transactions);
 }
 
+function _buildQuery(
+  params: Record<string, number | string | boolean>,
+) {
+  return Object.entries(params)
+    .map(([key, value]) => {
+      return [key, value.toString()].join("=");
+    })
+    .join("&");
+}
+
 export async function fetchMasterCopyOrders(
   masterAccountId: string,
   cursor: string,
@@ -610,7 +620,7 @@ export async function fetchMasterCopyOrders(
 ) {
   const base = "/api/copy/master/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?${queryString.stringify({
+    `${base}?${_buildQuery({
       cursor,
       reverse,
       limit,
@@ -748,6 +758,21 @@ export async function register({
     } else {
       throw new Error(res.data.message || "Something went wrong");
     }
+  } catch (err) {
+    throw new Error(
+      (err as Error)?.message || "Something went wrong",
+    );
+  }
+}
+
+export async function withdraw(params: WithdrawData) {
+  try {
+    await axios.post("/api/withdraw", params).then(({ data }) => {
+      if (data.code !== 0) {
+        throw new Error(data.message || "Something went wrong");
+      }
+      return data.result;
+    });
   } catch (err) {
     throw new Error(
       (err as Error)?.message || "Something went wrong",

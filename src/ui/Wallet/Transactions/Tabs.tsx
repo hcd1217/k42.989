@@ -1,3 +1,4 @@
+import { APP_CONFIG } from "@/common/configs";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import AppTabs from "@/ui/Tabs";
@@ -91,7 +92,9 @@ export function Tabs() {
             },
           },
           {
-            skip: Boolean(!me?.fiatDepositMemo),
+            skip:
+              !APP_CONFIG.FIAT_DEPOSIT ||
+              Boolean(!me?.fiatDepositMemo),
             data: {
               label: t("Fiat Deposit"),
               value: "fiat-deposit",

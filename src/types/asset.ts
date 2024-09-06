@@ -3,15 +3,18 @@ type WithdrawInfoFormData = {
   address: string;
   amount: number;
 };
+export type WithdrawFormData = WithdrawData & {
+  infoBTC: WithdrawInfoFormData;
+  infoETH: WithdrawInfoFormData;
+  infoUSDT: WithdrawInfoFormData;
+};
 
-export type WithdrawFormData = {
+export type WithdrawData = {
   coin: string;
   chain: string;
   address: string;
   amount: number;
-  infoBTC: WithdrawInfoFormData;
-  infoETH: WithdrawInfoFormData;
-  infoUSDT: WithdrawInfoFormData;
+  mfaCode?: string;
 };
 
 export type SwapFormData = {

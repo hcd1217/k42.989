@@ -73,7 +73,7 @@ export function FiatDepositModal() {
             w={"fit-content"}
             className="cursor-pointer"
           >
-            Transfer request
+            {t("Transfer request")}
           </Text>
         </SimpleGrid>
         <Card
@@ -118,15 +118,12 @@ export function FiatDepositModal() {
             }}
           >
             <Text c={"red"}>
-              {t(
-                "The minimum deposit amount is 10 USDT deposits below this amount will not be credited",
-              )}
+              最低入金額は10
+              USDTです。この金額を下回る入金額は入金されません。
             </Text>
           </Alert>
         </Box>
-        <Text fw={"bold"}>
-          {t("Please take note of the following procedures")}:
-        </Text>
+        <Text fw={"bold"}>以下の手続きにご注意ください:</Text>
         <ul
           style={{
             padding: "0 20px",
@@ -136,54 +133,33 @@ export function FiatDepositModal() {
         >
           <li>
             <Text fz={14}>
+              <strong></strong>{" "}
               <strong>
-                {t(
-                  "Please enter the 4-digit note code when making a transfer",
-                )}
-                :
-              </strong>{" "}
-              {t(
-                "If you did not include your 4-digit code in your bank transfer, or misplaced it somewhere else, please contact our customer service for assistance immediately.",
-              )}
+                お振込みの際は4桁のコード番号を振込人名義の前にご入力ください【
+                4桁のコード番号＋振込人名】：
+              </strong>
+              銀行振込の際に4桁のコード番号を入力しなかった場合、またはコード番号の記入場所を間違えてしまった場合などは、すぐにカスタマーサービスまでご連絡ください。
             </Text>
           </li>
           <li>
             <Text fz={14}>
-              <strong>
-                {t(
-                  "Deposits made in local currency will be converted to USDT based on the prevailing exchange rate at the time of payment.",
-                )}
-              </strong>{" "}
-              {t(
-                "Fiat to USDT conversions are subject to exchange rate fluctuations (quoted from Investing.com) and include certain handling fees. %s reserves the right of any amendments or final interpretation regarding fiat to USDT conversion service. Thank you for your understanding.",
-                localStorage.__APP_NAME__,
-              )}
+              現地通貨でのご入金は、お支払い時の為替レートに基づいてUSDTに換算されます。法定通貨（円）からUSDTへの変換は、為替レートの変動（Investing.comから引用）の対象となり、一定の手数料が含まれます。
+              {localStorage.__APP_NAME__}
+              は、フィアットからUSDTへの変換サービスに関する修正または最終的な解釈の権利を保有します。ご了承ください。
             </Text>
           </li>
           <li>
-            <Text fz={14}>
-              {t("Funds will be credited within 1 business day.")}
-            </Text>
+            <Text fz={14}>資金は1営業日以内に入金されます。</Text>
+          </li>
+          <li>
+            この決済方法は日本国外の銀行からの送金には対応しておりません。
+          </li>
+          <li>
+            300万円を超えるお取引の場合、当社のコンプライアンスチームによる審査と承認が必要となる場合があります。その結果、処理時間が長くなる可能性があります。この期間はご容赦ください。一度にご入金いただけるのは1回のみです。次の入金は、前の入金が処理された後にのみ行うことができます。
           </li>
           <li>
             <Text fz={14}>
-              {t(
-                "This payment method does not support transfers from banks located outside of Japan.",
-              )}
-            </Text>
-          </li>
-          <li>
-            <Text fz={14}>
-              {t(
-                "For transactions exceeding 3 million yen, our compliance team may need to review and approve your transfer. This could result in longer processing times. Please be patient during this period. You are restricted to one deposit at a time. Subsequent deposits can only be made after the previous one has been processed.",
-              )}
-            </Text>
-          </li>
-          <li>
-            <Text fz={14}>
-              {t(
-                "To prevent money laundering, withdrawal procedures will not be processed unless one week has passed since the deposit and there has been at least one trade.",
-              )}
+              マネーロンダリングを防止するため、入金から1週間が経過し、少なくとも1回の取引が行われない限り、出金手続きは行われません。
             </Text>
           </li>
         </ul>

@@ -246,6 +246,46 @@ function Banner(trader: PublicCopyMasterDetail) {
                             {_tradingDays(trader.startAt)}
                           </AppText>
                         </Box>
+                        <Box>
+                          <Divider
+                            h={32}
+                            orientation="vertical"
+                            color={"#404347"}
+                          />
+                        </Box>
+                        <Box>
+                          <AppPopover
+                            width={200}
+                            target={(props) => ({
+                              children: (
+                                <AppText
+                                  className="cursor-pointer"
+                                  instancetype="WithSize14Gray"
+                                  component="span"
+                                  onMouseEnter={props.open}
+                                  onMouseLeave={props.close}
+                                >
+                                  {t("Stability Index")}
+                                </AppText>
+                              ),
+                            })}
+                            dropdown={() => ({
+                              children: (
+                                <AppText
+                                  fz={12}
+                                  style={{ textAlign: "center" }}
+                                >
+                                  {t(
+                                    "Using advanced analytics, the Stability Index gauges how well Master Traders are dealing with volatility.",
+                                  )}
+                                </AppText>
+                              ),
+                            })}
+                          ></AppPopover>
+                          <AppText c={"white"} fw={"bolder"} fz={24}>
+                            --
+                          </AppText>
+                        </Box>
                       </Flex>
                     </Box>
                     <Space mb={30} />
@@ -258,6 +298,17 @@ function Banner(trader: PublicCopyMasterDetail) {
                           md: "nowrap",
                         }}
                       >
+                        {/* <Box>
+                          <Group align="center" gap={5}>
+                            <IconCoinBitcoin
+                              color="white"
+                              width={20}
+                            />
+                            <AppText c={"white"} fz={14}>
+                              {`AUM: ${trader.aum.toLocaleString()} USDT`}
+                            </AppText>
+                          </Group>
+                        </Box> */}
                         <Box>
                           <AppPopover
                             width={200}
@@ -454,7 +505,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                       deg: 90,
                     }}
                   >
-                    {trader.maxFollowers - trader.followers}
+                    --
                   </AppText>{" "}
                   {t("Slots Left")}
                 </AppText>
@@ -530,6 +581,13 @@ function Performance({
         t(
           "The average position holding period of all closed positions",
         ),
+      ],
+      [
+        t("ROI Volatility"),
+        <>
+          <NumberFormat value={0} prefix={"%"} />
+        </>,
+        t("Higher value indicates less stable returns."),
       ],
       [
         t("Last Traded at"),

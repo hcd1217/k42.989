@@ -430,7 +430,6 @@ export type PublicCopyMasterDetail = {
   startAt: number;
   followers: number;
   followerPnL: number;
-  maxFollowers: number;
   series: number[];
   pnlRatio: number; // TODO: calculate pnl ratio
 };

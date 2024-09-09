@@ -386,7 +386,7 @@ export default function CopyTrade() {
                     [t("Drawdown"), "drawDown"],
                     [t("Avg. `PnL"), "avgPnl"],
                     [t("Avg. Holding Period"), "avgHoldingTime"],
-                    [t("Trading Frequency"), "weeklyTrade"],
+                    [t("Trading Frequency"), "weekLyTrade"],
                   ].map(([label, value]) => ({ label, value }))}
                 />
                 <Box hiddenFrom="sm">

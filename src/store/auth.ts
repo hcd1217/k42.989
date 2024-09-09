@@ -29,9 +29,14 @@ const authStore = create<AuthState>((set) => ({
       isLogin: Boolean(me?.id),
       displayName:
         me?.nickName || masking(me?.email || me?.mobile || ""),
-      kycLevel: me.kycLevel.toString() as KycLvType,
-      isPendingKyc: me.isPendingVerification || false,
-      isRejectedKyc: me.isRejectedVerification || false,
+      // kycLevel: me.kycLevel.toString() as KycLvType,
+      // isPendingKyc: me.isPendingVerification || false,
+      // isRejectedKyc: me.isRejectedVerification || false,
+      kycLevel: "1",
+      isPendingKyc: false,
+      // me.isPendingVerification || false,
+      isRejectedKyc: false,
+      //me.isRejectedVerification || false,
     });
   },
   logout: (reload = true) => {

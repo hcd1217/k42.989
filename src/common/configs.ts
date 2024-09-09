@@ -2,7 +2,7 @@ import { TransactionStatus } from "./enums";
 
 export const APP_CONFIG = {
   INTERNAL_TRANSFER_FEE: 1,
-  FIAT_DEPOSIT: false,
+  FIAT_DEPOSIT: true,
   WITHDRAW: {
     MFA: true,
   },

@@ -23,7 +23,7 @@ export function FiatDepositRecords() {
   const fetch = useCallback(
     (cursor: string, limit: number, reverse: boolean) => {
       return fetchTransactions(
-        TransactionType.DEPOSIT,
+        TransactionType.FIAT_DEPOSIT,
         limit,
         cursor,
         reverse,
@@ -68,7 +68,7 @@ export function FiatDepositRecords() {
               {t("JPY Amount")}
             </Text>
             <Title order={6} fz={12}>
-              <NumberFormat decimalPlaces={8} value={row.jpyAmount} />
+              <NumberFormat decimalPlaces={0} value={row.jpyAmount} />
             </Title>
           </>,
           <>
@@ -76,7 +76,7 @@ export function FiatDepositRecords() {
               {t("USDT Amount")}
             </Text>
             <Title order={6} fz={12}>
-              <NumberFormat decimalPlaces={8} value={row.amount} />
+              <NumberFormat decimalPlaces={2} value={row.amount} />
             </Title>
           </>,
           <>

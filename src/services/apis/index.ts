@@ -736,20 +736,17 @@ export async function login({
 
 export async function register({
   email,
-  mobile,
   password,
 }: {
   password: string;
-  mobile?: string;
-  email?: string;
+  email: string;
 }): Promise<{ success: boolean } | undefined> {
   try {
     const res = await axios.post(
       "/api/register",
       cleanObj({
-        type: email ? 1 : 2,
+        type: 1,
         email,
-        mobile,
         password,
         referrerCode: localStorage.__REFERRER_CODE__ || undefined,
       }),

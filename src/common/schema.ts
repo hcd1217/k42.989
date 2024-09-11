@@ -180,6 +180,9 @@ export const authenticationPayloadSchema = z.object({
   kycLevel: numberSchema.int().positive().min(0).max(4),
   isPendingVerification: optionalBooleanSchema,
   isRejectedVerification: optionalBooleanSchema,
+  kycData: userKycDataSchema.omit({
+    images: true,
+  }).optional(),
   email: optionalStringSchema,
   mobile: optionalStringSchema,
   isCopyMaster: booleanSchema,

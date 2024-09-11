@@ -2,7 +2,6 @@ import useTranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import {
   AntiPhishingCodeSettingsForm,
-  BindPhoneForm,
   EditNickNameForm,
 } from "@/ui/Profile";
 import { BindEmailForm } from "@/ui/Profile/Forms/BindEmailForm";
@@ -27,7 +26,6 @@ import {
   IconInfoCircleFilled,
   IconLock,
   IconMail,
-  IconPhone,
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
 import { useMemo } from "react";
@@ -262,52 +260,6 @@ export default function Profile() {
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
-
-            <Grid.Col span={10}>
-              {/* Phone Verification */}
-              <Flex gap={12} align={"center"}>
-                <Avatar size={44}>
-                  <IconPhone />
-                </Avatar>
-                <Box>
-                  <Text fz={16} fw={600}>
-                    {t("Phone Verification")}
-                  </Text>
-                  <Text fz={14} fw={400} c={"dimmed"}>
-                    {t(
-                      "Get SMS codes for login and security verification.",
-                    )}
-                  </Text>
-                </Box>
-              </Flex>
-            </Grid.Col>
-            <Grid.Col span={8}>
-              <Flex
-                align={"center"}
-                gap={5}
-                justify={"end"}
-                h={"100%"}
-              >
-                <IconInfoCircleFilled
-                  color={me?.mobileVerified ? "green" : "gray"}
-                />
-                <Text fz={14}>
-                  {t(
-                    me?.mobileVerified ? "Verified" : "Not Verified",
-                  )}
-                </Text>
-              </Flex>
-            </Grid.Col>
-            <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
-                <BindPhoneForm />
-              </Flex>
-            </Grid.Col>
-
-            <Grid.Col span={24}>
-              <Divider />
-            </Grid.Col>
-
             <Grid.Col span={10}>
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>

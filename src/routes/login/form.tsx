@@ -177,7 +177,13 @@ export default function LoginForm({
           w={"100%"}
           transitionTimingFunction="linear"
           value={loginMode}
-          onChange={(value: string) => setLoginMode(value as Mode)}
+          onChange={(value: string) => {
+            setLoginMode(value as Mode);
+            form.setValues({
+              email: "",
+              mobile: "",
+            });
+          }}
           data={[
             {
               value: "email",

@@ -35,13 +35,13 @@ import { getDictionary } from "@/services/languages";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
+import { WithdrawData } from "@/types";
 import { delay, ONE_MINUTE } from "@/utils";
 import { avatarUrl, t } from "@/utils/utility";
 import { LRUCache } from "lru-cache";
 import { z } from "zod";
 import logger from "../logger";
 import axios, { getApi } from "./_axios";
-import { WithdrawData } from "@/types";
 export * as axios from "./_axios";
 const dictionary = getDictionary();
 
@@ -282,6 +282,7 @@ export function updateUserApi(
     ...payload,
   });
 }
+
 export function requestChangePasswordApi(
   payload: RequestPasswordChangePayload,
 ) {
@@ -299,14 +300,16 @@ export function generateMfaApi() {
     .post<{ result: GenerateMfaLink }>("/api/me/generate/mfa")
     .then((res) => res.data.result);
 }
-type VerifyCodeType =
-  | "EMAIL"
-  | "MOBILE"
-  | "UPDATE_ANTI_PHISHING_CODE"
-  | "NEW_EMAIL";
 
-export function sendVerifyCode(type: VerifyCodeType) {
-  return axios.post("/api/me/verify", { type });
+export function sendVerifyCode(
+  type: "EMAIL" | "MOBILE" | "UPDATE_ANTI_PHISHING_CODE",
+  {
+    newEmail,
+  }: {
+    newEmail?: string;
+  } = {},
+) {
+  return axios.post("/api/me/verify", { type, newEmail });
 }
 
 export async function fetchOpenTrades() {

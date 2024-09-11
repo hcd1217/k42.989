@@ -180,9 +180,11 @@ export const authenticationPayloadSchema = z.object({
   kycLevel: numberSchema.int().positive().min(0).max(4),
   isPendingVerification: optionalBooleanSchema,
   isRejectedVerification: optionalBooleanSchema,
-  kycData: userKycDataSchema.omit({
-    images: true,
-  }).optional(),
+  kycData: userKycDataSchema
+    .omit({
+      images: true,
+    })
+    .optional(),
   email: optionalStringSchema,
   mobile: optionalStringSchema,
   isCopyMaster: booleanSchema,
@@ -324,7 +326,6 @@ export const updateUserPayloadSchema = z
       UserUpdateType.UPDATE_PASSWORD,
       UserUpdateType.KYC_DATA,
       UserUpdateType.ADD_EMAIL,
-      UserUpdateType.ADD_MOBILE,
       UserUpdateType.ADD_MFA,
       UserUpdateType.UPDATE_MFA,
       UserUpdateType.VERIFY_EMAIL,
@@ -333,6 +334,8 @@ export const updateUserPayloadSchema = z
     ]),
     avatar: optionalStringSchema,
     nickName: optionalStringSchema,
+    newEmail: optionalStringSchema,
+    newEmailVerificationCode: optionalStringSchema,
     emailVerificationCode: optionalStringSchema,
     mobileVerificationCode: optionalStringSchema,
     kycData: userKycDataSchema.optional(),

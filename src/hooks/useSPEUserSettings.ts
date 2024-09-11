@@ -1,9 +1,5 @@
 // cspell:ignore totp
-import {
-  generateMfaApi,
-  getMe,
-  updateUserApi,
-} from "@/services/apis";
+import { generateMfaApi, updateUserApi } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { GenerateMfaLink, UserUpdateType } from "@/types";
@@ -43,12 +39,6 @@ const INITIAL_DATA: Record<string, string[]> = {
     "Anti-Phishing Code set up successfully.",
     "Anti-Phishing Code Setup Failed",
     "We couldn't set up your Anti-Phishing Code. Ensure you have followed the steps correctly and try again.",
-  ],
-  [UserUpdateType.ADD_MOBILE]: [
-    "Phone Number Binding Successfully",
-    "Your phone number has been successfully linked to your account. You will receive notifications via this number.",
-    "Phone Number Binding Failed",
-    "An error occurred while trying to bind Phone Number. Please verify the setup instructions and try again.",
   ],
   [UserUpdateType.ADD_MFA]: [
     "Google Authenticator Setup Successful",
@@ -167,7 +157,6 @@ const useSPEUserSettings = <T>(
           if (res.data?.result?.success) {
             success(t(titleS), t(msgS));
             form?.setValues(form.values);
-            getMe().then((me) => authStore.getState().setMe(me));
             setTimeout(() => {
               window.location.href = "/user";
             }, 1000);

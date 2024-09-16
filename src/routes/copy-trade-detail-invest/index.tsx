@@ -31,7 +31,6 @@ import {
   Grid,
   Group,
   Progress,
-  SegmentedControl,
   SimpleGrid,
   Space,
   Tabs,
@@ -888,7 +887,7 @@ const units: Record<ChartType, string> = {
 
 function TabsUI(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
-  const [chartType, setChartType] = useState<ChartType>("a");
+  const [chartType] = useState<ChartType>("a");
   const { minY, maxY, data } = useMemo(() => {
     const last = props.assets;
     const raw = props.performance.charts || [];
@@ -932,17 +931,6 @@ function TabsUI(props: PublicCopyMasterDetail) {
         </Tabs.List>
         <Tabs.Panel value="statistics">
           <Space my={"md"} />
-          <SegmentedControl
-            hidden
-            color="primary"
-            value={chartType}
-            onChange={(val) => val && setChartType(val as ChartType)}
-            data={[
-              { label: t("Assets"), value: "a" },
-              { label: t("PnL"), value: "pnl" },
-              { label: t("ROI"), value: "r" },
-            ]}
-          />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <AppChart
               key={chartType}

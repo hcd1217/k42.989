@@ -2,6 +2,7 @@ import { userKycDataSchema } from "@/common/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import { Language } from "@/services/languages";
+import authStore from "@/store/auth";
 import {
   Button,
   Flex,
@@ -13,7 +14,6 @@ import {
   Space,
   Text,
   TextInput,
-  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconCheck } from "@tabler/icons-react";
@@ -26,34 +26,34 @@ const years = Array.from(
   (_, idx) => 1970 + idx,
 );
 const dates = Array.from({ length: 31 }, (_, idx) => idx + 1);
-const monthsEn = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const monthsJa = [
-  "1月",
-  "2月",
-  "3月",
-  "4月",
-  "5月",
-  "6月",
-  "7月",
-  "8月",
-  "9月",
-  "10月",
-  "11月",
-  "12月",
-];
+// const monthsEn = [
+//   "January",
+//   "February",
+//   "March",
+//   "April",
+//   "May",
+//   "June",
+//   "July",
+//   "August",
+//   "September",
+//   "October",
+//   "November",
+//   "December",
+// ];
+// const monthsJa = [
+//   "1月",
+//   "2月",
+//   "3月",
+//   "4月",
+//   "5月",
+//   "6月",
+//   "7月",
+//   "8月",
+//   "9月",
+//   "10月",
+//   "11月",
+//   "12月",
+// ];
 
 type UserKycData = z.infer<typeof userKycDataSchema> & {
   date?: string;
@@ -61,8 +61,9 @@ type UserKycData = z.infer<typeof userKycDataSchema> & {
   year?: string;
 };
 
-//
 export function KYCVerifyIdentityFirstForm() {
+  const { isPendingKyc } = authStore();
+
   const { loading, submitKycData } =
     useSPEUserSettings<UserKycData>("KYC_DATA");
   const form = useForm<UserKycData>({
@@ -104,30 +105,25 @@ export function KYCVerifyIdentityFirstForm() {
       gender: (value) => {
         return value ? null : t("Required");
       },
+      dateOfBirth: (value) => {
+        return value ? null : t("Required");
+      },
     },
   });
   const t = useSPETranslation();
   const activeMonths = useMemo(() => {
     const lang = localStorage.__LANGUAGE__;
     if (lang === Language.EN) {
-      return monthsEn;
+      return Array.from({ length: 12 }, (_, idx) => idx + 1);
     }
-    return monthsJa;
+    return Array.from({ length: 12 }, (_, idx) => idx + 1);
   }, []);
 
   return (
     <>
-      <Title order={2}>{t("KYC Information")}</Title>
       <Space mb={"lg"} />
       <form onSubmit={(e) => submitKycData(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
-          <TextInput
-            key={form.key("lastName")}
-            {...form.getInputProps("lastName")}
-            withAsterisk
-            label={t("Last Name")}
-            description={t("Your last name as it appears on your ID")}
-          />
           <TextInput
             withAsterisk
             label={t("First Name")}
@@ -136,6 +132,15 @@ export function KYCVerifyIdentityFirstForm() {
             )}
             key={form.key("firstName")}
             {...form.getInputProps("firstName")}
+            disabled={isPendingKyc}
+          />
+          <TextInput
+            key={form.key("lastName")}
+            {...form.getInputProps("lastName")}
+            withAsterisk
+            label={t("Last Name")}
+            description={t("Your last name as it appears on your ID")}
+            disabled={isPendingKyc}
           />
           <div>
             <Radio.Group
@@ -143,6 +148,7 @@ export function KYCVerifyIdentityFirstForm() {
               label={t("Your gender")}
               size="lg"
               key={form.key("gender")}
+              withAsterisk
               {...form.getInputProps("gender")}
             >
               <Flex gap={20} pt={10}>
@@ -154,6 +160,7 @@ export function KYCVerifyIdentityFirstForm() {
                       alignItems: "center",
                     },
                   }}
+                  disabled={isPendingKyc}
                 />
                 <Radio
                   value="FEMALE"
@@ -163,6 +170,7 @@ export function KYCVerifyIdentityFirstForm() {
                       alignItems: "center",
                     },
                   }}
+                  disabled={isPendingKyc}
                 />
               </Flex>
             </Radio.Group>
@@ -190,6 +198,7 @@ export function KYCVerifyIdentityFirstForm() {
                     </Flex>
                   );
                 }}
+                disabled={isPendingKyc}
               />
               <Select
                 placeholder={t("Month")}
@@ -211,6 +220,7 @@ export function KYCVerifyIdentityFirstForm() {
                 }}
                 key={form.key("month")}
                 {...form.getInputProps("month")}
+                disabled={isPendingKyc}
               />
               <Select
                 placeholder={t("Year")}
@@ -232,6 +242,7 @@ export function KYCVerifyIdentityFirstForm() {
                 }}
                 key={form.key("year")}
                 {...form.getInputProps("year")}
+                disabled={isPendingKyc}
               />
             </Flex>
             <InputError size="lg">
@@ -243,9 +254,10 @@ export function KYCVerifyIdentityFirstForm() {
             {...form.getInputProps("address")}
             withAsterisk
             label={t("Residential address")}
+            disabled={isPendingKyc}
           />
           <Button
-            disabled={loading}
+            disabled={loading || isPendingKyc}
             loading={loading}
             type="submit"
             size="lg"

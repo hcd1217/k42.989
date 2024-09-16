@@ -15,6 +15,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import useSPETranslation from "./useSPETranslation";
 
 const SECONDS = 60;
@@ -94,7 +95,7 @@ const useSPEUserSettings = <T>(
   );
 
   const { me } = authStore();
-
+  const navigate = useNavigate();
   const otpAuth = useMemo(() => {
     const secret = linkMfa?.secret ?? ""; // cspell: disable-line
     const label = linkMfa?.label ?? "";
@@ -157,9 +158,10 @@ const useSPEUserSettings = <T>(
           if (res.data?.result?.success) {
             success(t(titleS), t(msgS));
             form?.setValues(form.values);
-            setTimeout(() => {
-              window.location.href = "/user";
-            }, 1000);
+            // setTimeout(() => {
+            //   window.location.href = "/user";
+            // }, 1000);
+            navigate(0);
             onSuccess?.();
           } else {
             error(t(titleF), t(msgF));
@@ -169,7 +171,7 @@ const useSPEUserSettings = <T>(
           setLoading(false);
         });
     },
-    [t, type, onSuccess],
+    [t, type, onSuccess, navigate],
   );
 
   const submit = useCallback(
@@ -194,10 +196,20 @@ const useSPEUserSettings = <T>(
       e.preventDefault();
       form?.validate();
       if (form?.isValid()) {
-        onSubmit({ values: { kycData: form.getValues() } });
+        const kycData = {
+          ...(me?.kycData ?? {}),
+          ...form.getValues(),
+          // isRejectedVerification: false,
+          // isPendingVerification: true,
+        };
+        if (kycData?.isRejectedVerification === true) {
+          delete kycData["isRejectedVerification"];
+          kycData["isPendingVerification"] = true;
+        }
+        onSubmit({ values: { kycData } });
       }
     },
-    [onSubmit],
+    [onSubmit, me?.kycData],
   );
 
   return {

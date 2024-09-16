@@ -1,7 +1,9 @@
 import { userKycDataSchema } from "@/common/schema";
+import { IS_DEV } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import useUploader from "@/hooks/useUploader";
+import authStore from "@/store/auth";
 import { ImageType } from "@/types";
 import { PictureUploader } from "@/ui/AvatarUploader";
 import phoneCodes from "@/ui/Form/widgets/mocks/phone-code.json";
@@ -23,7 +25,6 @@ import {
   SimpleGrid,
   Space,
   Text,
-  Title,
 } from "@mantine/core";
 import { FileWithPath } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
@@ -32,17 +33,26 @@ import {
   IconInfoCircle,
   IconTrash,
 } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
 type UserKycData = z.infer<typeof userKycDataSchema>;
 const getImageByPhone = memoize((code: string) => {
   return phoneCodes.find((p) => p.value === code)?.image;
 });
+const picEx =
+  "https://fastly.picsum.photos/id/38/200/300.jpg?hmac=-3xmMd1qccZR3fLPMvwj8D3GgMIIDCKTpXJspTKuZW0";
+const getCountryValue = memoize((country: string) => {
+  return phoneCodes.find((p) => {
+    return p.value.includes(country);
+  })?.value;
+});
 
 // TODO: KYCLevel1Form
 export function KYCVerifyIdentityOneForm() {
   const t = useSPETranslation();
+  const { isPendingKyc, me } = authStore();
+
   const [countries] = useState(phoneCodes);
   const [_values, setValues] = useState<UserKycData>();
   const {
@@ -64,11 +74,21 @@ export function KYCVerifyIdentityOneForm() {
   const form = useForm<UserKycData>({
     mode: "uncontrolled",
     initialValues: {
-      country: "",
-      idType: undefined,
+      country: isPendingKyc
+        ? getCountryValue(me?.kycData?.country as string)
+        : "",
+      idType: isPendingKyc ? me?.kycData?.idType : undefined,
       images: {
-        kycLvl1Front: "",
-        kycLvl1Back: "",
+        kycLvl1Front: isPendingKyc
+          ? me?.kycData?.images?.kycLvl1Front
+          : IS_DEV
+          ? picEx
+          : "",
+        kycLvl1Back: isPendingKyc
+          ? me?.kycData?.images?.kycLvl1Back
+          : IS_DEV
+          ? picEx
+          : "",
       },
     },
     onValuesChange(values) {
@@ -91,18 +111,34 @@ export function KYCVerifyIdentityOneForm() {
   });
 
   const _countryInfo = useMemo(() => {
-    const i = phoneCodes.find((i) => i.value === _values?.country);
+    const i = phoneCodes.find(
+      (i) =>
+        i.value ===
+        (isPendingKyc
+          ? getCountryValue(me?.kycData?.country as string)
+          : _values?.country),
+    );
     return {
       image: i?.image,
       country: _values?.country ?? "",
     };
-  }, [_values]);
+  }, [_values, isPendingKyc, me?.kycData?.country]);
+
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (loaded) {
+      return;
+    }
+    form.setValues(me?.kycData ?? {});
+    setLoaded(true);
+  }, [me?.kycData, form, loaded, setLoaded]);
 
   return (
     <>
-      <Title order={2}>{t("Verify identity")}</Title>
-      <Space mb={"lg"} />
-
+      {/* <Title order={2}>{t("Verify identity")}</Title> */}
+      {/* <Space mb={"lg"} /> */}
+      {/* {JSON.stringify(me?.kycData)} */}
       <form onSubmit={(e) => submitKycData(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
           <div>
@@ -147,6 +183,7 @@ export function KYCVerifyIdentityOneForm() {
                 }}
                 key={form.key("country")}
                 {...form.getInputProps("country")}
+                disabled={isPendingKyc}
               />
             </Box>
           </div>
@@ -160,6 +197,7 @@ export function KYCVerifyIdentityOneForm() {
               withAsterisk
               key={form.key("idType")}
               {...form.getInputProps("idType")}
+              readOnly={isPendingKyc}
             >
               <Flex gap={20} pt={10} direction={"column"}>
                 {["ID", "DRIVER_LICENSE", "PASSPORT", "OTHER"].map(
@@ -168,6 +206,7 @@ export function KYCVerifyIdentityOneForm() {
                       key={idx}
                       value={val}
                       label={t(val)}
+                      disabled={isPendingKyc}
                       styles={{
                         body: {
                           alignItems: "center",
@@ -202,7 +241,7 @@ export function KYCVerifyIdentityOneForm() {
             >
               <div>
                 <Text c={"green"} fw={"bold"}>
-                  Do
+                  {t("Do")}
                 </Text>
                 <List>
                   <List.Item>
@@ -269,25 +308,37 @@ export function KYCVerifyIdentityOneForm() {
               }}
             >
               <div>
-                {form.getValues().images?.kycLvl1Front ? (
-                  <Box h={"300px"} pos={"relative"}>
+                {form.getValues().images?.kycLvl1Front ||
+                isPendingKyc ? (
+                  <Box
+                    h={"300px"}
+                    pos={"relative"}
+                    bd={"solid 1px"}
+                    py={"sm"}
+                  >
                     <Image
                       mah={"100%"}
                       mx={"auto"}
                       maw={"100%"}
+                      w={"auto"}
                       src={form.getValues().images?.kycLvl1Front}
                     />
-                    <ActionIcon
-                      onClick={() => {
-                        form.setFieldValue("images.kycLvl1Front", "");
-                      }}
-                      variant="transparent"
-                      pos={"absolute"}
-                      top={10}
-                      right={10}
-                    >
-                      <IconTrash color="red" />
-                    </ActionIcon>
+                    {!isPendingKyc && (
+                      <ActionIcon
+                        onClick={() => {
+                          form.setFieldValue(
+                            "images.kycLvl1Front",
+                            "",
+                          );
+                        }}
+                        variant="transparent"
+                        pos={"absolute"}
+                        top={10}
+                        right={10}
+                      >
+                        <IconTrash color="red" />
+                      </ActionIcon>
+                    )}
                   </Box>
                 ) : (
                   <Box>
@@ -321,25 +372,37 @@ export function KYCVerifyIdentityOneForm() {
                 </InputLabel>
               </div>
               <div>
-                {form.getValues().images?.kycLvl1Back ? (
-                  <Box h={"300px"} pos={"relative"}>
+                {form.getValues().images?.kycLvl1Back ||
+                isPendingKyc ? (
+                  <Box
+                    h={"300px"}
+                    pos={"relative"}
+                    bd={"solid 1px"}
+                    py={"sm"}
+                  >
                     <Image
                       mah={"100%"}
                       mx={"auto"}
                       maw={"100%"}
+                      w={"auto"}
                       src={form.getValues().images?.kycLvl1Back}
                     />
-                    <ActionIcon
-                      onClick={() => {
-                        form.setFieldValue("images.kycLvl1Back", "");
-                      }}
-                      variant="transparent"
-                      pos={"absolute"}
-                      top={10}
-                      right={10}
-                    >
-                      <IconTrash color="red" />
-                    </ActionIcon>
+                    {!isPendingKyc && (
+                      <ActionIcon
+                        onClick={() => {
+                          form.setFieldValue(
+                            "images.kycLvl1Back",
+                            "",
+                          );
+                        }}
+                        variant="transparent"
+                        pos={"absolute"}
+                        top={10}
+                        right={10}
+                      >
+                        <IconTrash color="red" />
+                      </ActionIcon>
+                    )}
                   </Box>
                 ) : (
                   <Box>
@@ -376,7 +439,7 @@ export function KYCVerifyIdentityOneForm() {
           </Box>
           <InputError size="lg">{form.errors["images"]}</InputError>
           <Button
-            disabled={loading}
+            disabled={loading || isPendingKyc}
             loading={loading}
             type="submit"
             size="lg"

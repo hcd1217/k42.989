@@ -782,3 +782,13 @@ export async function withdraw(params: WithdrawData) {
     );
   }
 }
+
+export async function getKycByUserApi(params: { userId: string }) {
+  const response = await axios.post("/internal-api/user/kyc-data", {
+    ...params,
+  });
+  if (response.data?.result) {
+    return response.data.result;
+  }
+  return Promise.reject(null);
+}

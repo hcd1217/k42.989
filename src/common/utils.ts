@@ -216,3 +216,9 @@ export function beginOfMonth(now = 0, timezoneOffset = 9) {
   today.setUTCHours(0, 0, 0, 0);
   return today.getTime() - offset;
 }
+
+export const IS_DEV =
+  true &&
+  ["localhost", "127.0.0.1", "0.0.0.0"].includes(
+    window.location.hostname,
+  );

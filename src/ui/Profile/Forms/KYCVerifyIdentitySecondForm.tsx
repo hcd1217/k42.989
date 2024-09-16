@@ -1,7 +1,9 @@
 import { userKycDataSchema } from "@/common/schema";
+import { IS_DEV } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import useUploader from "@/hooks/useUploader";
+import authStore from "@/store/auth";
 import { PictureUploader } from "@/ui/AvatarUploader";
 import {
   ActionIcon,
@@ -16,7 +18,6 @@ import {
   SimpleGrid,
   Space,
   Text,
-  Title,
 } from "@mantine/core";
 import { FileWithPath } from "@mantine/dropzone";
 import { useForm } from "@mantine/form";
@@ -26,10 +27,12 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { z } from "zod";
-
+const picEx =
+  "https://fastly.picsum.photos/id/38/200/300.jpg?hmac=-3xmMd1qccZR3fLPMvwj8D3GgMIIDCKTpXJspTKuZW0";
 type UserKycData = z.infer<typeof userKycDataSchema>;
 
 export function KYCVerifyIdentitySecondForm() {
+  const { isPendingKyc } = authStore();
   const t = useSPETranslation();
   const {
     uploadFile,
@@ -48,7 +51,7 @@ export function KYCVerifyIdentitySecondForm() {
     mode: "uncontrolled",
     initialValues: {
       images: {
-        kycLvl2: "",
+        kycLvl2: IS_DEV ? picEx : "",
       },
     },
     validate: {
@@ -62,8 +65,8 @@ export function KYCVerifyIdentitySecondForm() {
 
   return (
     <>
-      <Title order={2}>{t("Verify address")}</Title>
-      <Space mb={"lg"} />
+      {/* <Title order={2}>{t("Verify address")}</Title> */}
+      {/* <Space mb={"lg"} /> */}
       <Box>
         <Alert
           icon={<IconProgressCheck />}
@@ -162,23 +165,31 @@ export function KYCVerifyIdentitySecondForm() {
               overlayProps={{ radius: "sm", blur: 2 }}
             />
             <div>
-              {form.getValues().images?.kycLvl2 ? (
-                <Box h={"300px"} pos={"relative"}>
-                  <ActionIcon
-                    onClick={() => {
-                      form.setFieldValue("images.kycLvl2Front", "");
-                    }}
-                    variant="transparent"
-                    pos={"absolute"}
-                    top={10}
-                    right={10}
-                  >
-                    <IconTrash color="red" />
-                  </ActionIcon>
+              {form.getValues().images?.kycLvl2 || isPendingKyc ? (
+                <Box
+                  h={"300px"}
+                  pos={"relative"}
+                  bd={"solid 1px"}
+                  py={"sm"}
+                >
+                  {!isPendingKyc && (
+                    <ActionIcon
+                      onClick={() => {
+                        form.setFieldValue("images.kycLvl2Front", "");
+                      }}
+                      variant="transparent"
+                      pos={"absolute"}
+                      top={10}
+                      right={10}
+                    >
+                      <IconTrash color="red" />
+                    </ActionIcon>
+                  )}
                   <Image
                     mah={"100%"}
                     mx={"auto"}
                     maw={"100%"}
+                    w={"auto"}
                     src={form.getValues().images?.kycLvl2}
                   />
                 </Box>
@@ -216,7 +227,7 @@ export function KYCVerifyIdentitySecondForm() {
           </Box>
           <InputError size="lg">{form.errors["images"]}</InputError>
           <Button
-            disabled={loading}
+            disabled={loading || isPendingKyc}
             loading={loading}
             type="submit"
             size="lg"

@@ -98,17 +98,17 @@ export function KYCVerifyStatus() {
       const _color = _isCompleted
         ? "green"
         : _isPending
-          ? "orange"
-          : _isRejected
-            ? "red"
-            : "gray";
+        ? "orange"
+        : _isRejected
+        ? "red"
+        : "gray";
       const _icon = _isCompleted
         ? IconCheck
         : _isPending
-          ? IconProgressAlert
-          : _isRejected
-            ? IconAlertOctagon
-            : undefined;
+        ? IconProgressAlert
+        : _isRejected
+        ? IconAlertOctagon
+        : undefined;
       let _disabled = parseInt(kycLv) > parseInt(kycLevel);
       if (kycLevel === "0" && kycLv === "1") {
         _disabled = false;
@@ -125,7 +125,12 @@ export function KYCVerifyStatus() {
         disabled: _disabled,
       };
     };
-    const fullName = kycLevel != "0" ? `${me?.kycData?.firstName ?? ""} ${me?.kycData?.lastName ?? ""}` : "";
+    const fullName =
+      kycLevel != "0"
+        ? `${me?.kycData?.firstName ?? ""} ${
+            me?.kycData?.lastName ?? ""
+          }`
+        : "";
     const lv2 = {
       isRejectedKyc: kycLevel === "2" && isRejectedKyc,
       isPendingKyc: kycLevel === "2" && isPendingKyc,

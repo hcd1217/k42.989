@@ -69,7 +69,11 @@ export function fetchAllTraders() {
   }
 }
 
-export function fetchTrader(masterAccountId: string) {
+export async function fetchTrader(masterAccountId?: string) {
+  if (!masterAccountId) {
+    await delay(10);
+    return;
+  }
   return _fetchAndCache(
     `traders:${masterAccountId}`,
     _fetch,

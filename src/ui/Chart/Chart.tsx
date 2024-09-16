@@ -316,9 +316,6 @@ const optionsLine = (chartId: string): Instance => {
       horizontalAlign: "left",
       offsetY: 0,
       markers: {
-        width: 15,
-        height: 3,
-        radius: 0,
         offsetY: -3,
         offsetX: -3,
       },
@@ -401,9 +398,6 @@ const optionsSignLine = (chartId: string): Instance => {
       horizontalAlign: "left",
       offsetY: 0,
       markers: {
-        width: 15,
-        height: 3,
-        radius: 0,
         offsetY: -3,
         offsetX: -3,
       },
@@ -555,9 +549,6 @@ const optionsBar = (chartId: string): Instance => {
       horizontalAlign: "left",
       offsetY: 0,
       markers: {
-        width: 15,
-        height: 3,
-        radius: 0,
         offsetY: -3,
         offsetX: -3,
       },

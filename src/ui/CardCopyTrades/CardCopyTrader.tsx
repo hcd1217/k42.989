@@ -56,7 +56,7 @@ export function CardTrader(trader: CopyMaster) {
                 <Flex align={"center"}>
                   <IconCaretUpFilled color="#20b26c" size={16} />
                   <AppText instancetype="withTheadSmall" c={"dark"}>
-                    {_value(trader.pnlRatio)}
+                    {_value(trader?.pnlRatio || 0)}
                   </AppText>
                 </Flex>
               </Flex>
@@ -104,8 +104,8 @@ export function CardTrader(trader: CopyMaster) {
             instancetype="Sparkline" // cspell:ignore Areapercent
             chartSeries={[
               {
-                name: "series1",
-                data: trader.series,
+                name: "",
+                data: trader.series || [],
               },
             ]}
             chartOptions={{

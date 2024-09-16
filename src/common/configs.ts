@@ -71,19 +71,6 @@ export const SYMBOL_MAP = {
 
 export const AFFILIATE_REWARD_RATIO = 0.36;
 
-export const FEE = {
-  // https://www.binance.com/en/fee/schedule
-  SPOT: {
-    MAKER: 0.0015,
-    TAKER: 0.0015,
-  },
-  // https://www.binance.com/en/fee/futureFee
-  FUTURE: {
-    MAKER: 0.001,
-    TAKER: 0.001,
-  },
-};
-
 export const SYMBOL_LISTS = [
   {
     icon: "/images/btc.svg",

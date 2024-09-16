@@ -17,11 +17,10 @@ import { CopySettingForm } from "@/ui/Copy";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import { AppPopover } from "@/ui/Popover/AppPopover";
-import SPEMasterOpenPosition from "@/ui/SPEMasterOpenPosition";
 import SPEMasterOrderHistory from "@/ui/SPEMasterOrderHistory";
 import AppText from "@/ui/Text/AppText";
 import { ONE_DAY, ONE_HOUR, ONE_MINUTE } from "@/utils";
-import { avatarUrl, fmtDate, getDatesArray } from "@/utils/utility";
+import { avatarUrl, fmtDate } from "@/utils/utility";
 import {
   Avatar,
   Box,
@@ -41,25 +40,30 @@ import { modals } from "@mantine/modals";
 import {
   IconChartInfographic,
   IconChartPie,
-  IconChevronRight,
   IconCoinBitcoin,
   IconShare,
   IconStar,
 } from "@tabler/icons-react";
+import { format } from "date-fns";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./index.module.scss";
+
+// enum TradeDataType {
+//   CURRENT_POSITION = "CURRENT_POSITION",
+//   ORDER_HISTORY = "ORDER_HISTORY",
+// }
+
+type Period = "All" | "7D" | "30D" | "90D";
 
 export default function CopyTradeDetail() {
   const params = useParams();
   const [trader, setTrader] = useState<PublicCopyMasterDetail>();
 
   useEffect(() => {
-    params.id &&
-      fetchTrader(params.id).then((trader) => {
-        logger.debug("trader", trader);
-        setTrader(trader);
-      });
+    fetchTrader(params?.id).then((trader) => {
+      trader && setTrader(trader);
+    });
   }, [params.id]);
 
   if (!trader) {
@@ -67,7 +71,7 @@ export default function CopyTradeDetail() {
   }
   return (
     <>
-      <Banner {...trader} key={trader?.name || ""} />
+      <Banner {...trader} key={trader?.masterAccountId || ""} />
       <Box className="bg-copy-trade">
         <Container>
           <Grid gutter={21} py={21}>
@@ -77,14 +81,7 @@ export default function CopyTradeDetail() {
                 sm: 4,
               }}
             >
-              <Flex direction={"column"} gap={21}>
-                <AppCard>
-                  <Performance {...trader} />
-                </AppCard>
-                {/* <AppCard>
-                  <Profit />
-                </AppCard> */}
-              </Flex>
+              <Performance {...trader} />
             </Grid.Col>
             <Grid.Col
               span={{
@@ -467,8 +464,6 @@ function Banner(trader: PublicCopyMasterDetail) {
   );
 }
 
-type Period = "All" | "7D" | "30D" | "90D";
-
 function Performance({
   performance,
   followerPnL,
@@ -546,397 +541,42 @@ function Performance({
   }, [data, t]);
 
   return (
-    <Box>
-      <Group justify="space-between" p={0} m={0}>
-        <AppText fz={16} fw={"bold"}>
-          {t("Performance")}
-        </AppText>
-        <OptionFilter
-          onChange={(v) => setTime(v as Period)}
-          value={time}
-          items={[
-            {
-              label: "All time",
-              value: "All",
-            },
-            {
-              label: "7 Days",
-              value: "7D",
-            },
-            {
-              label: "30 Days",
-              value: "30D",
-            },
-            {
-              label: "90 Days",
-              value: "90D",
-            },
-          ]}
-        />
-      </Group>
-      <Space mb={10} />
-      <Divider h={1} color="#f3f5f7" />
-      <Space mb={10} />
-      <SimpleGrid cols={2}>
-        <div>
-          <AppPopover
-            width={200}
-            target={(props) => ({
-              children: (
-                <AppText
-                  component="span"
-                  instancetype="WidthTooltipGray"
-                  className="cursor-pointer"
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  ROI
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <AppText instancetype="WithTextTooltip">
-                  {t(
-                    "ROI is a performance measure used to evaluate the efficiency or profitability of a Master Trader.",
-                  )}
-                </AppText>
-              ),
-            })}
-          ></AppPopover>
-          <AppText
-            instancetype="withPriceLong"
-            c={priceDisplay(data?.roi).color}
-          >
-            <NumberFormat
-              prefix={priceDisplay(data?.roi).sub}
-              value={data?.roi}
-              suffix="%"
-            />
-          </AppText>
-        </div>
-        <Flex align={"end"} direction={"column"}>
-          <AppPopover
-            width={200}
-            target={(props) => ({
-              children: (
-                <AppText
-                  component="span"
-                  instancetype="WidthTooltipGray"
-                  className="cursor-pointer"
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  {t("Master's PnL")}
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <AppText instancetype="WithTextTooltip">
-                  {t(
-                    "Total profit that includes realized and unrealized PnL",
-                  )}
-                </AppText>
-              ),
-            })}
-          ></AppPopover>
-          <AppText
-            instancetype="withPriceLong"
-            c={priceDisplay(data?.pnl).color}
-          >
-            <NumberFormat
-              prefix={priceDisplay(data?.pnl).sub}
-              value={data?.pnl}
-            />
-          </AppText>
-        </Flex>
-        <div>
-          <AppPopover
-            width={200}
-            target={(props) => ({
-              children: (
-                <AppText
-                  component="span"
-                  instancetype="WidthTooltipGray"
-                  className="cursor-pointer"
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  {t("Win Rate")}
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <AppText instancetype="WithTextTooltip">
-                  {t(
-                    "Shows the average win rate of a Master Trader over a certain period.",
-                  )}
-                </AppText>
-              ),
-            })}
-          ></AppPopover>
-          <AppText instancetype="withPriceLong">
-            <NumberFormat value={data?.winRate} suffix="%" />
-          </AppText>
-        </div>
-        <Flex align={"end"} direction={"column"}>
-          <AppPopover
-            width={200}
-            target={(props) => ({
-              children: (
-                <AppText
-                  component="span"
-                  instancetype="WidthTooltipGray"
-                  className="cursor-pointer"
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  {"Followers' PnL"}
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <AppText instancetype="WithTextTooltip">
-                  {
-                    "Total profit of past and current Followers. Master's and Followers' PnL may be inconsistent as Followers' entry time/prices may vary."
-                  }
-                </AppText>
-              ),
-            })}
-          ></AppPopover>
-          <AppText
-            instancetype="withPriceLong"
-            c={priceDisplay(followerPnL).color}
-          >
-            <NumberFormat
-              prefix={priceDisplay(followerPnL).sub}
-              value={followerPnL}
-              decimalPlaces={0}
-            />
-          </AppText>
-        </Flex>
-        <div>
-          <AppPopover
-            width={200}
-            target={(props) => ({
-              children: (
-                <AppText
-                  component="span"
-                  instancetype="WidthTooltipGray"
-                  className="cursor-pointer"
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  {t("Max. Drawdown")}
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <AppText instancetype="WithTextTooltip">
-                  {
-                    "A low Max. Drawdown indicates that the unrealized losses from a Master Trader's trading strategy has been relatively small."
-                  }
-                </AppText>
-              ),
-            })}
-          ></AppPopover>
-          <AppText instancetype="withPriceLong">
-            <NumberFormat value={-Number(data?.maxDrawDown || 0)} />
-          </AppText>
-        </div>
-        <Flex align={"end"} direction={"column"}>
-          <AppPopover
-            width={200}
-            target={(props) => ({
-              children: (
-                <AppText
-                  component="span"
-                  instancetype="WidthTooltipGray"
-                  className="cursor-pointer"
-                  onMouseEnter={props.open}
-                  onMouseLeave={props.close}
-                >
-                  {t("Avg. PnL per Trade")}
-                </AppText>
-              ),
-            })}
-            dropdown={() => ({
-              children: (
-                <AppText instancetype="WithTextTooltip">
-                  {t(
-                    "The average profit and loss of all the closed positions made by a Master Trader. A higher value indicates that the Master Trader has a good performance in terms of profit.",
-                  )}
-                </AppText>
-              ),
-            })}
-          ></AppPopover>
-          <AppText
-            instancetype="withPriceLong"
-            c={priceDisplay(data?.avgPnlPerTrade).color}
-          >
-            <NumberFormat
-              prefix={priceDisplay(data?.avgPnlPerTrade).sub}
-              value={data?.avgPnlPerTrade}
-            />
-          </AppText>
-        </Flex>
-      </SimpleGrid>
-      <Space mb={10} />
-      <Divider h={1} color="#f3f5f7" />
-      <Space mb={15} />
-      <Box>
-        <Flex justify={"space-between"} mb={5}>
-          <AppText instancetype="withPriceNormal">
-            {t("Win")}{" "}
-            <AppText
-              component="span"
-              c={"green"}
-              instancetype="withPriceNormal"
-              fw={"bold"}
-            >
-              <NumberFormat value={data?.totalWin} />
-            </AppText>
-          </AppText>
-          <AppText instancetype="withPriceNormal">
-            {t("Lose")}{" "}
-            <AppText
-              instancetype="withPriceNormal"
-              component="span"
-              c={"gray"}
-            >
-              <NumberFormat value={data?.totalLose} />
-            </AppText>
-          </AppText>
-        </Flex>
-        <Box>
-          <Progress
-            value={Number(data?.winRate || 0)}
-            color="green"
-          />
-        </Box>
-      </Box>
-      <Space mb={20} />
-      <SimpleGrid cols={2}>
-        {performanceItems.map(([v1, v2, v3], i) => (
-          <Fragment key={i}>
-            <>
-              <AppPopover
-                width={200}
-                target={(props) => ({
-                  children: (
-                    <AppText
-                      component="span"
-                      instancetype="WidthTooltipGray"
-                      className="cursor-pointer"
-                      onMouseEnter={props.open}
-                      onMouseLeave={props.close}
-                    >
-                      {v1}
-                    </AppText>
-                  ),
-                })}
-                dropdown={() => ({
-                  children: (
-                    <AppText instancetype="WithTextTooltip">
-                      {v3}
-                    </AppText>
-                  ),
-                })}
-              ></AppPopover>
-              <Flex align={"end"} direction={"column"}>
-                <AppText instancetype="withPriceNormal">{v2}</AppText>
-              </Flex>
-            </>
-          </Fragment>
-        ))}
-        <div></div>
-        <Flex align={"end"} direction={"column"}>
-          <AppText
-            component="span"
-            instancetype="WidthTooltipGray"
-            fz={12}
-          >
-            {t("Measured in: USDT")}
-          </AppText>
-        </Flex>
-      </SimpleGrid>
-    </Box>
-  );
-}
-
-// cspell:disable
-const profitItems = [
-  {
-    v1: "cyp**@***",
-    v12: "The total profit earned from copy trades initiated by this Master Trader",
-    v13: "+2,181.36",
-    v2: "+265.58%",
-    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-    isGreen: true,
-  },
-  {
-    v1: "theolge",
-    v12: "The total profit earned from copy trades initiated by this Master Trader",
-    v13: "0.00",
-    v2: "0.00%",
-    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-  },
-  {
-    v1: "SyraIO",
-    v12: "The total profit earned from copy trades initiated by this Master Trader",
-    v13: "0.00",
-    v2: "0.00%",
-    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-  },
-  {
-    v1: "rev**@***",
-    v12: "The total profit earned from copy trades initiated by this Master Trader",
-    v13: "0.00",
-    v2: "0.00%",
-    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-  },
-  {
-    v1: "87x**@***",
-    v12: "The total profit earned from copy trades initiated by this Master Trader",
-    v13: "0.00",
-    v2: "0.00%",
-    v21: "The total profit from copy trades initiated by this Master Trader / The cumulative margin required to copy these trades",
-  },
-];
-// cspell:enable
-
-export function Profit() {
-  const t = useSPETranslation();
-
-  return (
     <>
-      <Group justify="space-between" p={0}>
-        <AppText fz={16} fw={"bold"}>
-          {t("Profit (Follower)")}
-        </AppText>
-        <AppButton
-          variant="transparent"
-          c={"gray"}
-          m={0}
-          p={0}
-          rightSection={<IconChevronRight size={20} />}
-        >
-          {t("View All")}
-        </AppButton>
-      </Group>
-      <Space mb={10} />
-      <Divider h={1} color="#f3f5f7" />
-      <Space mb={10} />
-      <SimpleGrid cols={2}>
-        {profitItems.map(({ v1, v12, v13, v2, v21, isGreen }, i) => (
-          <Fragment key={i}>
-            <>
-              <Flex direction={"column"}>
-                <AppText instancetype="withPriceNormal">{v1}</AppText>
+      <Flex direction={"column"} gap={21}>
+        <AppCard>
+          <Box>
+            <Group justify="space-between" p={0} m={0}>
+              <AppText fz={16} fw={"bold"}>
+                {t("Performance")}
+              </AppText>
+              <OptionFilter
+                onChange={(v) => setTime(v as Period)}
+                value={time}
+                items={[
+                  {
+                    label: "All time",
+                    value: "All",
+                  },
+                  {
+                    label: "7 Days",
+                    value: "7D",
+                  },
+                  {
+                    label: "30 Days",
+                    value: "30D",
+                  },
+                  {
+                    label: "90 Days",
+                    value: "90D",
+                  },
+                ]}
+              />
+            </Group>
+            <Space mb={10} />
+            <Divider h={1} color="#f3f5f7" />
+            <Space mb={10} />
+            <SimpleGrid cols={2}>
+              <div>
                 <AppPopover
                   width={200}
                   target={(props) => ({
@@ -948,29 +588,32 @@ export function Profit() {
                         onMouseEnter={props.open}
                         onMouseLeave={props.close}
                       >
-                        {t("Cumulative Profit")}
+                        ROI
                       </AppText>
                     ),
                   })}
                   dropdown={() => ({
                     children: (
                       <AppText instancetype="WithTextTooltip">
-                        {v12}
+                        {t(
+                          "ROI is a performance measure used to evaluate the efficiency or profitability of a Master Trader.",
+                        )}
                       </AppText>
                     ),
                   })}
                 ></AppPopover>
                 <AppText
-                  instancetype="withPriceNormal"
-                  c={isGreen ? "green" : ""}
+                  instancetype="withPriceLong"
+                  c={priceDisplay(data?.roi).color}
                 >
-                  {v13}
+                  <NumberFormat
+                    prefix={priceDisplay(data?.roi).sub}
+                    value={data?.roi}
+                    suffix="%"
+                  />
                 </AppText>
-              </Flex>
+              </div>
               <Flex align={"end"} direction={"column"}>
-                <AppText instancetype="withPriceNormal" opacity={0}>
-                  {v1}
-                </AppText>
                 <AppPopover
                   width={200}
                   target={(props) => ({
@@ -982,86 +625,291 @@ export function Profit() {
                         onMouseEnter={props.open}
                         onMouseLeave={props.close}
                       >
-                        {t("Total ROI")}
+                        {t("Master's PnL")}
                       </AppText>
                     ),
                   })}
                   dropdown={() => ({
                     children: (
                       <AppText instancetype="WithTextTooltip">
-                        {v21}
+                        {t(
+                          "Total profit that includes realized and unrealized PnL",
+                        )}
                       </AppText>
                     ),
                   })}
                 ></AppPopover>
                 <AppText
-                  instancetype="withPriceNormal"
-                  c={isGreen ? "green" : ""}
+                  instancetype="withPriceLong"
+                  c={priceDisplay(data?.pnl).color}
                 >
-                  {v2}
+                  <NumberFormat
+                    prefix={priceDisplay(data?.pnl).sub}
+                    value={data?.pnl}
+                  />
                 </AppText>
               </Flex>
-            </>
-          </Fragment>
-        ))}
-        <div></div>
-        <Flex align={"end"} direction={"column"}>
-          <AppText
-            component="span"
-            instancetype="WidthTooltipGray"
-            fz={12}
-          >
-            {t("Measured in: USDT")}
-          </AppText>
-        </Flex>
-      </SimpleGrid>
+              <div>
+                <AppPopover
+                  width={200}
+                  target={(props) => ({
+                    children: (
+                      <AppText
+                        component="span"
+                        instancetype="WidthTooltipGray"
+                        className="cursor-pointer"
+                        onMouseEnter={props.open}
+                        onMouseLeave={props.close}
+                      >
+                        {t("Win Rate")}
+                      </AppText>
+                    ),
+                  })}
+                  dropdown={() => ({
+                    children: (
+                      <AppText instancetype="WithTextTooltip">
+                        {t(
+                          "Shows the average win rate of a Master Trader over a certain period.",
+                        )}
+                      </AppText>
+                    ),
+                  })}
+                ></AppPopover>
+                <AppText instancetype="withPriceLong">
+                  <NumberFormat value={data?.winRate} suffix="%" />
+                </AppText>
+              </div>
+              <Flex align={"end"} direction={"column"}>
+                <AppPopover
+                  width={200}
+                  target={(props) => ({
+                    children: (
+                      <AppText
+                        component="span"
+                        instancetype="WidthTooltipGray"
+                        className="cursor-pointer"
+                        onMouseEnter={props.open}
+                        onMouseLeave={props.close}
+                      >
+                        {"Followers' PnL"}
+                      </AppText>
+                    ),
+                  })}
+                  dropdown={() => ({
+                    children: (
+                      <AppText instancetype="WithTextTooltip">
+                        {
+                          "Total profit of past and current Followers. Master's and Followers' PnL may be inconsistent as Followers' entry time/prices may vary."
+                        }
+                      </AppText>
+                    ),
+                  })}
+                ></AppPopover>
+                <AppText
+                  instancetype="withPriceLong"
+                  c={priceDisplay(followerPnL).color}
+                >
+                  <NumberFormat
+                    prefix={priceDisplay(followerPnL).sub}
+                    value={followerPnL}
+                    decimalPlaces={0}
+                  />
+                </AppText>
+              </Flex>
+              <div>
+                <AppPopover
+                  width={200}
+                  target={(props) => ({
+                    children: (
+                      <AppText
+                        component="span"
+                        instancetype="WidthTooltipGray"
+                        className="cursor-pointer"
+                        onMouseEnter={props.open}
+                        onMouseLeave={props.close}
+                      >
+                        {t("Max. Drawdown")}
+                      </AppText>
+                    ),
+                  })}
+                  dropdown={() => ({
+                    children: (
+                      <AppText instancetype="WithTextTooltip">
+                        {
+                          "A low Max. Drawdown indicates that the unrealized losses from a Master Trader's trading strategy has been relatively small."
+                        }
+                      </AppText>
+                    ),
+                  })}
+                ></AppPopover>
+                <AppText instancetype="withPriceLong">
+                  <NumberFormat
+                    value={-Number(data?.maxDrawDown || 0)}
+                  />
+                </AppText>
+              </div>
+              <Flex align={"end"} direction={"column"}>
+                <AppPopover
+                  width={200}
+                  target={(props) => ({
+                    children: (
+                      <AppText
+                        component="span"
+                        instancetype="WidthTooltipGray"
+                        className="cursor-pointer"
+                        onMouseEnter={props.open}
+                        onMouseLeave={props.close}
+                      >
+                        {t("Avg. PnL per Trade")}
+                      </AppText>
+                    ),
+                  })}
+                  dropdown={() => ({
+                    children: (
+                      <AppText instancetype="WithTextTooltip">
+                        {t(
+                          "The average profit and loss of all the closed positions made by a Master Trader. A higher chartType indicates that the Master Trader has a good performance in terms of profit.",
+                        )}
+                      </AppText>
+                    ),
+                  })}
+                ></AppPopover>
+                <AppText
+                  instancetype="withPriceLong"
+                  c={priceDisplay(data?.avgPnlPerTrade).color}
+                >
+                  <NumberFormat
+                    prefix={priceDisplay(data?.avgPnlPerTrade).sub}
+                    value={data?.avgPnlPerTrade}
+                  />
+                </AppText>
+              </Flex>
+            </SimpleGrid>
+            <Space mb={10} />
+            <Divider h={1} color="#f3f5f7" />
+            <Space mb={15} />
+            <Box>
+              <Flex justify={"space-between"} mb={5}>
+                <AppText instancetype="withPriceNormal">
+                  {t("Win")}{" "}
+                  <AppText
+                    component="span"
+                    c={"green"}
+                    instancetype="withPriceNormal"
+                    fw={"bold"}
+                  >
+                    <NumberFormat value={data?.totalWin} />
+                  </AppText>
+                </AppText>
+                <AppText instancetype="withPriceNormal">
+                  {t("Lose")}{" "}
+                  <AppText
+                    instancetype="withPriceNormal"
+                    component="span"
+                    c={"gray"}
+                  >
+                    <NumberFormat value={data?.totalLose} />
+                  </AppText>
+                </AppText>
+              </Flex>
+              <Box>
+                <Progress
+                  value={Number(data?.winRate || 0)}
+                  color="green"
+                />
+              </Box>
+            </Box>
+            <Space mb={20} />
+            <SimpleGrid cols={2}>
+              {performanceItems.map(([v1, v2, v3], i) => (
+                <Fragment key={i}>
+                  <>
+                    <AppPopover
+                      width={200}
+                      target={(props) => ({
+                        children: (
+                          <AppText
+                            component="span"
+                            instancetype="WidthTooltipGray"
+                            className="cursor-pointer"
+                            onMouseEnter={props.open}
+                            onMouseLeave={props.close}
+                          >
+                            {v1}
+                          </AppText>
+                        ),
+                      })}
+                      dropdown={() => ({
+                        children: (
+                          <AppText instancetype="WithTextTooltip">
+                            {v3}
+                          </AppText>
+                        ),
+                      })}
+                    ></AppPopover>
+                    <Flex align={"end"} direction={"column"}>
+                      <AppText instancetype="withPriceNormal">
+                        {v2}
+                      </AppText>
+                    </Flex>
+                  </>
+                </Fragment>
+              ))}
+              <div></div>
+              <Flex align={"end"} direction={"column"}>
+                <AppText
+                  component="span"
+                  instancetype="WidthTooltipGray"
+                  fz={12}
+                >
+                  {t("Measured in: USDT")}
+                </AppText>
+              </Flex>
+            </SimpleGrid>
+          </Box>
+        </AppCard>
+      </Flex>
     </>
   );
 }
-type TradeDataType = "CurrentPosition" | "OrderHistory";
+
+type ChartType = "pnl" | "a" | "r";
+
+const labels: Record<ChartType, string> = {
+  pnl: "Pnl",
+  a: "Assets",
+  r: "ROI",
+};
+const units: Record<ChartType, string> = {
+  pnl: "%",
+  a: " USDT",
+  r: "%",
+};
+
 function TabsUI(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
-  const series = useMemo(() => {
-    return props.series;
-  }, [props.series]);
-
-  const [value, setValue] = useState("7DPnlP"); // 7DPnlP | 7DPnl | CumulativePnLP | CumulativePnL
-  const [valueRate, setValueRate] = useState("7DWinRate"); // 7DWinRate | 7DDrawdown | 7DFollowersPnL
-  const [tradeMode, setTradeMode] =
-    useState<TradeDataType>("CurrentPosition"); // CurrentPosition | OrderHistory
-
-  const unitAsLabel = useMemo(() => {
-    return {
-      pnl: {
-        "7DPnlP": "%",
-        "7DPnl": "USDT",
-        "CumulativePnLP": "%",
-        "CumulativePnL": "USDT",
-      }[value],
-      rate: {
-        "7DWinRate": "%",
-        "7DDrawdown": "%",
-        "7DFollowersPnL": "USDT",
-      }[valueRate],
-    };
-  }, [value, valueRate]);
-
-  const valueAsLabel = useMemo(() => {
-    return {
-      "7DPnlP": t("7D PnL%"),
-      "7DPnl": t("7D PnL"),
-      "CumulativePnLP": t("Cumulative PnL%"),
-      "CumulativePnL": t("Cumulative PnL"),
-    }[value];
-  }, [t, value]);
-
-  const valueRateAsLabel = useMemo(() => {
-    return {
-      "7DWinRate": t("7D Win Rate"),
-      "7DDrawdown": t("7D Drawdown"),
-      "7DFollowersPnL": t("7D Followers PnL"),
-    }[valueRate];
-  }, [t, valueRate]);
+  const [chartType, setChartType] = useState<ChartType>("a");
+  const { minY, maxY, data } = useMemo(() => {
+    const last = props.assets;
+    const raw = props.performance.charts || [];
+    const diff = last - raw[raw.length - 1][1];
+    const d = chartType.includes("7") ? 7 : 90;
+    const limit = Date.now() - d * ONE_DAY;
+    const assetMap: Map<number, number> = new Map();
+    raw.forEach(([ts, a]) => {
+      if (limit < ts) {
+        assetMap.set(ts - (ts % ONE_DAY), a + diff);
+      }
+    });
+    const x = raw.map((el) => el[1]);
+    const data = [...assetMap.entries()].sort((a, b) => a[0] - b[0]);
+    let minY = diff + Math.min(...x);
+    const k = 1e3;
+    minY = Math.floor((0.98 * minY) / k) * k;
+    let maxY = diff + Math.max(...x);
+    maxY = Math.ceil((1.02 * maxY) / k) * k;
+    return { minY, maxY, data };
+  }, [props, chartType]);
 
   return (
     <>
@@ -1086,83 +934,43 @@ function TabsUI(props: PublicCopyMasterDetail) {
           <Space my={"md"} />
           <SegmentedControl
             color="primary"
-            value={value}
-            onChange={setValue}
+            value={chartType}
+            onChange={(val) => val && setChartType(val as ChartType)}
             data={[
-              { label: t("7D PnL%"), value: "7DPnlP" },
-              { label: t("7D PnL"), value: "7DPnl" },
-              {
-                label: t("Cumulative PnL%"),
-                value: "CumulativePnLP",
-              },
-              { label: t("Cumulative PnL"), value: "CumulativePnL" },
+              { label: t("Assets"), value: "a" },
+              { label: t("PnL"), value: "pnl" },
+              { label: t("ROI"), value: "r" },
             ]}
           />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <AppChart
-              key={value}
+              key={chartType}
               instancetype="SingLine"
               chartSeries={[
                 {
-                  name: valueAsLabel,
-                  data: series,
+                  name: labels[chartType] || "",
+                  data: data.map((el) => Math.round(el[1])),
                 },
               ]}
               chartOptions={{
                 xaxis: {
-                  categories: getDatesArray(Date.now(), 11),
+                  categories: data.map((el) =>
+                    format(new Date(el[0]), "dd/MM"),
+                  ),
+                },
+                yaxis: {
+                  min: minY,
+                  max: maxY,
                 },
                 title: {
-                  text: valueAsLabel,
-                  align: "left",
+                  text: "",
                 },
                 tooltip: {
                   y: {
-                    formatter: function (value) {
-                      return `${value} ${unitAsLabel.pnl as string}`;
-                    },
-                  },
-                },
-              }}
-            />
-          </Box>
-          <Space my={"md"} />
-          <SegmentedControl
-            color="primary"
-            value={valueRate}
-            onChange={setValueRate}
-            data={[
-              { label: t("7D Win Rate"), value: "7DWinRate" },
-              { label: t("7D Drawdown"), value: "7DDrawdown" },
-              {
-                label: t("7D Followers PnL"),
-                value: "7DFollowersPnL",
-              },
-            ]}
-          />
-          <Box h={320} w={"100%"} my={20} pos={"relative"}>
-            <AppChart
-              key={`${valueRate}`}
-              instancetype="SingLine"
-              chartSeries={[
-                {
-                  name: valueRateAsLabel,
-                  data: series,
-                },
-              ]}
-              chartOptions={{
-                xaxis: {
-                  categories: getDatesArray(Date.now(), 11),
-                },
-                title: {
-                  text: valueRateAsLabel,
-                  align: "left",
-                },
-                tooltip: {
-                  y: {
-                    formatter: function (value) {
-                      return `${value} ${unitAsLabel.rate as string}`;
-                    },
+                    formatter: (val) =>
+                      `${val.toLocaleString()}${
+                        units[chartType] || ""
+                      }`,
                   },
                 },
               }}
@@ -1171,33 +979,12 @@ function TabsUI(props: PublicCopyMasterDetail) {
         </Tabs.Panel>
         <Tabs.Panel value="tradingData">
           <Space my={"md"} />
-          <SegmentedControl
-            color="primary"
-            value={tradeMode}
-            onChange={(v) => setTradeMode(v as TradeDataType)}
-            data={[
-              {
-                label: t("Current Position"),
-                value: "CurrentPosition",
-              },
-              { label: t("Order History"), value: "OrderHistory" },
-            ]}
-          />
-          <Space my={"md"} />
           <Box>
-            {tradeMode === "CurrentPosition" && (
-              <SPEMasterOpenPosition
-                masterAccountId={props.masterAccountId}
-                noFollowerInfo
-              />
-            )}
-            {tradeMode === "OrderHistory" && (
-              <SPEMasterOrderHistory
-                masterAccountId={props.masterAccountId}
-                noMargin
-                noFollower
-              />
-            )}
+            <SPEMasterOrderHistory
+              masterAccountId={props.masterAccountId}
+              noMargin
+              noFollower
+            />
           </Box>
         </Tabs.Panel>
       </Tabs>

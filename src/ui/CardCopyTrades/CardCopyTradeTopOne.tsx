@@ -116,7 +116,7 @@ export function CardTraderTop1({
                 }}
               >
                 <AppText instancetype="withTheadSmall" c={"dark"}>
-                  {followers} Follower(s)
+                  {followers} {t("Follower(s)")}
                 </AppText>
                 <Flex align={"center"}>
                   <IconCaretUpFilled color="#20b26c" size={16} />

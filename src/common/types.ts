@@ -8,6 +8,7 @@ import {
   TransactionType,
 } from "./enums";
 import {
+  appConfigSchema,
   applicationFooterSchema,
   applicationSchema,
   authenticationPayloadSchema,
@@ -425,13 +426,15 @@ export type PublicCopyMasterDetail = {
     w?: CopyMasterPerformance;
     m?: CopyMasterPerformance;
     q?: CopyMasterPerformance;
+    charts?: [number, number][];
   };
   startAt: number;
   followers: number;
   followerPnL: number;
   maxFollowers: number;
-  series: number[];
-  pnlRatio: number; // TODO: calculate pnl ratio
+  series?: number[];
+  pnlRatio?: number;
+  // TODO: calculate pnl ratio
 };
 
 export type GenerateMfaLink = {
@@ -454,3 +457,5 @@ export type LoginHistory = {
   userAgent: string;
   status: string;
 };
+
+export type AppConfig = z.infer<typeof appConfigSchema>;

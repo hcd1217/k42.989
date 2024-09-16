@@ -47,6 +47,19 @@ export const chainSchema = z.enum([
   "Bitcoin",
 ]);
 
+export const appConfigSchema = z.object({
+  FEE: z.object({
+    SPOT: z.object({
+      MAKER: numberSchema,
+      TAKER: numberSchema,
+    }),
+    FUTURE: z.object({
+      MAKER: numberSchema,
+      TAKER: numberSchema,
+    }),
+  }),
+});
+
 export const userKycDataSchema = z.object({
   idNumber: optionalStringSchema,
   idType: z
@@ -152,6 +165,7 @@ export const copyMasterPerformanceSchema = z.object({
   w: periodPerformanceSchema.optional(),
   m: periodPerformanceSchema.optional(),
   q: periodPerformanceSchema.optional(),
+  charts: z.tuple([numberSchema, numberSchema]).array().optional(),
   roiSeries: numberSchema.array(),
   aum: optionalNumberSchema,
   followerPnL: optionalNumberSchema,

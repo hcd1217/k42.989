@@ -933,6 +933,7 @@ function TabsUI(props: PublicCopyMasterDetail) {
         <Tabs.Panel value="statistics">
           <Space my={"md"} />
           <SegmentedControl
+            hidden
             color="primary"
             value={chartType}
             onChange={(val) => val && setChartType(val as ChartType)}

@@ -15,7 +15,10 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconAlertOctagon,
+  IconCalendar,
   IconCheck,
+  IconGenderFemale,
+  IconGenderMale,
   IconMapPin,
   IconNotes,
   IconProgressAlert,
@@ -35,8 +38,9 @@ type AccordionLabelProps = {
   color: string;
   icon: React.ElementType;
   content: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 };
+type CharactersListType = Partial<AccordionLabelProps>[];
 
 export function KYCVerifyStatus() {
   const { kycLevel, isPendingKyc, isRejectedKyc, me } = authStore();
@@ -86,9 +90,7 @@ export function KYCVerifyStatus() {
   }, [isPendingKyc, isRejectedKyc, t]);
 
   // prettier-ignore
-  const charactersList = useMemo<
-  Partial<AccordionLabelProps>[]
-  >(() => {
+  const charactersList = useMemo<CharactersListType>(() => {
     const getItem = (kycLv: typeof kycLevel) => {
       const _isRejected = kycLevel === kycLv && isRejectedKyc;
       const _isPending = kycLevel === kycLv && isPendingKyc;
@@ -128,27 +130,22 @@ export function KYCVerifyStatus() {
     };
     const fullName =
       kycLevel != "0"
-        ? `${me?.kycData?.firstName ?? ""} ${
-          me?.kycData?.lastName ?? ""
+        ? `${me?.kycData?.firstName ?? ""} ${me?.kycData?.lastName ?? ""
         }`
         : "";
+
     const lv2 = {
-      isRejectedKyc: kycLevel === "2" && isRejectedKyc,
-      isPendingKyc: kycLevel === "2" && isPendingKyc,
-      isCompleted:
-        kycLevel === "2" && !isRejectedKyc && !isPendingKyc,
       showBtn:
-        (kycLevel === "2" && isRejectedKyc) ||
+        (kycLevel === "2" && (isRejectedKyc || isPendingKyc)) ||
         (kycLevel === "1" && !isPendingKyc && !isRejectedKyc),
     };
     const lv3 = {
-      isRejectedKyc: kycLevel === "3" && isRejectedKyc,
-      isPendingKyc: kycLevel === "3" && isPendingKyc,
-      isCompleted:
-        kycLevel === "3" && !isRejectedKyc && !isPendingKyc,
       showBtn:
-        (kycLevel === "3" && isRejectedKyc) ||
+        (kycLevel === "3" && (isRejectedKyc || isPendingKyc)) ||
         (kycLevel === "2" && !isPendingKyc && !isRejectedKyc),
+    };
+    const lvFirst = {
+      showBtn: kycLevel === "0" || ["0", "1"].includes(kycLevel) && isPendingKyc || ["0", "1"].includes(kycLevel) && isRejectedKyc,
     };
     return [
       {
@@ -160,16 +157,39 @@ export function KYCVerifyStatus() {
           <Box px={0}>
             <Text fz={14}>{t("Your KYC information")}</Text>
             <Space my={"xs"} />
-            {fullName && (
-              <Flex gap={10}>
-                <IconNotes />
-                <Text>{fullName}</Text>
-              </Flex>
-            )}
+            <Flex gap={20} wrap={"wrap"}>
+              {fullName && (
+                <Flex gap={5}>
+                  <IconNotes />
+                  <Text>{fullName}</Text>
+                </Flex>
+              )}
+              {me?.kycData?.dateOfBirth && (
+                <Flex gap={5}>
+                  <IconCalendar />
+                  <Text>{me?.kycData?.dateOfBirth}</Text>
+                </Flex>
+              )}
+              {me?.kycData?.gender && (
+                <Flex gap={5}>
+                  {me?.kycData?.gender === "MALE" ? <IconGenderMale /> : <IconGenderFemale />}
+                  <Text>{me?.kycData?.gender}</Text>
+                </Flex>
+              )}
+              {me?.kycData?.address && (
+                <Flex gap={5}>
+                  <IconMapPin />
+                  <Text>{me?.kycData?.address}</Text>
+                </Flex>
+              )}
+
+            </Flex>
 
             <Space my={"xs"} />
-            {kycLevel === "0" && (
-              <Button onClick={open}>{t("Complete now")}</Button>
+            {lvFirst.showBtn && (
+              <Button onClick={open}>{
+                t("Complete now")
+              }</Button>
             )}
           </Box>
         ),
@@ -182,8 +202,8 @@ export function KYCVerifyStatus() {
         image: "2",
         label: t("Verify identity"),
         description: "",
-        content: (
-          <Box px={10}>
+        content: lv2.showBtn ? (
+          <Box px={10} >
             <Text fz={14}>
               {t("Provide a document confirm your name")}
             </Text>
@@ -201,7 +221,7 @@ export function KYCVerifyStatus() {
               <Button onClick={open}>{t("Complete now")}</Button>
             )}
           </Box>
-        ),
+        ) : undefined,
         isCompleted: !isPendingKyc && kycLevel === "2",
         isPending: isPendingKyc && kycLevel === "2",
         ...getItem("2"),
@@ -211,7 +231,7 @@ export function KYCVerifyStatus() {
         image: "3",
         label: t("Verify residential address"),
         description: "",
-        content: (
+        content: lv3.showBtn ? (
           <Box px={10}>
             <Text fz={14}>
               {t("You will need to provide proof of residence")}
@@ -230,7 +250,7 @@ export function KYCVerifyStatus() {
               <Button onClick={open}>{t("Complete now")}</Button>
             )}
           </Box>
-        ),
+        ) : undefined,
         isCompleted: !isPendingKyc && kycLevel === "3",
         isPending: isPendingKyc && kycLevel === "3",
         ...getItem("3"),
@@ -241,6 +261,8 @@ export function KYCVerifyStatus() {
     me?.kycData?.address,
     me?.kycData?.firstName,
     me?.kycData?.lastName,
+    me?.kycData?.gender,
+    me?.kycData?.dateOfBirth,
     isPendingKyc,
     isRejectedKyc,
     kycLevel,
@@ -287,21 +309,26 @@ export function KYCVerifyStatus() {
             </div>
           </Group>
         </Accordion.Control>
-        <Accordion.Panel>{item.content}</Accordion.Panel>
+        {item.content && (
+          <Accordion.Panel>{item.content}</Accordion.Panel>
+        )}
       </Accordion.Item>
     ));
   }, [charactersList]);
 
   const modalSteps = useMemo(() => {
     let s: typeof kycLevel = kycLevel;
-    if (kycLevel === "2" && isRejectedKyc) {
+    if (kycLevel === "1" && (isRejectedKyc || isPendingKyc)) {
+      s = "0";
+    }
+    if (kycLevel === "2" && (isRejectedKyc || isPendingKyc)) {
       s = "1";
     }
-    if (kycLevel === "3" && isRejectedKyc) {
+    if (kycLevel === "3" && (isRejectedKyc || isPendingKyc)) {
       s = "2";
     }
     return s;
-  }, [kycLevel, isRejectedKyc]);
+  }, [kycLevel, isRejectedKyc, isPendingKyc]);
 
   return (
     <Box>

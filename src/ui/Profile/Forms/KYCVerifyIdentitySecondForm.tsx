@@ -3,7 +3,6 @@ import { IS_DEV } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import useUploader from "@/hooks/useUploader";
-import authStore from "@/store/auth";
 import { PictureUploader } from "@/ui/AvatarUploader";
 import {
   ActionIcon,
@@ -32,7 +31,8 @@ const picEx =
 type UserKycData = z.infer<typeof userKycDataSchema>;
 
 export function KYCVerifyIdentitySecondForm() {
-  const { isPendingKyc } = authStore();
+  // const { isPendingKyc } = authStore();
+  const isPendingKyc = false;
   const t = useSPETranslation();
   const {
     uploadFile,
@@ -65,8 +65,6 @@ export function KYCVerifyIdentitySecondForm() {
 
   return (
     <>
-      {/* <Title order={2}>{t("Verify address")}</Title> */}
-      {/* <Space mb={"lg"} /> */}
       <Box>
         <Alert
           icon={<IconProgressCheck />}

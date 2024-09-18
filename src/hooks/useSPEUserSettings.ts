@@ -196,9 +196,10 @@ const useSPEUserSettings = <T>(
         const kycData = {
           ...(me?.kycData ?? {}),
           ...form.getValues(),
-          // isRejectedVerification: false,
-          // isPendingVerification: true,
         };
+        if (kycData.dateOfBirth) {
+          kycData.dateOfBirth = new Date(`${kycData.dateOfBirth} 12:00:00 GMT+9`).toISOString().slice(0, 10);
+        }
         if (kycData?.isRejectedVerification === true) {
           delete kycData["isRejectedVerification"];
           kycData["isPendingVerification"] = true;

@@ -48,10 +48,11 @@ const getCountryValue = memoize((country: string) => {
   })?.value;
 });
 
-// TODO: KYCLevel1Form
+// prettier-ignore
 export function KYCVerifyIdentityOneForm() {
   const t = useSPETranslation();
-  const { isPendingKyc, me } = authStore();
+  const isPendingKyc = false;
+  const { me } = authStore();
 
   const [countries] = useState(phoneCodes);
   const [_values, setValues] = useState<UserKycData>();
@@ -82,13 +83,13 @@ export function KYCVerifyIdentityOneForm() {
         kycLvl1Front: isPendingKyc
           ? me?.kycData?.images?.kycLvl1Front
           : IS_DEV
-          ? picEx
-          : "",
+            ? picEx
+            : "",
         kycLvl1Back: isPendingKyc
           ? me?.kycData?.images?.kycLvl1Back
           : IS_DEV
-          ? picEx
-          : "",
+            ? picEx
+            : "",
       },
     },
     onValuesChange(values) {
@@ -136,9 +137,6 @@ export function KYCVerifyIdentityOneForm() {
 
   return (
     <>
-      {/* <Title order={2}>{t("Verify identity")}</Title> */}
-      {/* <Space mb={"lg"} /> */}
-      {/* {JSON.stringify(me?.kycData)} */}
       <form onSubmit={(e) => submitKycData(e, form)}>
         <SimpleGrid cols={1} spacing={20}>
           <div>
@@ -167,7 +165,11 @@ export function KYCVerifyIdentityOneForm() {
                 }))}
                 renderOption={(item) => {
                   return (
-                    <Flex w={"100%"} align={"center"} gap={10}>
+                    <Flex
+                      w={"100%"}
+                      align={"center"}
+                      gap={10}
+                    >
                       <Avatar
                         size={"sm"}
                         src={getImageByPhone(item.option.value)}
@@ -310,57 +312,57 @@ export function KYCVerifyIdentityOneForm() {
               <div>
                 {form.getValues().images?.kycLvl1Front ||
                 isPendingKyc ? (
-                  <Box
-                    h={"300px"}
-                    pos={"relative"}
-                    bd={"solid 1px"}
-                    py={"sm"}
-                  >
-                    <Image
-                      mah={"100%"}
-                      mx={"auto"}
-                      maw={"100%"}
-                      w={"auto"}
-                      src={form.getValues().images?.kycLvl1Front}
-                    />
-                    {!isPendingKyc && (
-                      <ActionIcon
-                        onClick={() => {
-                          form.setFieldValue(
-                            "images.kycLvl1Front",
-                            "",
-                          );
-                        }}
-                        variant="transparent"
-                        pos={"absolute"}
-                        top={10}
-                        right={10}
-                      >
-                        <IconTrash color="red" />
-                      </ActionIcon>
-                    )}
-                  </Box>
-                ) : (
-                  <Box>
-                    <PictureUploader
-                      multiple={false}
+                    <Box
                       h={"300px"}
-                      title={t("Upload Avatar")}
-                      onDrop={(files: FileWithPath[]) => {
-                        setFile(files[0]);
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          uploadFile(
-                            files[0],
-                            ImageType.KYC_DATA_LEVEL_1_FRONT,
-                            `${Date.now()}_kyc_lvl1_front`,
-                          );
-                        };
-                        reader.readAsDataURL(files[0]);
-                      }}
-                    />
-                  </Box>
-                )}
+                      pos={"relative"}
+                      bd={"solid 1px"}
+                      py={"sm"}
+                    >
+                      <Image
+                        mah={"100%"}
+                        mx={"auto"}
+                        maw={"100%"}
+                        w={"auto"}
+                        src={form.getValues().images?.kycLvl1Front}
+                      />
+                      {!isPendingKyc && (
+                        <ActionIcon
+                          onClick={() => {
+                            form.setFieldValue(
+                              "images.kycLvl1Front",
+                              "",
+                            );
+                          }}
+                          variant="transparent"
+                          pos={"absolute"}
+                          top={10}
+                          right={10}
+                        >
+                          <IconTrash color="red" />
+                        </ActionIcon>
+                      )}
+                    </Box>
+                  ) : (
+                    <Box>
+                      <PictureUploader
+                        multiple={false}
+                        h={"300px"}
+                        title={t("Upload Avatar")}
+                        onDrop={(files: FileWithPath[]) => {
+                          setFile(files[0]);
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            uploadFile(
+                              files[0],
+                              ImageType.KYC_DATA_LEVEL_1_FRONT,
+                              `${Date.now()}_kyc_lvl1_front`,
+                            );
+                          };
+                          reader.readAsDataURL(files[0]);
+                        }}
+                      />
+                    </Box>
+                  )}
                 <InputLabel
                   w={"100%"}
                   c={"dimmed"}
@@ -374,57 +376,57 @@ export function KYCVerifyIdentityOneForm() {
               <div>
                 {form.getValues().images?.kycLvl1Back ||
                 isPendingKyc ? (
-                  <Box
-                    h={"300px"}
-                    pos={"relative"}
-                    bd={"solid 1px"}
-                    py={"sm"}
-                  >
-                    <Image
-                      mah={"100%"}
-                      mx={"auto"}
-                      maw={"100%"}
-                      w={"auto"}
-                      src={form.getValues().images?.kycLvl1Back}
-                    />
-                    {!isPendingKyc && (
-                      <ActionIcon
-                        onClick={() => {
-                          form.setFieldValue(
-                            "images.kycLvl1Back",
-                            "",
-                          );
-                        }}
-                        variant="transparent"
-                        pos={"absolute"}
-                        top={10}
-                        right={10}
-                      >
-                        <IconTrash color="red" />
-                      </ActionIcon>
-                    )}
-                  </Box>
-                ) : (
-                  <Box>
-                    <PictureUploader
-                      multiple={false}
+                    <Box
                       h={"300px"}
-                      title={t("Upload Avatar")}
-                      onDrop={(files: FileWithPath[]) => {
-                        setFile(files[0]);
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                          uploadFile(
-                            files[0],
-                            "KYC_DATA_LEVEL_1_BACK",
-                            `${Date.now()}_kyc_lvl1_back`,
-                          );
-                        };
-                        reader.readAsDataURL(files[0]);
-                      }}
-                    />
-                  </Box>
-                )}
+                      pos={"relative"}
+                      bd={"solid 1px"}
+                      py={"sm"}
+                    >
+                      <Image
+                        mah={"100%"}
+                        mx={"auto"}
+                        maw={"100%"}
+                        w={"auto"}
+                        src={form.getValues().images?.kycLvl1Back}
+                      />
+                      {!isPendingKyc && (
+                        <ActionIcon
+                          onClick={() => {
+                            form.setFieldValue(
+                              "images.kycLvl1Back",
+                              "",
+                            );
+                          }}
+                          variant="transparent"
+                          pos={"absolute"}
+                          top={10}
+                          right={10}
+                        >
+                          <IconTrash color="red" />
+                        </ActionIcon>
+                      )}
+                    </Box>
+                  ) : (
+                    <Box>
+                      <PictureUploader
+                        multiple={false}
+                        h={"300px"}
+                        title={t("Upload Avatar")}
+                        onDrop={(files: FileWithPath[]) => {
+                          setFile(files[0]);
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            uploadFile(
+                              files[0],
+                              "KYC_DATA_LEVEL_1_BACK",
+                              `${Date.now()}_kyc_lvl1_back`,
+                            );
+                          };
+                          reader.readAsDataURL(files[0]);
+                        }}
+                      />
+                    </Box>
+                  )}
                 <InputLabel
                   w={"100%"}
                   c={"dimmed"}

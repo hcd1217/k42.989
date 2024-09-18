@@ -17,7 +17,7 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconCheck } from "@tabler/icons-react";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
 // type GenderType = "MALE" | "FEMALE";
@@ -62,8 +62,8 @@ type UserKycData = z.infer<typeof userKycDataSchema> & {
 };
 
 export function KYCVerifyIdentityFirstForm() {
-  const { isPendingKyc } = authStore();
-
+  // const { isPendingKyc } = authStore();
+  const isPendingKyc = false;
   const { loading, submitKycData } =
     useSPEUserSettings<UserKycData>("KYC_DATA");
   const form = useForm<UserKycData>({
@@ -118,6 +118,28 @@ export function KYCVerifyIdentityFirstForm() {
     }
     return Array.from({ length: 12 }, (_, idx) => idx + 1);
   }, []);
+  const { me } = authStore();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (loaded) {
+      return;
+    }
+    const dob = (me?.kycData?.dateOfBirth ?? "").split("/");
+    const date = parseInt(dob[2] ?? "").toString();
+    const month = parseInt(dob[1] ?? "").toString();
+    const year = dob[0] ?? "";
+    form.setValues({
+      ...(me?.kycData ?? {}),
+      date,
+      month,
+      year,
+    });
+
+    // dateOfBirth: "1970/January/01"
+
+    setLoaded(true);
+  }, [me?.kycData, form, loaded, setLoaded]);
 
   return (
     <>
@@ -256,15 +278,18 @@ export function KYCVerifyIdentityFirstForm() {
             label={t("Residential address")}
             disabled={isPendingKyc}
           />
-          <Button
-            disabled={loading || isPendingKyc}
-            loading={loading}
-            type="submit"
-            size="lg"
-            gradient={{ from: "primary", to: "yellow", deg: 90 }}
-          >
-            {t("Confirm")}
-          </Button>
+          <Space h="20vh" />
+          <Flex justify="center">
+            <Button
+              disabled={loading || isPendingKyc}
+              loading={loading}
+              type="submit"
+              size="lg"
+              gradient={{ from: "primary", to: "yellow", deg: 90 }}
+            >
+              {t("Confirm")}
+            </Button>
+          </Flex>
         </SimpleGrid>
       </form>
     </>

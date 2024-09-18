@@ -14,6 +14,7 @@ import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
 import { CopySettingForm } from "@/ui/Copy";
+import { DateRangePicker } from "@/ui/DateRangePicker";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import { AppPopover } from "@/ui/Popover/AppPopover";
@@ -54,6 +55,11 @@ import "./index.module.scss";
 // }
 
 type Period = "All" | "7D" | "30D" | "90D";
+
+const periodOptions = ["7D", "30D", "90D", "All"].map((el) => ({
+  label: el,
+  value: el,
+}));
 
 export default function CopyTradeDetail() {
   const params = useParams();
@@ -553,24 +559,7 @@ function Performance({
               <OptionFilter
                 onChange={(v) => setTime(v as Period)}
                 value={time}
-                items={[
-                  {
-                    label: "All time",
-                    value: "All",
-                  },
-                  {
-                    label: "7 Days",
-                    value: "7D",
-                  },
-                  {
-                    label: "30 Days",
-                    value: "30D",
-                  },
-                  {
-                    label: "90 Days",
-                    value: "90D",
-                  },
-                ]}
+                items={periodOptions}
               />
             </Group>
             <Space mb={10} />
@@ -890,18 +879,35 @@ const units: Record<ChartType, string> = {
 function TabsUI(props: PublicCopyMasterDetail) {
   const t = useSPETranslation();
   const [chartType] = useState<ChartType>("a");
-  const { minY, maxY, data } = useMemo(() => {
+  const [value, setValue] = useState<[Date | null, Date | null]>([
+    null,
+    null,
+  ]);
+  const [limit, setLimit] = useState<Period>("90D");
+
+  const { chartKey, minY, maxY, data } = useMemo(() => {
     const last = props.assets;
     const raw = props.performance.charts || [];
     const diff = last - raw[raw.length - 1][1];
-    const d = chartType.includes("7") ? 7 : 90;
-    const limit = Date.now() - d * ONE_DAY;
+
+    const d: number =
+      {
+        "7D": 7,
+        "30D": 30,
+        "90D": 90,
+        "All": 365,
+      }[limit] ?? 90;
+    const [from, to] = value;
+    const start = from?.getTime() || Date.now() - d * ONE_DAY;
+    const end = to?.getTime() || Date.now();
     const assetMap: Map<number, number> = new Map();
+    // TODO: fix type
     raw.forEach(([ts, a]) => {
-      if (limit < ts) {
+      if (start <= ts && ts <= end) {
         assetMap.set(ts - (ts % ONE_DAY), a + diff);
       }
     });
+
     const x = raw.map((el) => el[1]);
     const data = [...assetMap.entries()].sort((a, b) => a[0] - b[0]);
     let minY = diff + Math.min(...x);
@@ -909,8 +915,15 @@ function TabsUI(props: PublicCopyMasterDetail) {
     minY = Math.floor((0.98 * minY) / k) * k;
     let maxY = diff + Math.max(...x);
     maxY = Math.ceil((1.02 * maxY) / k) * k;
-    return { minY, maxY, data };
-  }, [props, chartType]);
+    const chartKey = `${chartType}.${start}.${end}`;
+    return { chartKey, minY, maxY, data };
+  }, [
+    props.assets,
+    props.performance.charts,
+    limit,
+    value,
+    chartType,
+  ]);
 
   return (
     <>
@@ -934,8 +947,22 @@ function TabsUI(props: PublicCopyMasterDetail) {
         <Tabs.Panel value="statistics">
           <Space my={"md"} />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
+            <Flex justify={"space-between"}>
+              <DateRangePicker
+                value={value}
+                setValue={(v) => setValue(v)}
+              />
+              <OptionFilter
+                onChange={(v) => {
+                  setLimit(v as Period);
+                  setValue([null, null]);
+                }}
+                value={limit}
+                items={periodOptions}
+              />
+            </Flex>
             <AppChart
-              key={chartType}
+              key={chartKey}
               instancetype="SingLine"
               chartSeries={[
                 {

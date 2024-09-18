@@ -28,14 +28,13 @@ export const wrapperMap: Record<string, Wrapper> = {
 // prettier-ignore
 const componentMap: Record<string, LazyExoticComponent> = {
   BlankPage: lazy(() => import("@/routes/blank-page")),
-  TopPage: lazy(() => import("@/routes/top-page")),
-  TopPageInvest: lazy(() => import("@/routes/top-page-invest")),
+  TopPage: lazy(() => import("@/routes/top-page-invest")),
   PrivacyPolicy: lazy(() => import("@/routes/privacy-policy")),
   About: lazy(() => import("@/routes/about")),
   TermsConditions: lazy(() => import("@/routes/terms-service-conditions")),
   RiskDisclosure: lazy(() => import("@/routes/terms-service-risk-disclosure")),
-  CopyTradeInvest: lazy(() => import("@/routes/copy-trade-invest")),
-  CopyTradeDetailInvest: lazy(() => import("@/routes/copy-trade-detail-invest")),
+  CopyTrade: lazy(() => import("@/routes/copy-trade-invest")),
+  CopyTradeDetail: lazy(() => import("@/routes/copy-trade-detail-invest")),
   SpotTrade: lazy(() => import("@/routes/spot")),
   FutureTrade: lazy(() => import("@/routes/future")),
   Logout: lazy(() => import("@/routes/logout")),
@@ -73,17 +72,17 @@ const componentMap: Record<string, LazyExoticComponent> = {
 const configs: Config[] = [
   {
     path: "/",
-    element: "TopPageInvest",
+    element: "TopPage",
     wrapper: "ServiceWrapper",
   },
   {
     path: "/copy-trading",
-    element: "CopyTradeInvest",
+    element: "CopyTrade",
     wrapper: "ServiceWrapper",
   },
   {
     path: "/copy-trading/:id",
-    element: "CopyTradeDetailInvest",
+    element: "CopyTradeDetail",
     wrapper: "ServiceWrapper",
   },
   {

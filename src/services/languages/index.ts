@@ -8,9 +8,9 @@ export enum Language {
 }
 
 function loadDictionaries(lang: Language) {
-  const information = JSON.parse(localStorage.__INFORMATION__) as Application;
-  const dictionaries = information.applications.lang?.dictionaries;
   try {
+    const information = JSON.parse(localStorage.__INFORMATION__) as Application;
+    const dictionaries = information.applications.lang?.dictionaries;
     return {
       [Language.EN]: { ...dictionaries?.en, ...EN },
       [Language.JA]: { ...dictionaries?.ja, ...JA },

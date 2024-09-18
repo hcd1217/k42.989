@@ -949,6 +949,7 @@ function TabsUI(props: PublicCopyMasterDetail) {
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
             <Flex justify={"space-between"}>
               <DateRangePicker
+                w="15rem"
                 value={value}
                 setValue={(v) => setValue(v)}
               />

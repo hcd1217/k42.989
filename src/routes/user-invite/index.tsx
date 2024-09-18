@@ -333,7 +333,7 @@ export function RebatesHistory() {
       >
         <Title order={2}>{t("Rebates History")}</Title>
         <Box py={10}>
-          <DateRangePicker />
+          <DateRangePicker w="15rem" />
         </Box>
       </Flex>
       <Space my={"md"} />
@@ -441,7 +441,7 @@ export function InvitationDetails() {
       >
         <Title order={2}>{t("Invitation Details")}</Title>
         <Box py={10}>
-          <DateRangePicker />
+          <DateRangePicker w="15rem" />
         </Box>
       </Flex>
       <Space my={"md"} />
@@ -549,7 +549,7 @@ export function RebatesDetails() {
       >
         <Title order={2}>{t("Rebates Details")}</Title>
         <Box py={10}>
-          <DateRangePicker />
+          <DateRangePicker w="15rem" />
         </Box>
       </Flex>
       <Space my={"md"} />

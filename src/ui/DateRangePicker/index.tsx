@@ -4,7 +4,7 @@ import "dayjs/locale/ja";
 
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { Language } from "@/services/languages";
-import { Flex } from "@mantine/core";
+import { Flex, MantineStyleProps } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconCalendar } from "@tabler/icons-react";
 
@@ -13,16 +13,18 @@ const format =
 
 export function DateRangePicker({
   value,
+  w,
   setValue,
 }: {
-  value: [Date | null, Date | null];
-  setValue: (v: [Date | null, Date | null]) => void;
+  w?: MantineStyleProps["w"];
+  value?: [Date | null, Date | null];
+  setValue?: (v: [Date | null, Date | null]) => void;
 }) {
   const t = useSPETranslation();
 
   return (
     <DatesProvider settings={{}}>
-      <Flex align={"center"} gap={10}>
+      <Flex align={"center"} gap={10} w={w}>
         <DatePickerInput
           rightSection={<IconCalendar />}
           placeholder={t("Start Date - End Date")}

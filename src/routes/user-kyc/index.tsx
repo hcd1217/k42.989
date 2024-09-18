@@ -37,7 +37,7 @@ export default function Page() {
           w={"100%"}
           mx={"auto"}
         >
-          <Title order={2}>Verification steps</Title>
+          <Title order={2}>{t("Verification steps")}</Title>
           <Space my={"sm"} />
           <KYCVerifyStatus />
           <Space my={"md"} />

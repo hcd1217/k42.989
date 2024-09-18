@@ -1,4 +1,4 @@
-import { delay } from "@/utils";
+import { Application, Dictionary } from "@/common/types";
 import EN from "./configs/en.json";
 import JA from "./configs/ja.json";
 
@@ -7,23 +7,27 @@ export enum Language {
   JA = "JA",
 }
 
-export type Dictionary = Record<string, string>;
-
-export async function loadDictionaries(lang: Language) {
-  await delay(10);
-  return {
-    [Language.EN]: EN,
-    [Language.JA]: JA,
-  }[lang] as Dictionary;
+function loadDictionaries(lang: Language) {
+  const information = JSON.parse(localStorage.__INFORMATION__) as Application;
+  const dictionaries = information.applications.lang?.dictionaries;
+  try {
+    return {
+      [Language.EN]: { ...dictionaries?.en, ...EN },
+      [Language.JA]: { ...dictionaries?.ja, ...JA },
+    }[lang] as Dictionary;
+  } catch (e) {
+    delete localStorage.__INFORMATION__;
+  }
+  return {};
 }
 
 export function getDictionary() {
   switch (localStorage.__LANGUAGE__) {
     case Language.EN:
-      return EN;
+      return loadDictionaries(Language.EN);
     case Language.JA:
-      return JA;
+      return loadDictionaries(Language.JA);
     default:
-      return EN;
+      return loadDictionaries(Language.EN);
   }
 }

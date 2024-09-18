@@ -7,22 +7,26 @@ export default function useSPEMetadata() {
   const [data, setData] = useState<Application>();
 
   useEffect(() => {
+    let version = "0";
     if (localStorage.__INFORMATION__) {
       try {
         const data = JSON.parse(localStorage.__INFORMATION__);
         setData(data);
+        if (data?.version) {
+          version = data?.version;
+        }
       } catch (e) {
         logger.error(e);
         delete localStorage.__INFORMATION__;
       }
     }
-  }, []);
-
-  useEffect(() => {
-    fetch<Application>("/api/information").then((data) => {
-      localStorage.__INFORMATION__ = JSON.stringify(data);
-      setData(data);
+    fetch<Application>(`/api/information?v=${version}`).then((data) => {
+      if (data.version !== version) {
+        localStorage.__INFORMATION__ = JSON.stringify(data);
+        setData(data);
+      }
     });
   }, []);
+
   return { data };
 }

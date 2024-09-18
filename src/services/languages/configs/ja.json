@@ -166,6 +166,7 @@
   "Fee": "手数料",
   "Female": "女性",
   "Field is required": "必須項目",
+  "Fiat Deposit": "現地通貨入金",
   "Filled / Total": "約定 / 合計",
   "Filled Price": "約定価格",
   "Filled Price/Order Price": "約定価格 / 注文価格",
@@ -526,9 +527,15 @@
   "Your bio": "あなたの略歴",
   "Your first name as it appears on your ID": "身分証明書に記載されている名前",
   "Your gender": "性別",
+  "Verification steps": "認証手順",
   "Your KYC verification is currently under review. Please wait for the approval of your documents. If you need assistance, contact support for further guidance.": "KYC認証は現在審査中です。書類の承認をお待ちください。サポートが必要な場合は、さらなるガイダンスのためにサポートにお問い合わせください。",
   "Your KYC Verification is in Progress: Please Wait for Approval": "KYC認証は進行中です。承認をお待ちください。",
   "Your last name as it appears on your ID": "身分証明書に記載されている姓名",
   "Your password has been changed successfully. Please use your new password to log in next time.": "パスワードが正常に変更されました。次回ログインする際には、新しいパスワードをご使用ください。",
+  "Your KYC information": "KYC情報",
+  "Personal information": "個人情報",
+  "Complete now": "今すぐ完了",
+  "Verify residential address": "住所確認",
+  "You will need to provide proof of residence": "住所の証明書を提出する必要があります",
   "X": "X"
 }

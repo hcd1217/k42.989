@@ -170,32 +170,6 @@ export function cleanEmpty<T>(arr: (T | undefined | null)[]) {
   return arr.filter((item) => !!item) as T[];
 }
 
-export function jsonToYaml(obj: GenericObject) {
-  function convert(obj: GenericObject, indent = 0) {
-    let yaml = "";
-    const spaces = "  ".repeat(indent);
-
-    for (const key in obj) {
-      // eslint-disable-next-line no-prototype-builtins
-      if (obj.hasOwnProperty(key)) {
-        const value = obj[key];
-        if (typeof value === "object" && value !== null) {
-          yaml += `${spaces}${key}:\n${convert(
-            value as GenericObject,
-            indent + 1,
-          )}`;
-        } else {
-          yaml += `${spaces}${key}: ${value as string}\n`;
-        }
-      }
-    }
-
-    return yaml;
-  }
-
-  return convert(obj);
-}
-
 export function roundNumber(value: SPENumber, k: number) {
   return Number(Number(value).toFixed(k));
 }
@@ -216,9 +190,3 @@ export function beginOfMonth(now = 0, timezoneOffset = 9) {
   today.setUTCHours(0, 0, 0, 0);
   return today.getTime() - offset;
 }
-
-export const IS_DEV = false;
-// true &&
-// ["localhost", "127.0.0.1", "0.0.0.0"].includes(
-//   window.location.hostname,
-// );

@@ -21,10 +21,10 @@ export default function NumberFormat({
     return <span>****</span>;
   }
   if (!value) {
-    return "--";
+    return <>--</>;
   }
   if (zeroAsEmpty && BN.eq(value || 0, 0)) {
-    return "--";
+    return <>--</>;
   }
   return (
     <span>

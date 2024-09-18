@@ -1,17 +1,18 @@
-import { LanguageContext } from "@/context/LanguageContext";
+import { getDictionary } from "@/services/languages";
 import { t as _t } from "@/utils/utility";
-import { useCallback, useContext } from "react";
+import { useCallback } from "react";
+
+const dictionary = getDictionary() || {};
 
 export default function useSPETranslation(): (
   key?: string,
   ...args: (string | number)[]
 ) => string {
-  const { dictionary } = useContext(LanguageContext);
   const t = useCallback(
     (key?: string, ...args: (string | number)[]) => {
-      return key ? _t(dictionary, key, ...args) : "";
+      return key ? _t(dictionary || {}, key, ...args) : "";
     },
-    [dictionary],
+    [],
   );
   return t;
 }

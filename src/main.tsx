@@ -1,4 +1,3 @@
-import { LanguageProvider } from "@/context/LanguageContext";
 import "@/styles/globals.scss";
 import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
@@ -15,9 +14,7 @@ root &&
   ReactDOM.createRoot(root).render(
     <React.Suspense>
       <BrowserRouter>
-        <LanguageProvider>
-          <App />
-        </LanguageProvider>
+        <App />
       </BrowserRouter>
     </React.Suspense>,
   );

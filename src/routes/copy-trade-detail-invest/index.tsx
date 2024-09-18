@@ -271,7 +271,9 @@ function Banner(trader: PublicCopyMasterDetail) {
                                     onMouseEnter={props.open}
                                     onMouseLeave={props.close}
                                   >
-                                    {`AUM: ${trader.aum.toLocaleString()} USDT`}
+                                    {`${t(
+                                      "AUM",
+                                    )}: ${trader.aum.toLocaleString()} USDT`}
                                   </AppText>
                                 </Group>
                               ),
@@ -380,7 +382,7 @@ function Banner(trader: PublicCopyMasterDetail) {
                   <Group gap={10} className="cursor-pointer">
                     <IconShare color="white" width={20} />
                     <AppText fz={12} c={"white"} fw={"bold"}>
-                      Share
+                      {t("Share")}
                     </AppText>
                   </Group>
                   <Box>

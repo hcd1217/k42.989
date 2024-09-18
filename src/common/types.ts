@@ -458,4 +458,8 @@ export type LoginHistory = {
   status: string;
 };
 
+export type Dictionaries = Record<"en" | "ja", Dictionary>;
+
+export type Dictionary = Record<string, string>;
+
 export type AppConfig = z.infer<typeof appConfigSchema>;

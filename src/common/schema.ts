@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import { UserUpdateType } from "./types";
 
 export const booleanSchema = z.boolean();
@@ -330,6 +329,16 @@ export const applicationSchema = z.object({
         })
         .optional(),
     }),
+    lang: z
+      .object({
+        dictionaries: z
+          .object({
+            en: z.record(stringSchema),
+            ja: z.record(stringSchema),
+          })
+          .optional(),
+      })
+      .optional(),
   }),
 });
 

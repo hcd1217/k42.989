@@ -85,8 +85,9 @@ export function KYCVerifyStatus() {
     );
   }, [isPendingKyc, isRejectedKyc, t]);
 
+  // prettier-ignore
   const charactersList = useMemo<
-    Partial<AccordionLabelProps>[]
+  Partial<AccordionLabelProps>[]
   >(() => {
     const getItem = (kycLv: typeof kycLevel) => {
       const _isRejected = kycLevel === kycLv && isRejectedKyc;
@@ -98,17 +99,17 @@ export function KYCVerifyStatus() {
       const _color = _isCompleted
         ? "green"
         : _isPending
-        ? "orange"
-        : _isRejected
-        ? "red"
-        : "gray";
+          ? "orange"
+          : _isRejected
+            ? "red"
+            : "gray";
       const _icon = _isCompleted
         ? IconCheck
         : _isPending
-        ? IconProgressAlert
-        : _isRejected
-        ? IconAlertOctagon
-        : undefined;
+          ? IconProgressAlert
+          : _isRejected
+            ? IconAlertOctagon
+            : undefined;
       let _disabled = parseInt(kycLv) > parseInt(kycLevel);
       if (kycLevel === "0" && kycLv === "1") {
         _disabled = false;
@@ -128,8 +129,8 @@ export function KYCVerifyStatus() {
     const fullName =
       kycLevel != "0"
         ? `${me?.kycData?.firstName ?? ""} ${
-            me?.kycData?.lastName ?? ""
-          }`
+          me?.kycData?.lastName ?? ""
+        }`
         : "";
     const lv2 = {
       isRejectedKyc: kycLevel === "2" && isRejectedKyc,
@@ -153,11 +154,11 @@ export function KYCVerifyStatus() {
       {
         id: "1",
         image: "1",
-        label: t("Personal details confirmed"),
+        label: t("Personal information"),
         description: "",
         content: (
           <Box px={0}>
-            <Text fz={14}>{t("Your confirmed details")}</Text>
+            <Text fz={14}>{t("Your KYC information")}</Text>
             <Space my={"xs"} />
             {fullName && (
               <Flex gap={10}>

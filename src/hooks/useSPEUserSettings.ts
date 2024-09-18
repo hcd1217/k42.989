@@ -130,9 +130,6 @@ const useSPEUserSettings = <T>(
 
   const generateMfaLink = useCallback(() => {
     generateMfaApi().then((result) => {
-      // if (IS_DEV) {
-      //   result.secret = "J7GUX5RAUHDHFF7BMYUQFXSZTMDV3FML"; // cspell: disable-line
-      // }
       setLinkMfa(result);
     });
   }, []);

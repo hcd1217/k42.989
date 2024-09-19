@@ -55,6 +55,7 @@ export const appConfigSchema = z.object({
     FUTURE: z.object({
       MAKER: numberSchema,
       TAKER: numberSchema,
+      FR_PLUS: optionalNumberSchema,
     }),
   }),
 });

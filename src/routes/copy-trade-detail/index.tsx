@@ -14,7 +14,6 @@ import AppButton from "@/ui/Button/AppButton";
 import AppCard from "@/ui/Card/AppCard";
 import AppChart from "@/ui/Chart/Chart";
 import { CopySettingForm } from "@/ui/Copy";
-import { DateRangePicker } from "@/ui/DateRangePicker";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
 import { AppPopover } from "@/ui/Popover/AppPopover";
@@ -947,12 +946,7 @@ function TabsUI(props: PublicCopyMasterDetail) {
         <Tabs.Panel value="statistics">
           <Space my={"md"} />
           <Box h={320} w={"100%"} my={20} pos={"relative"}>
-            <Flex justify={"space-between"}>
-              <DateRangePicker
-                w="15rem"
-                value={value}
-                setValue={(v) => setValue(v)}
-              />
+            <Flex justify="end">
               <OptionFilter
                 onChange={(v) => {
                   setLimit(v as Period);

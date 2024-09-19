@@ -10,7 +10,7 @@ const GuestWrapper = ({
       window.location.href = "/";
     }
   }, []);
-  return children;
+  return <>{children}</>;
 };
 
 export default GuestWrapper;

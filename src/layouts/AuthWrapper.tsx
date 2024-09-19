@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 
-const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
+const AuthWrapper = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): JSX.Element => {
   useEffect(() => {
     if (!localStorage.__TOKEN__) {
       const currentPath =
@@ -10,7 +14,7 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
       )}`;
     }
   }, []);
-  return children;
+  return <>{children}</>;
 };
 
 export default AuthWrapper;

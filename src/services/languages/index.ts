@@ -8,17 +8,24 @@ export enum Language {
 }
 
 function loadDictionaries(lang: Language) {
+  const dictionaries = _load();
+  return {
+    [Language.EN]: { ...dictionaries?.en, ...EN },
+    [Language.JA]: { ...dictionaries?.ja, ...JA },
+  }[lang] as Dictionary;
+}
+
+function _load() {
   try {
-    const information = JSON.parse(localStorage.__INFORMATION__) as Application;
-    const dictionaries = information.applications.lang?.dictionaries;
-    return {
-      [Language.EN]: { ...dictionaries?.en, ...EN },
-      [Language.JA]: { ...dictionaries?.ja, ...JA },
-    }[lang] as Dictionary;
+    if (localStorage.__INFORMATION__) {
+      const information = JSON.parse(
+        localStorage.__INFORMATION__,
+      ) as Application;
+      return information.applications.lang?.dictionaries;
+    }
   } catch (e) {
     delete localStorage.__INFORMATION__;
   }
-  return {};
 }
 
 export function getDictionary() {

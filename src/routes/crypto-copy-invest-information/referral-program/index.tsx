@@ -35,7 +35,7 @@ export default function ReferralProgram() {
       </p>
 
       <h2>3. Referral Level & Commissions Ratio</h2>
-      <table>
+      <table className="spe_info_table">
         <thead>
           <tr>
             <th>Level</th>

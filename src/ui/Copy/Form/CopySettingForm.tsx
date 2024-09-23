@@ -147,7 +147,7 @@ export function CopySettingForm({
         }
       />
       <InputLabel fw={600} fz={14}>
-        {t("Min./Max. Margin Per Order")}
+        {t("Min./Max. Margin Per Order (USDT)")}
       </InputLabel>
       <SimpleGrid cols={2}>
         <NumberInput

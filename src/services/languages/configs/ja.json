@@ -96,7 +96,6 @@
   "Contract": "通貨ペア",
   "Contracts": "Contracts",
   "Convert": "変換",
-  "Copied Position": "ポジション",
   "Copied": "コピー",
   "Copy Accounts": "コピーアカウント",
   "Copy Master Account": "コピーマスターアカウント",
@@ -535,7 +534,11 @@
   "Your KYC information": "KYC情報",
   "Personal information": "個人情報",
   "Complete now": "今すぐ完了",
+  "Total Net PnL": "純損益合計",
   "Verify residential address": "住所確認",
   "You will need to provide proof of residence": "住所の証明書を提出する必要があります",
+  "My Master Traders": "マスタートレーダー",
+  "Copy Positions": "コピーポジション",
+  "Copy History": "コピー履歴",
   "X": "X"
 }

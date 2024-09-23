@@ -1,3 +1,4 @@
+import BN from "@/common/big-number";
 import { MODAL_STYLES } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { assetStore } from "@/store/assets";
@@ -34,12 +35,10 @@ export default function MyTraders() {
       head: [
         "My Traders",
         "Copy Ratio",
-        // コピートレード比率
         "Assets (USDT)",
         "NetPnL (USDT)",
-        "Copied Position",
+        "Position",
         "Investment",
-        "Withdraw amount",
         "Withdrawable",
         "Actions",
       ].map((label, idx) => (
@@ -47,7 +46,7 @@ export default function MyTraders() {
       )),
       body: traders
         .filter((trader) => {
-          if (trader.withDrawable !== 0 || trader.ratio !== 0) {
+          if (trader.asset !== 0 || trader.ratio !== 0) {
             return true;
           }
           return false;
@@ -64,9 +63,12 @@ export default function MyTraders() {
             <Text hiddenFrom="sm" c={"dimmed"}>
               {t("Ratio")}
             </Text>
-            <span key={`${trader.masterAccountId}.ratio`}>
-              {trader.ratio ? `${trader.ratio}%` : "--"}
-            </span>
+            <SPETableNumber
+              decimalPlaces={0}
+              value={Number(trader.ratio)}
+              suffix={trader.ratio ? "%" : undefined}
+              key={`${trader.masterAccountId}.ratio`}
+            />
           </>,
           <>
             <Text hiddenFrom="sm" c={"dimmed"}>
@@ -83,6 +85,7 @@ export default function MyTraders() {
               {t("NetPnL (USDT)")}
             </Text>
             <SPETableNumber
+              withSign
               decimalPlaces={2}
               color={valueColor(trader.netPnL)}
               key={`${trader.masterAccountId}.netPnL`}
@@ -91,12 +94,14 @@ export default function MyTraders() {
           </>,
           <>
             <Text hiddenFrom="sm" c={"dimmed"}>
-              {t("Copied Positions")}
+              {t("Positions")}
             </Text>
             <SPETableNumber
-              decimalPlaces={2}
-              key={`${trader.masterAccountId}.totalPositions`}
-              value={trader.totalPositions}
+              withSign
+              decimalPlaces={3}
+              color={valueColor(trader.currentPosition || 0)}
+              key={`${trader.masterAccountId}.currentPosition`}
+              value={trader.currentPosition}
             />
           </>,
           <>
@@ -106,17 +111,7 @@ export default function MyTraders() {
             <SPETableNumber
               decimalPlaces={2}
               key={`${trader.masterAccountId}.invested`}
-              value={trader.invested}
-            />
-          </>,
-          <>
-            <Text hiddenFrom="sm" c={"dimmed"}>
-              {t("Withdraw")}
-            </Text>
-            <SPETableNumber
-              decimalPlaces={2}
-              key={`${trader.masterAccountId}.withdraw`}
-              value={trader.withdraw}
+              value={BN.sub(trader.invested, trader.withdraw)}
             />
           </>,
           <>
@@ -124,9 +119,10 @@ export default function MyTraders() {
               {t("Withdrawable")}
             </Text>
             <SPETableNumber
+              color={"dimmed"}
               decimalPlaces={2}
               key={`${trader.masterAccountId}.withDrawable`}
-              value={trader.withDrawable}
+              value={trader.ratio > 0 ? 0 : trader.asset}
             />
           </>,
           <>
@@ -159,13 +155,14 @@ export default function MyTraders() {
               <AppButton
                 instancetype="Default"
                 variant="transparent"
+                disabled={trader.ratio > 0}
                 onClick={() => {
                   modals.open({
                     ...MODAL_STYLES,
                     title: t("Withdraw fund"),
                     children: (
                       <WithdrawFundForm
-                        withdrawable={trader.withDrawable}
+                        withdrawable={trader.asset}
                         masterAccountId={trader.masterAccountId}
                       />
                     ),

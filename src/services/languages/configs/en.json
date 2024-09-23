@@ -96,7 +96,6 @@
   "Contract": "Contract",
   "Contracts": "Contracts",
   "Convert": "Convert",
-  "Copied Position": "Copied Position",
   "Copied": "Copied",
   "Copy Accounts": "Copy Accounts",
   "Copy Master Account": "Copy Master Account",
@@ -535,7 +534,11 @@
   "Your KYC information": "Your KYC information",
   "Personal information": "Personal information",
   "Complete now": "Complete now",
+  "Total Net PnL": "Total Net PnL",
   "Verify residential address": "Verify residential address",
   "You will need to provide proof of residence": "You will need to provide proof of residence",
+  "My Master Traders": "My Master Traders",
+  "Copy Positions": "Copy Positions",
+  "Copy History": "Copy History",
   "X": "X"
 }

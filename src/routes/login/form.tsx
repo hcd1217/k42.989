@@ -29,6 +29,18 @@ import classes from "./login.module.scss";
 
 type Mode = "email" | "phone";
 
+const phoneRegex = new RegExp(
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
+);
+
+const baseSchema = z.object({
+  email: z.string().optional(),
+  mobile: z.string().optional(),
+  password: z.string(),
+  region: z.string().optional(),
+  mfaCode: z.string().optional(),
+});
+
 export default function LoginForm({
   onSuccess,
 }: {
@@ -42,39 +54,24 @@ export default function LoginForm({
   const [loginMode, setLoginMode] = useState<Mode>("email");
   const [mfaRequired, setMfaRequired] = useState(false);
 
-  const baseSchema = useMemo(() => {
-    return z.object({
-      email: z.string().optional(),
-      mobile: z.string().optional(),
-      password: z.string(),
-      region: z.string().optional(),
-      mfaCode: z.string().optional(),
-    });
-  }, []);
+  const formSchema = useMemo(() => {
+    if (loginMode === "email") {
+      return baseSchema.extend({
+        email: z
+          .string()
+          .trim()
+          .min(1, { message: t("Field is required") })
+          .email({ message: t("Invalid Email") }),
+      });
+    }
 
-  const formSchemaEmail = useMemo(() => {
     return baseSchema.extend({
-      email: z
-        .string()
-        .min(1, { message: t("Field is required") })
-        .email({ message: t("Invalid Email") }),
-      mobile: z.string().optional(),
-    });
-  }, [baseSchema, t]);
-
-  const formSchemaMobile = useMemo(() => {
-    return baseSchema.extend({
-      email: z.string().optional(),
       mobile: z
         .string()
         .regex(phoneRegex, { message: t("Invalid Number!") })
         .min(1, { message: t("Field is required") }),
     });
-  }, [baseSchema, t]);
-
-  const formSchema = useMemo(() => {
-    return loginMode === "email" ? formSchemaEmail : formSchemaMobile;
-  }, [formSchemaEmail, formSchemaMobile, loginMode]);
+  }, [t, loginMode]);
 
   const form = useForm<z.infer<typeof baseSchema>>({
     initialValues: {
@@ -140,7 +137,7 @@ export default function LoginForm({
     } catch (e) {
       error(
         t("Log In Failed"),
-        (e as Error).message || "An unexpected error occurred",
+        t((e as Error)?.message || "An unexpected error occurred"),
       );
       logger.debug(e);
     }
@@ -323,7 +320,3 @@ function transformValues(values: LoginForm) {
     region: values.region?.toString().trim(),
   });
 }
-
-const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
-);

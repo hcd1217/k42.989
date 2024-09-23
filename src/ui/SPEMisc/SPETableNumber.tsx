@@ -7,15 +7,22 @@ export function SPETableNumber({
   value,
   color,
   maw,
-  prefix,
+  prefix = "",
+  suffix,
+  withSign,
   decimalPlaces = 4,
 }: {
+  withSign?: boolean;
+  suffix?: string;
   prefix?: string;
   decimalPlaces?: number;
   maw?: number;
   value?: string | number;
   color?: string;
 }) {
+  if (withSign && Number(value || 0) > 0) {
+    prefix = prefix + "+";
+  }
   return (
     <Flex maw={maw} align={"center"} justify={"start"}>
       <AppText instancetype="WithCellToken" fz={12} c={color}>
@@ -26,6 +33,7 @@ export function SPETableNumber({
             prefix={prefix}
             value={value || 0}
             decimalPlaces={decimalPlaces}
+            suffix={suffix}
           />
         )}
       </AppText>

@@ -117,7 +117,7 @@ export function FollowerInformation() {
             </Flex>
             <Box>
               <Flex>
-                <Text>{t("Net PnL")}</Text>
+                <Text>{t("Total Net PnL")}</Text>
               </Flex>
               <Flex align={"end"}>
                 <Text fz={30} fw={"bold"} miw={160}>

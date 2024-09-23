@@ -105,15 +105,6 @@ export function MaterInformation() {
                   </ActionIcon>
                 </Box>
               </Flex>
-              <Text c={"dimmed"}>
-                ≈
-                <NumberFormat
-                  prefix="$"
-                  hidden={hidden}
-                  decimalPlaces={2}
-                  value={information?.profitSharing.total || 0}
-                />{" "}
-              </Text>
             </Box>
             <SimpleGrid
               cols={{

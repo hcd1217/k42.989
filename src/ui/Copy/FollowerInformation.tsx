@@ -102,15 +102,6 @@ export function FollowerInformation() {
                   </ActionIcon>
                 </Box>
               </Flex>
-              <Text c={"dimmed"}>
-                ≈
-                <NumberFormat
-                  prefix="$"
-                  hidden={hidden}
-                  decimalPlaces={2}
-                  value={information?.total || 0}
-                />{" "}
-              </Text>
             </Box>
             <Flex visibleFrom="sm" align={"center"}>
               <Divider orientation="vertical" h={74} />
@@ -133,15 +124,6 @@ export function FollowerInformation() {
                   </span>
                 </Text>
               </Flex>
-              <Text c={"dimmed"}>
-                ≈
-                <NumberFormat
-                  prefix="$"
-                  hidden={hidden}
-                  decimalPlaces={2}
-                  value={information?.netPnL || 0}
-                />{" "}
-              </Text>
             </Box>
           </Flex>
           <Space mb={"xl"} />

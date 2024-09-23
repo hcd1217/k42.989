@@ -127,6 +127,7 @@ export type CopyOrder = Order & {
 
 export type CopyTransaction = {
   id: string;
+  copyMaster?: string;
   createdAt: number;
   uid: string;
   remark?: string;

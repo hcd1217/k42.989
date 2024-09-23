@@ -6,6 +6,8 @@ import {
   SPEPagination,
   SPETableDateTime,
   SPETableHeader,
+  SPETableNumber,
+  SPETableText,
 } from "@/ui/SPEMisc";
 import { Box, Table, TableData, Text } from "@mantine/core";
 import { useCallback, useMemo } from "react";
@@ -29,7 +31,7 @@ export default function MyTransactions() {
 
   const tableData: TableData = useMemo(
     () => ({
-      head: ["Time", "Trader", "Type", "Amount (USDT)", "In/Out"].map(
+      head: ["Time", "Master Trader", "Type", "Amount (USDT)"].map(
         (label, idx) => <SPETableHeader key={idx} label={label} />,
       ),
       body: transactions.map((transaction) => [
@@ -40,6 +42,35 @@ export default function MyTransactions() {
           <SPETableDateTime
             key={`${transaction.id}.time`}
             time={transaction.createdAt}
+          />
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"Master"}>
+            {t("Master Account")}
+          </Text>
+          <SPETableText
+            key={`${transaction.id}.Master`}
+            value={transaction.copyMaster || ""}
+          />
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"Master"}>
+            {t("Type")}
+          </Text>
+          <SPETableText
+            key={`${transaction.id}.Type`}
+            value={transaction.type || ""}
+          />
+        </>,
+        <>
+          <Text hiddenFrom="sm" c={"Master"}>
+            {t("Amount")}
+          </Text>
+          <SPETableNumber
+            withSign
+            color={transaction.amount > 0 ? "green" : "red"}
+            key={`${transaction.id}.amount`}
+            value={transaction.amount || "-"}
           />
         </>,
       ]),

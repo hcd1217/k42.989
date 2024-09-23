@@ -599,12 +599,25 @@ export async function fetchCopyOrders(
   ).then((res) => res.orders);
 }
 
-export async function fetchCopyTransactions(
+export async function fetchCopyMasterTransactions(
   cursor: string,
   limit: number,
   reverse: boolean,
 ) {
   const base = "/api/copy/master/me/transactions";
+  return getApi<{ transactions: CopyTransaction[] }>(
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
+    }`,
+  ).then((res) => res.transactions);
+}
+
+export async function fetchCopyTransactions(
+  cursor: string,
+  limit: number,
+  reverse: boolean,
+) {
+  const base = "/api/copy/mine/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
     `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
       limit || 10

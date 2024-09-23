@@ -1,5 +1,5 @@
 import useSPEPagination from "@/hooks/useSPEPagination";
-import { fetchCopyTransactions } from "@/services/apis";
+import { fetchCopyMasterTransactions } from "@/services/apis";
 import {
   NoDataRecord,
   SPEPagination,
@@ -14,7 +14,7 @@ import { useCallback, useMemo } from "react";
 export default function MasterTransactions() {
   const fetch = useCallback(
     (cursor: string, limit: number, reverse: boolean) => {
-      return fetchCopyTransactions(cursor, limit, reverse);
+      return fetchCopyMasterTransactions(cursor, limit, reverse);
     },
     [],
   );

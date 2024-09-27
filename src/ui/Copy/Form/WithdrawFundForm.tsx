@@ -27,11 +27,9 @@ import PositionBox from "./PositionBox";
 
 export function WithdrawFundForm({
   masterAccountId,
-  following = true,
   withdrawable,
 }: {
   withdrawable: number;
-  following?: boolean;
   masterAccountId: string;
 }) {
   const t = useSPETranslation();
@@ -59,13 +57,6 @@ export function WithdrawFundForm({
 
   return (
     <Box className="space-y-10">
-      {following ? (
-        <Text c={"red"} fz={12} mb={5} fw="bold">
-          {t("Please un-follow the trader before withdrawing funds.")}
-        </Text>
-      ) : (
-        <></>
-      )}
       <InputLabel fw={600} fz={14}>
         {t("Amount")}
       </InputLabel>

@@ -1,7 +1,5 @@
 import { FormSchema } from "@/types";
 import deepFreeze from "deep-freeze-es6";
-import DepositSchema from "./assets/DepositSchema";
-import SwapSchema from "./assets/SwapSchema";
 import TransferSchema from "./assets/TransferSchema";
 import WithdrawSchema from "./assets/WithdrawSchema";
 import ForgotPassword from "./authentication/ForgotPasswordSchema";
@@ -16,8 +14,6 @@ const _schema: Record<string, FormSchema> = {
   ResetPassword,
   Login: LoginForm,
   PostOrderSchema,
-  DepositSchema,
-  SwapSchema,
   TransferSchema,
   WithdrawSchema,
 };

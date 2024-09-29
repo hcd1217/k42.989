@@ -22,14 +22,16 @@ import tradeStore from "@/store/trade";
 import NumberFormat from "@/ui/NumberFormat";
 import { SPECopyButton } from "@/ui/SPEMisc";
 import {
-  ActionIcon,
   Box,
   Button,
   Card,
+  ComboboxItem,
+  ComboboxLikeRenderOptionInput,
   Divider,
   Flex,
   Image,
   InputLabel,
+  LoadingOverlay,
   NumberInput,
   Select,
   Text,
@@ -44,68 +46,22 @@ import { WidgetProps } from "@rjsf/utils";
 import {
   IconCaretDownFilled,
   IconCaretUpFilled,
-  IconSwitchVertical,
 } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import useSWR from "swr";
 
-const lines: Record<string, string[]> = {
-  USDT: [
-    "Please don't deposit any other digital assets except USDT to the above address. Any other assets except USDT will not be recovered.",
-    "USDT will be received only after 12 block confirmation, and it will be available to withdraw after 20 block confirmations",
-    "The system will update the cryptocurrency address in stages. Please check your account regularly. Failure to do so may result in losses on your asset.",
-    "Minimum deposit amount is 1. Any amount less than this will not be credited.",
-  ],
-  ETH: [
-    "Please don't deposit any other digital assets except ETH to the above address. Any other assets except ETH will not be recovered.",
-    "ETH will be received only after 64 block confirmation, and it will be available to withdraw after 64 block confirmations",
-    "The system will update the cryptocurrency address in stages. Please check your account regularly. Failure to do so may result in losses on your asset.",
-    "Minimum deposit amount is 0.001. Any amount less than this will not be credited.",
-    "You can only deposit ETH via the functions of transfer or transfer From on Etherum network. We apologize that deposit via other functions will not be credited.",
-    "We are currently not supporting Coinbase transfer. The transfer of Coinbase will not be credited. Thank you for your understanding",
-    "You can only deposit ETH via the functions of transfer or transfer From on Etherum network. We apologize that deposit via other functions will not be credited.",
-  ],
-  BTC: [
-    "Please don't deposit any other digital assets except BTC to the above address. Any other assets except BTC will not be recovered.",
-    "BTC will be received only after 4 block confirmation, and it will be available to withdraw after 4 block confirmations",
-    "The system will update the cryptocurrency address in stages. Please check your account regularly. Failure to do so may result in losses on your asset.",
-    "Minimum deposit amount is 0.0001. Any amount less than this will not be credited.",
-  ],
+type TypeOfWidget = {
+  formData: Record<string, unknown>;
+  updateFields?: (fields: Record<string, unknown>) => void;
+  onChange?: (value: unknown) => void;
+  enumOptions?: {
+    label: string;
+    value: string;
+  }[];
+  value?: unknown;
+  name?: string;
 };
-
-export function InfoDepositCoinWidget(props: WidgetProps) {
-  const {
-    formContext: { formData },
-  } = props;
-  const t = useTranslation();
-  return (
-    <>
-      <div>
-        <Text c={"dimmed"} fw={"bold"}>
-          Tips
-        </Text>
-        <ol
-          className="space-y-6"
-          style={{
-            padding: "10px 40px",
-            border: "1px solid #e2e8f0",
-            overflow: "scroll",
-            maxHeight: 150,
-            color: "gray",
-          }}
-        >
-          {(lines[formData.coin] || []).map((line, index) => (
-            <li key={index}>
-              <Text c={"dimmed"} fz={14}>
-                {t(line)}
-              </Text>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </>
-  );
-}
 
 export function SelectCoinWidget(props: WidgetProps) {
   return (
@@ -221,27 +177,34 @@ export function SelectChainWidget(props: WidgetProps) {
   );
 }
 
-export function QrCodeWidget(props: WidgetProps) {
-  const {
-    formContext: { formData },
-  } = props;
+export function QrCodeAddressWidget(props: {
+  coin?: string;
+  value?: string;
+  chain?: string;
+  onChange?: (depositAddress: string) => void;
+}) {
   const t = useTranslation();
-  useEffect(() => {
-    const coin = formData.coin || "USDT";
-    const chain = formData?.[`info${coin}`]?.chain || "TRON network";
-    if (coin && chain) {
-      fetchDepositAddressApi({ coin, chain }).then(
-        (depositAddress) => {
-          props.onChange(depositAddress);
-        },
-      );
-    }
-  }, [formData, props]);
+  const { data, isLoading } = useSWR(
+    [props.coin, props.chain],
+    ([_coin, _chain]) => {
+      return fetchDepositAddressApi({
+        coin: (_coin as string) ?? "USDT",
+        chain: _chain ?? "TRON network",
+      });
+    },
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: true,
+      onSuccess(data) {
+        props?.onChange?.(data);
+      },
+    },
+  );
 
   return (
-    <>
+    <Box pos="relative">
       <Box>
-        <InputLabel className="mantine-InputWrapper-label">
+        <InputLabel className="mantine-InputWrapper-label" size="md">
           {t("Confirm deposit details")}
         </InputLabel>
       </Box>
@@ -272,47 +235,23 @@ export function QrCodeWidget(props: WidgetProps) {
                 fontSize: "14px",
               },
             }}
-            label={`${formData.coin} ${t("Address")}`}
-            value={props.value || ""}
+            label={`${props.coin} ${t("Address")}`}
+            value={data || ""}
             readOnly
             rightSectionWidth={80}
-            rightSection={<SPECopyButton value={props.value || ""} />}
+            rightSection={<SPECopyButton value={data || ""} />}
           />
         </Box>
         <Box>
-          <QRCodeSVG value={props.value} />
+          <QRCodeSVG value={data ?? ""} />
         </Box>
       </Flex>
-    </>
-  );
-}
-
-export function AmountWidget({
-  value,
-  label,
-  required,
-  formContext: { formData },
-  ...props
-}: WidgetProps) {
-  return (
-    <NumberInput
-      label={label}
-      value={value || ""}
-      rightSectionWidth={80}
-      hideControls
-      min={0}
-      onChange={(v) => props.onChange(v)}
-      styles={{
-        input: {
-          background: "light-dark(#f3f5f7, #26282c)",
-          border: "none",
-          fontWeight: "bolder",
-        },
-      }}
-      withAsterisk={required}
-      rightSection={<Text fw={"bold"}>{formData?.coin}</Text>}
-      {...(props.options?.props as any)} // eslint-disable-line
-    />
+      <LoadingOverlay
+        visible={isLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+    </Box>
   );
 }
 
@@ -610,39 +549,84 @@ export function WithdrawAddressWidget({
   );
 }
 
-export function CoinSwapWidget({
-  formContext: { formData, updateFields },
+export function renderCoinSelectOption({
+  option,
+  checked,
+}: ComboboxLikeRenderOptionInput<ComboboxItem>) {
+  return (
+    <Flex align={"center"} gap={10} w={"100%"}>
+      <Flex gap={5} align={"center"}>
+        <Box>
+          <Image
+            w={"30px"}
+            h={"30px"}
+            src={COIN_IMAGES[option.value]}
+          />
+        </Box>
+        <Box>
+          <Text
+            fz={16}
+            fw={"bold"}
+            styles={{
+              root: {
+                color: checked
+                  ? "#f29525"
+                  : "light-dark(#81858c, white)",
+              },
+            }}
+          >
+            {option.value}
+          </Text>
+          <Text
+            fz={12}
+            styles={{
+              root: {
+                color: "light-dark(#81858c, white)",
+              },
+            }}
+          >
+            {ASSET_COIN_LIST[option.value]}
+          </Text>
+        </Box>
+      </Flex>
+    </Flex>
+  );
+}
+
+export function CoinSwapItemWidget({
+  formData,
+  updateFields,
   ...props
-}: WidgetProps) {
+}: TypeOfWidget) {
   const t = useTranslation();
   const focusTrapRef = useFocusTrap();
   const { fundingBalances } = assetStore();
   const { marketPrices } = tradeStore();
 
   useEffect(() => {
-    const coinFirst = props.options.enumOptions?.[0].value;
-    const isExist = props.options.enumOptions?.find(
+    const coinFirst = props.enumOptions?.[0].value;
+    const isExist = props.enumOptions?.find(
       (i) => i.value === props.value,
     );
     if (isExist === undefined) {
-      props.onChange(coinFirst);
+      props?.onChange?.(coinFirst);
     }
-  }, [props, props.options.enumOptions]);
+  }, [props, props.enumOptions]);
 
   const balance = useMemo(() => {
     return fundingBalances.find((el) => el.coin === props.value);
   }, [props.value, fundingBalances]);
 
   const coins = useMemo(() => {
-    return props.options.enumOptions ?? [];
-  }, [props.options.enumOptions]);
+    return props.enumOptions ?? [];
+  }, [props.enumOptions]);
 
   const isFrom = useMemo(() => {
     return props.name === "symbolFrom";
   }, [props.name]);
 
   const addAll = useCallback(() => {
-    updateFields({
+    updateFields?.({
       volume: parseFloat(balance?.amount as string),
     });
   }, [updateFields, balance?.amount]);
@@ -652,17 +636,21 @@ export function CoinSwapWidget({
       return formData.volume;
     }
     const info = convertCoinToCoinUsingRate(
-      formData.symbolFrom,
-      formData.symbolTo,
+      formData.symbolFrom as string,
+      formData.symbolTo as string,
       marketPrices,
     );
     if (formData.side === SwapSideAsName.BUY) {
       return BN.mul(
-        BN.div(formData.volume, info.price),
+        BN.div(formData.volume as string, info.price),
         1 - SWAP_RATE,
       );
     }
-    return BN.mul(formData.volume, info.price, 1 - SWAP_RATE);
+    return BN.mul(
+      formData.volume as string,
+      info.price,
+      1 - SWAP_RATE,
+    );
   }, [
     formData.side,
     formData.symbolFrom,
@@ -678,7 +666,6 @@ export function CoinSwapWidget({
   return (
     <>
       <Card
-        key={props.value}
         shadow="none"
         radius={"16px"}
         styles={{
@@ -748,7 +735,7 @@ export function CoinSwapWidget({
                   <Image
                     w={"28px"}
                     h={"28px"}
-                    src={COIN_IMAGES[props.value]}
+                    src={COIN_IMAGES[props.value as string]}
                   />
                 </Box>
                 <Flex direction={"column"} justify={"start"}>
@@ -761,18 +748,18 @@ export function CoinSwapWidget({
                       },
                     }}
                   >
-                    {props.value}
+                    {props.value as string}
                   </Text>
                   <Text fz={12} c={"#81858c"}>
-                    {ASSET_COIN_LIST[props.value]}
+                    {ASSET_COIN_LIST[props.value as string]}
                   </Text>
                 </Flex>
               </Flex>
             </Button>
             <Select
               pos={"relative"}
-              value={props.value}
-              onChange={(v) => props.onChange(v)}
+              value={props.value as string}
+              onChange={(v) => props?.onChange?.(v)}
               data={coins}
               allowDeselect={false}
               rightSection={
@@ -871,8 +858,14 @@ export function CoinSwapWidget({
               placeholder={isFrom ? "0.0005-2.9999" : "--"}
               rightSectionWidth={isFrom ? 30 : 0}
               disabled={!isFrom}
-              value={(isFrom ? formData.volume : outputAmount) || 0}
-              onChange={(amount) => updateFields({ volume: amount })}
+              value={
+                (isFrom
+                  ? (formData.volume as number)
+                  : (outputAmount as number)) || 0
+              }
+              onChange={(amount) =>
+                updateFields?.({ volume: amount })
+              }
               styles={{
                 input: {
                   border: "none",
@@ -917,153 +910,5 @@ export function CoinSwapWidget({
         </Box>
       </Card>
     </>
-  );
-}
-
-export function SwapSwitchWidget({
-  value,
-  formContext: { updateFields, formData },
-}: WidgetProps) {
-  return (
-    <>
-      <Flex justify={"center"}>
-        <ActionIcon
-          onClick={() => {
-            const to = formData.symbolFrom;
-            const from = formData.symbolTo;
-            const side =
-              value === SwapSideAsName.BUY
-                ? SwapSideAsName.SELL
-                : SwapSideAsName.BUY;
-            updateFields({
-              side,
-              symbolFrom: from,
-              symbolTo: to,
-              volume: 0,
-            });
-          }}
-          radius={"xl"}
-          variant="gradient"
-          size={"lg"}
-          gradient={{ from: "primary", to: "yellow", deg: 90 }}
-        >
-          <IconSwitchVertical color="black" size={20} />
-        </ActionIcon>
-      </Flex>
-    </>
-  );
-}
-
-export function FundingAccountWidget(props: WidgetProps) {
-  const { fundingAccount } = assetStore();
-  useEffect(() => {
-    if (fundingAccount) {
-      props.onChange(fundingAccount.id);
-    }
-  }, [fundingAccount, props]);
-  return <></>;
-}
-
-export function MarketPriceInfoWidget() {
-  // props: WidgetProps
-  const t = useTranslation();
-  // const { marketPrices } = assetStore();
-  // const {
-  //   formContext: { formData },
-  // } = props;
-
-  // const info = useMemo(() => {
-  //   return convertCoinToCoinUsingRate(
-  //     formData.symbolFrom,
-  //     formData.symbolTo,
-  //     marketPrices,
-  //   );
-  // }, [formData.symbolFrom, formData.symbolTo, marketPrices]);
-
-  return (
-    <>
-      <div>
-        {/* <Flex justify={"space-between"}>
-          <Text c={"dimmed"}>{t("Price")}</Text>
-          <Flex direction={"column"} justify={"end"}>
-            <Text c={"dimmed"}>
-              1 {info.baseCoin} ~{" "}
-              <NumberFormat value={info.price} decimalPlaces={8} />{" "}
-              {info.quoteCoin}
-            </Text>
-            <Text
-              styles={{
-                root: {
-                  textAlign: "right",
-                },
-              }}
-              c={"dimmed"}
-            >
-              1 {info.quoteCoin} ~{" "}
-              <NumberFormat
-                value={info.reversedPrice}
-                decimalPlaces={8}
-              />{" "}
-              {info.baseCoin}
-            </Text>
-          </Flex>
-        </Flex>
-        <Space my={10} /> */}
-        <Box>
-          <Text c={"dimmed"}>
-            {t(
-              "Notes: Due to market fluctuations, the final transaction results may be slightly different from the current display results.",
-            )}
-          </Text>
-        </Box>
-      </div>
-    </>
-  );
-}
-
-function renderCoinSelectOption({
-  option,
-  checked,
-}: {
-  checked: boolean;
-  option: { label: string; value: string; image?: string };
-}) {
-  return (
-    <Flex align={"center"} gap={10} w={"100%"}>
-      <Flex gap={5} align={"center"}>
-        <Box>
-          <Image
-            w={"30px"}
-            h={"30px"}
-            src={COIN_IMAGES[option.value]}
-          />
-        </Box>
-        <Box>
-          <Text
-            fz={16}
-            fw={"bold"}
-            styles={{
-              root: {
-                color: checked
-                  ? "#f29525"
-                  : "light-dark(#81858c, white)",
-              },
-            }}
-          >
-            {option.value}
-          </Text>
-          <Text
-            fz={12}
-            styles={{
-              root: {
-                color: "light-dark(#81858c, white)",
-              },
-            }}
-          >
-            {ASSET_COIN_LIST[option.value]}
-          </Text>
-        </Box>
-      </Flex>
-    </Flex>
   );
 }

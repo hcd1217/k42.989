@@ -13,15 +13,15 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useBoolean } from "usehooks-ts";
 
 export default function Inquiry() {
   const t = useSPETranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { value: sent, setTrue } = useBoolean(false);
+  const [sent, { open: setTrue }] = useDisclosure(false);
   const [form, setForm] = useState({
     subject: "",
     fullName: "",

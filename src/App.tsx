@@ -3,11 +3,11 @@ import { getMe } from "@/services/apis";
 import appStore from "@/store/app";
 import { resolver, theme } from "@/styles/theme/mantine-theme";
 import { MantineProvider } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
 import { useEffect, useMemo } from "react";
 import { RouteObject, useRoutes } from "react-router-dom";
-import { useBoolean } from "usehooks-ts";
 import useSPEInterval from "./hooks/useSPEInterval";
 import logger from "./services/logger";
 import { assetStore } from "./store/assets";
@@ -30,7 +30,7 @@ async function _getMe(retry = 3) {
 }
 
 export default function App() {
-  const { value: loaded, setTrue } = useBoolean(false);
+  const [loaded, { open: setTrue }] = useDisclosure(false);
   const { loading } = appStore();
   useSPEInterval(_loadAPIs, 30e3, true);
   useEffect(() => {

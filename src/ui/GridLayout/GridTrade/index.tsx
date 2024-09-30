@@ -33,7 +33,7 @@ import { useCallback, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { useMediaQuery } from "usehooks-ts";
+import { useMediaQuery } from "@mantine/hooks";
 import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);

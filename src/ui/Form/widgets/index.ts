@@ -1,11 +1,7 @@
 // Additions
 export * from "./additions/AssetWidgets";
-export * from "./additions/CommonWidgets";
-export * from "./additions/OrderWidgets";
-
-export * from "./additions/Email2FaWidget";
 export * from "./additions/LogoWidget";
-export * from "./additions/PhoneNumberWidgets";
+export * from "./additions/OrderWidgets";
 
 // Overwrite
 export * from "./additions/PasswordWidget";

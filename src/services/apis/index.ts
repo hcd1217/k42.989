@@ -412,12 +412,8 @@ export async function getMe(): Promise<AuthenticationPayload> {
 
 export async function checkMfa({
   email,
-  mobile,
-  type,
 }: {
-  type: 1 | 2;
-  mobile?: string;
-  email?: string;
+  email: string;
 }): Promise<{ hasMfa: boolean }> {
   type MfaCheckResponse = {
     result: {
@@ -426,7 +422,7 @@ export async function checkMfa({
   };
 
   return axios
-    .post<MfaCheckResponse>("/api/check", { email, mobile, type })
+    .post<MfaCheckResponse>("/api/check", { email, type: 1 })
     .then((res) => {
       const hasMfa = Boolean(res.data?.result?.hasMfa);
       return { hasMfa };

@@ -1,5 +1,6 @@
 import { schema } from "@/domain/schema";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import { ForgotPasswordFormData } from "@/types";
 import AppForm from "@/ui/Form/Form";
 import { Header } from "@/ui/Header";
 import {
@@ -14,7 +15,6 @@ import {
   Title,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { convertToForgotPasswordFormData } from "./config";
 import classes from "./index.module.scss";
 
 const Page = () => {
@@ -44,9 +44,14 @@ const Page = () => {
                     w={"100%"}
                     msgSuccess="You have successfully submitted a password change request."
                     api="/api/password/forgot"
-                    formDataConverter={
-                      convertToForgotPasswordFormData
-                    }
+                    formDataConverter={(
+                      formData: ForgotPasswordFormData,
+                    ) => {
+                      return {
+                        email: formData.email?.email,
+                        type: 1,
+                      };
+                    }}
                     onSuccess={() => {
                       setTimeout(() => {
                         navigate("/reset-password");

@@ -8,20 +8,6 @@ const dictionary = getDictionary();
 const ForgotPasswordSchema: FormSchema = {
   schema: {
     definitions: {
-      PhoneNumber: {
-        type: "object",
-        title: "",
-        properties: {
-          phoneLocale: {
-            $ref: "#/definitions/PhoneLocal",
-          },
-          mobile: {
-            title: "Phone",
-            type: "string",
-          },
-        },
-        required: ["phoneLocale", "mobile"],
-      },
       Email: {
         type: "object",
         title: "",
@@ -34,44 +20,11 @@ const ForgotPasswordSchema: FormSchema = {
         },
         required: ["email"],
       },
-      type: {
-        type: "string",
-        enum: ["1", "2"],
-        default: "1",
-      },
-      PhoneLocal: {
-        type: "string",
-        default: "+81 Japan",
-        title: "Region",
-      },
     },
     properties: {
-      type: {
-        $ref: "#/definitions/type",
+      email: {
+        $ref: "#/definitions/Email",
       },
-    },
-    if: {
-      properties: {
-        type: {
-          const: "1",
-        },
-      },
-    },
-    then: {
-      properties: {
-        email: {
-          $ref: "#/definitions/Email",
-        },
-      },
-      required: ["email"],
-    },
-    else: {
-      properties: {
-        mobile: {
-          $ref: "#/definitions/PhoneNumber",
-        },
-      },
-      required: ["mobile"],
     },
   },
   uiSchema: {
@@ -85,34 +38,6 @@ const ForgotPasswordSchema: FormSchema = {
       },
       // label: false,
       classNames: "grid-form-root gap-15",
-    },
-    "type": {
-      "ui:options": {
-        widget: "TabWidget",
-        label: false,
-      },
-    },
-    "mobile": {
-      phoneLocale: {
-        "ui:options": {
-          widget: "PhoneLocalWidget",
-          classNames: "span-9",
-          label: false,
-          props: {
-            withAsterisk: true,
-          },
-        },
-      },
-      mobile: {
-        "ui:options": {
-          placeholder: "Mobile",
-          label: false,
-          classNames: "span-15",
-          props: {
-            withAsterisk: true,
-          },
-        },
-      },
     },
     "email": {
       email: {

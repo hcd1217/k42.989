@@ -3,35 +3,17 @@ import MfaForm from "@/components/2FA";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { checkMfa, login } from "@/services/apis";
 import logger from "@/services/logger";
-import Region from "@/ui/SPEMisc/SPERegion";
 import { error, success } from "@/utils/notifications";
 import {
   convertToInternationalFormatPhoneNumber,
   debounceBuilder,
 } from "@/utils/utility";
-import {
-  Box,
-  Button,
-  Center,
-  Grid,
-  PasswordInput,
-  rem,
-  SegmentedControl,
-  Space,
-  TextInput,
-} from "@mantine/core";
+import { Box, Button, PasswordInput, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { modals } from "@mantine/modals";
-import { IconMailHeart, IconPhone } from "@tabler/icons-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import classes from "./login.module.scss";
-
-type Mode = "email" | "phone";
-
-const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/,
-);
 
 const baseSchema = z.object({
   email: z.string().optional(),
@@ -51,31 +33,20 @@ export default function LoginForm({
   }) => void;
 }) {
   const t = useSPETranslation();
-  const [loginMode, setLoginMode] = useState<Mode>("email");
   const [mfaRequired, setMfaRequired] = useState(false);
 
   const formSchema = useMemo(() => {
-    if (loginMode === "email") {
-      return baseSchema.extend({
-        email: z
-          .string()
-          .trim()
-          .min(1, { message: t("Field is required") })
-          .email({ message: t("Invalid Email") }),
-      });
-    }
-
     return baseSchema.extend({
-      mobile: z
+      email: z
         .string()
-        .regex(phoneRegex, { message: t("Invalid Number!") })
-        .min(1, { message: t("Field is required") }),
+        .trim()
+        .min(1, { message: t("Field is required") })
+        .email({ message: t("Invalid Email") }),
     });
-  }, [t, loginMode]);
+  }, [t]);
 
   const form = useForm<z.infer<typeof baseSchema>>({
     initialValues: {
-      mobile: "",
       email: "",
       password: "",
       mfaCode: "",
@@ -88,11 +59,9 @@ export default function LoginForm({
   useEffect(() => {
     const data = transformValues(form.values);
     const email = data.email;
-    const phone = data.mobile;
     const password = data.password;
 
     if (
-      loginMode === "email" &&
       email &&
       formSchema.safeParse({
         email: email,
@@ -103,23 +72,9 @@ export default function LoginForm({
         email: form.values.email,
         toggle: setMfaRequired,
       });
-    } else if (
-      loginMode === "phone" &&
-      phone &&
-      formSchema.safeParse({
-        mobile: phone,
-        password: password,
-      }).success
-    ) {
-      checkMfaRequirement({
-        phone: phone,
-        toggle: setMfaRequired,
-      });
     }
   }, [
-    loginMode,
     form.values.email,
-    form.values.mobile,
     form.values.password,
     formSchema,
     form.values,
@@ -167,94 +122,13 @@ export default function LoginForm({
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <Box className={classes.form_container}>
-        <SegmentedControl
-          size="sm"
-          color="primary"
-          transitionDuration={200}
-          w={"100%"}
-          transitionTimingFunction="linear"
-          value={loginMode}
-          onChange={(value: string) => {
-            setLoginMode(value as Mode);
-            form.setValues({
-              email: "",
-              mobile: "",
-            });
-          }}
-          data={[
-            {
-              value: "email",
-              label: (
-                <Center style={{ gap: 10 }}>
-                  <IconMailHeart
-                    style={{ width: rem(16), height: rem(16) }}
-                  />
-                  <span>{t("Email")}</span>
-                </Center>
-              ),
-            },
-            {
-              value: "phone",
-              label: (
-                <Center style={{ gap: 10 }}>
-                  <IconPhone
-                    style={{ width: rem(16), height: rem(16) }}
-                  />
-                  <span>{t("Mobile")}</span>
-                </Center>
-              ),
-            },
-          ]}
+        <TextInput
+          withAsterisk
+          label={t("Mail address")}
+          placeholder={t("Mail address")}
+          classNames={{ error: classes.error }}
+          {...form.getInputProps("email")}
         />
-
-        {loginMode === "email" ? (
-          <TextInput
-            withAsterisk
-            label={t("Mail address")}
-            placeholder={t("Mail address")}
-            classNames={{ error: classes.error }}
-            {...form.getInputProps("email")}
-          />
-        ) : (
-          <>
-            <Box hiddenFrom="lg">
-              <Region
-                region={form.values.region}
-                setRegion={(value: string) => {
-                  form.setFieldValue("region", value);
-                }}
-              />
-              <Space h={30} />
-              <TextInput
-                withAsterisk
-                label={t("Phone Number")}
-                placeholder={t("Phone Number")}
-                classNames={{ error: classes.error }}
-                {...form.getInputProps("mobile")}
-              />
-            </Box>
-            <Grid visibleFrom="lg">
-              <Grid.Col span={5}>
-                <Region
-                  region={form.values.region}
-                  setRegion={(value: string) => {
-                    form.setFieldValue("region", value);
-                  }}
-                />
-              </Grid.Col>
-              <Grid.Col span={7}>
-                <TextInput
-                  withAsterisk
-                  label={t("Phone Number")}
-                  placeholder={t("Phone Number")}
-                  classNames={{ error: classes.error }}
-                  {...form.getInputProps("mobile")}
-                />
-              </Grid.Col>
-            </Grid>
-          </>
-        )}
-
         <PasswordInput
           withAsterisk
           label={t("Password")}
@@ -263,7 +137,6 @@ export default function LoginForm({
           classNames={{ error: classes.error }}
           {...form.getInputProps("password")}
         />
-
         <Button type="submit">{t("Login")}</Button>
       </Box>
     </form>
@@ -273,27 +146,22 @@ export default function LoginForm({
 const checkMfaRequirement = debounceBuilder(
   ({
     email,
-    phone,
     toggle,
   }: {
     email?: string;
     phone?: string;
     toggle: (v: boolean) => void;
   }) => {
-    let data: { type: 1 | 2; mobile?: string; email?: string };
     if (email) {
-      data = { email, type: 1 };
-    } else {
-      data = { mobile: phone, type: 2 };
-    }
-    try {
-      checkMfa(data)
-        .then(({ hasMfa }) => toggle(hasMfa))
-        .catch((e) => {
-          logger.debug(e);
-        });
-    } catch (e: unknown) {
-      logger.debug(e);
+      try {
+        checkMfa({ email })
+          .then(({ hasMfa }) => toggle(hasMfa))
+          .catch((e) => {
+            logger.debug(e);
+          });
+      } catch (e: unknown) {
+        logger.debug(e);
+      }
     }
   },
   300,

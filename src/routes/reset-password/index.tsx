@@ -15,8 +15,8 @@ import {
 } from "@mantine/core";
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { convertToResetPasswordFormData } from "./config";
 import classes from "./index.module.scss";
+import { ResetPasswordFormData } from "@/types";
 
 const Page = () => {
   const t = useSPETranslation();
@@ -30,14 +30,11 @@ const Page = () => {
     );
     const code = searchParams["code"] || "";
     const email = searchParams["email"] || "";
-    const mobile = searchParams["mobile"] || "";
-    if (!email && !mobile) {
+    if (!email) {
       return {};
     }
     return Object.assign({}, schema.ResetPassword.formData, {
-      type: email ? "1" : "2",
-      mobile: { mobile, type: "2", code },
-      email: { email, type: "1", code },
+      email: { email, code },
     });
   }, []);
   return (
@@ -69,7 +66,17 @@ const Page = () => {
                       }, 1000);
                     }}
                     api="/api/password/reset"
-                    formDataConverter={convertToResetPasswordFormData}
+                    formDataConverter={(
+                      formData: ResetPasswordFormData,
+                    ) => {
+                      return {
+                        type: 1,
+                        email: formData.email.email || "",
+                        password: formData.email?.password || "",
+                        code: formData.email?.code || "",
+                        mfaCode: formData.email?.mfaCode || "",
+                      };
+                    }}
                     messages={{
                       titleSuccess: t("Password Reset Successful"),
                       msgSuccess: t(

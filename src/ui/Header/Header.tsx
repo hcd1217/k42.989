@@ -553,6 +553,7 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
           <Box mt={"auto"}>
             <Divider />
             <Flex
+              align={"center"}
               mt={"xs"}
               styles={{
                 root: {
@@ -562,6 +563,25 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
             >
               <SwitchDarkLightMode onDarkMode={false} />
               <SwitchLanguage onDarkMode={false} />
+              <Box ml={"auto"}>
+                <Flex align={"center"}>
+                  <Box>
+                    <ActionIcon
+                      size="lg"
+                      onClick={() => authStore.getState().logout()}
+                      color="red"
+                      variant="transparent"
+                    >
+                      <IconLogout
+                        style={{ width: rem(18), height: rem(18) }}
+                      />
+                    </ActionIcon>
+                  </Box>
+                  <Text c={"red"} fz={16} fw={"bold"}>
+                    {t("Logout")}
+                  </Text>
+                </Flex>
+              </Box>
             </Flex>
           </Box>
         </Flex>
@@ -757,18 +777,6 @@ function MenuUserInfo() {
                 </Flex>
               </Box>
             </Flex>
-            <Box p={"sm"} hiddenFrom="md">
-              <ActionIcon
-                size="xs"
-                onClick={() => authStore.getState().logout()}
-                color="red"
-                variant="transparent"
-              >
-                <IconLogout
-                  style={{ width: rem(14), height: rem(14) }}
-                />
-              </ActionIcon>
-            </Box>
           </Flex>
         </Box>
         <Divider />

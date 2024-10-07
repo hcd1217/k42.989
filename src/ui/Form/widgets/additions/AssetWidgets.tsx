@@ -4,19 +4,14 @@ import {
   ASSET_COIN_LIST,
   SWAP_RATE,
 } from "@/common/configs";
-import { AccountType } from "@/common/enums";
-import { buildOptions, freeAmount } from "@/common/utils";
+import { freeAmount } from "@/common/utils";
 import { ASSET_COIN_OPTIONS, COIN_IMAGES } from "@/domain/config";
 import {
   convertCoinToCoinUsingRate,
   SwapSideAsName,
 } from "@/domain/marketPrice";
-import {
-  default as useSPETranslation,
-  default as useTranslation,
-} from "@/hooks/useSPETranslation";
+import { default as useTranslation } from "@/hooks/useSPETranslation";
 import { fetchDepositAddressApi } from "@/services/apis";
-import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
 import tradeStore from "@/store/trade";
 import NumberFormat from "@/ui/NumberFormat";
@@ -34,6 +29,7 @@ import {
   LoadingOverlay,
   NumberInput,
   Select,
+  Space,
   Text,
   TextInput,
 } from "@mantine/core";
@@ -48,7 +44,7 @@ import {
   IconCaretUpFilled,
 } from "@tabler/icons-react";
 import { QRCodeSVG } from "qrcode.react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 type TypeOfWidget = {
@@ -61,6 +57,9 @@ type TypeOfWidget = {
   }[];
   value?: unknown;
   name?: string;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
 };
 
 export function SelectCoinWidget(props: WidgetProps) {
@@ -106,71 +105,6 @@ export function SelectCoinWidget(props: WidgetProps) {
             padding: "0px",
           },
         }}
-        {...(props.options?.props as any)} // eslint-disable-line
-      />
-    </>
-  );
-}
-
-export function SelectChainWidget(props: WidgetProps) {
-  const t = useSPETranslation();
-  const options = useMemo(() => {
-    logger.debug("SelectChainWidget", props.options.enumOptions);
-    return props.options.enumOptions?.map(({ label, value }) => ({
-      label: t(label),
-      value,
-    }));
-  }, [t, props.options.enumOptions]);
-  return (
-    <>
-      <Select
-        disabled={(options?.length || 0) < 2}
-        placeholder={props.placeholder}
-        value={props.value}
-        data={options}
-        onChange={(v) => props.onChange(v)}
-        allowDeselect={false}
-        rightSection={
-          <IconCaretDownFilled color="#81858d" size={15} />
-        }
-        renderOption={({ option, checked }) => {
-          return (
-            <Text
-              fz={16}
-              fw={"bold"}
-              styles={{
-                root: {
-                  color: checked
-                    ? "#f29525"
-                    : "light-dark(#81858c, white)",
-                },
-              }}
-            >
-              {option.label}
-            </Text>
-          );
-        }}
-        comboboxProps={{
-          offset: 0,
-          withinPortal: false,
-        }}
-        styles={{
-          root: {},
-          input: {
-            border: "none",
-            boxShadow: "none",
-            borderRadius: "0px",
-            background: "light-dark(#f3f5f7, #26282c)",
-            fontWeight: "bold",
-            color: "light-dark(#000, white)",
-          },
-          dropdown: {
-            borderRadius: "0px",
-            border: "none",
-            padding: "0px",
-          },
-        }}
-        label={props.label ? props.label : ""}
         {...(props.options?.props as any)} // eslint-disable-line
       />
     </>
@@ -255,78 +189,14 @@ export function QrCodeAddressWidget(props: {
   );
 }
 
-export function SelectAccountWidget(props: WidgetProps) {
-  const { accounts } = assetStore();
-  const options = useMemo(
-    () =>
-      buildOptions(
-        accounts.filter((el) => {
-          return el.type === AccountType.MAIN;
-        }),
-        "name",
-        "id",
-      ),
-    [accounts],
-  );
-
-  return (
-    <Select
-      withAsterisk={props.required}
-      label={props.label ? props.label : ""}
-      placeholder={props.placeholder}
-      value={props.value}
-      data={options}
-      onChange={(v) => {
-        props.onChange(v);
-        if ("amount" in props.formContext.formData) {
-          if (props.formContext.formData.amount) {
-            props.formContext.updateFields({
-              amount: 0,
-            });
-          }
-        }
-      }}
-      allowDeselect={false}
-      rightSection={<IconCaretDownFilled color="#81858d" size={15} />}
-      renderOption={({ option, checked }) => {
-        return (
-          <Text fz={14} fw={"bold"} c={checked ? "primary" : "dark"}>
-            {option.label}
-          </Text>
-        );
-      }}
-      comboboxProps={{
-        offset: 0,
-        withinPortal: false,
-      }}
-      styles={{
-        root: {},
-        input: {
-          border: "none",
-          boxShadow: "none",
-          borderRadius: "0px",
-          background: "light-dark(#f3f5f7, #26282c)",
-          fontWeight: "bold",
-        },
-        dropdown: {
-          borderRadius: "0px",
-          border: "none",
-          padding: "0px",
-        },
-      }}
-      {...(props.options?.props as any)} // eslint-disable-line
-    />
-  );
-}
-
-export function AmountToWithdrawWidget({
+export function AmountToWithdrawItemWidget({
   value,
   label,
   required,
-  options,
   onChange,
-  formContext: { formData },
-}: WidgetProps) {
+  formData,
+  placeholder,
+}: TypeOfWidget) {
   const t = useTranslation();
   const { fundingBalances } = assetStore();
   const balanceByCoin = useMemo(() => {
@@ -347,13 +217,14 @@ export function AmountToWithdrawWidget({
     <Box pos={"relative"}>
       <NumberInput
         label={label}
-        value={value || ""}
+        value={(value as number | string) || ""}
         rightSectionWidth={120}
         hideControls
         disabled={isZero}
         withAsterisk={required}
-        onChange={(v) => onChange(v)}
+        onChange={(v) => onChange?.(v)}
         rightSectionPointerEvents="all"
+        placeholder={placeholder}
         min={0}
         styles={{
           label: {
@@ -378,43 +249,36 @@ export function AmountToWithdrawWidget({
               fw="bold"
               c="primary"
               className={isZero ? "" : "cursor-pointer"}
-              onClick={() => !isZero && onChange(balanceByCoin)}
+              onClick={() => !isZero && onChange?.(balanceByCoin)}
             >
               {t("All")}
             </Text>
             <Divider h={12} c={"red"} bg={"gray"} w={1} />
-            <Text fw={"bold"}>{formData?.coin}</Text>
+            <Text fw={"bold"}>{formData?.coin as string}</Text>
           </Flex>
         }
-        {...(options?.props as any)} // eslint-disable-line
       />
-      <Flex
-        justify={"end"}
-        pos={"absolute"}
-        top={"calc(100% + 5px)"}
-        right={0}
-      >
+      <Flex justify={"end"} right={0}>
         <Text fz={12} fw={"bold"} c="dimmed">
           {t("Total")}:{" "}
           <NumberFormat value={balanceByCoin} decimalPlaces={8} />{" "}
-          {formData?.coin}
+          {formData?.coin as string}
         </Text>
       </Flex>
     </Box>
   );
 }
 
-export function AmountToTransferWidget({
+export function AmountToTransferItemWidget({
   value,
   label,
   required,
-  options,
   onChange,
-  formContext: { formData },
-}: WidgetProps) {
+  formData,
+  placeholder,
+}: TypeOfWidget) {
   const t = useTranslation();
   const { balances } = assetStore();
-  const [amount, setAmount] = useState(Number(value || ""));
   const balanceByCoin = useMemo(() => {
     if (!formData.fromAccountId || !formData.coin) {
       return 0;
@@ -435,15 +299,15 @@ export function AmountToTransferWidget({
     <Box pos={"relative"}>
       <NumberInput
         hideControls
-        value={amount || ""}
-        disabled={isZero}
+        value={Number(value || "")}
         label={label || ""}
+        disabled={isZero}
         withAsterisk={required}
         rightSectionWidth={120}
+        placeholder={placeholder}
         min={0}
         onChange={(v) => {
-          setAmount(Number(v));
-          onChange(v);
+          onChange?.(v);
         }}
         rightSectionPointerEvents="all"
         styles={{
@@ -473,48 +337,44 @@ export function AmountToTransferWidget({
               onClick={() => {
                 if (!isZero) {
                   const balance = Number(balanceByCoin);
-                  setAmount(balance);
-                  onChange(balance);
+                  onChange?.(balance);
                 }
               }}
             >
               {t("All")}
             </Text>
             <Divider h={12} c={"red"} bg={"gray"} w={1} />
-            <Text fw={"bold"}>{formData?.coin}</Text>
+            <Text fw={"bold"}>{formData?.coin as string}</Text>
           </Flex>
         }
-        {...(options?.props as any)} // eslint-disable-line
       />
-      <Flex
-        justify={"end"}
-        pos={"absolute"}
-        top={"calc(100% + 5px)"}
-        right={0}
-      >
+      <Space my={"xs"} />
+      <Flex justify={"end"} right={0}>
         <Text fz={12} fw={"bold"} c="dimmed">
           {t("Total")}:{" "}
           <NumberFormat value={balanceByCoin} decimalPlaces={8} />{" "}
-          {formData?.coin}
+          {formData?.coin as string}
         </Text>
       </Flex>
     </Box>
   );
 }
 
-export function WithdrawAddressWidget({
-  formContext: { formData },
+export function WithdrawAddressItemWidget({
+  formData,
   ...props
-}: WidgetProps) {
+}: TypeOfWidget) {
   const t = useTranslation();
   const chain = useMemo(() => {
-    return formData[`info${formData.coin}`]?.["chain"];
+    return formData.chain as string;
+    // const coinData = formData?.[`info${formData?.coin}`];
+    // return coinData ? (coinData?.["chain"] as string) : "";
   }, [formData]);
   return (
     <>
       <TextInput
-        onChange={(v) => props.onChange(v.target.value || "")}
-        value={props.value}
+        onChange={(v) => props.onChange?.(v.target.value || "")}
+        value={props.value as string}
         styles={{
           label: {
             fontSize: "14px",
@@ -527,8 +387,8 @@ export function WithdrawAddressWidget({
           },
         }}
         label={props.label ? props.label : ""}
+        placeholder={props.placeholder ? props.placeholder : ""}
         withAsterisk={props.required}
-        {...(props.options?.props as any)} // eslint-disable-line
       />
       <span
         style={{
@@ -541,9 +401,11 @@ export function WithdrawAddressWidget({
         }}
       >
         {t("Withdraw Fee")}: &nbsp;
-        {APP_CONFIG.WITHDRAW_FEE_MAPS[chain]?.[formData.coin] || 0}
+        {APP_CONFIG.WITHDRAW_FEE_MAPS[chain]?.[
+          formData.coin as string
+        ] || 0}
         &nbsp;
-        {formData.coin}
+        {formData.coin as string}
       </span>
     </>
   );

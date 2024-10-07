@@ -4,7 +4,7 @@ import {
   sendVerifyCode,
 } from "@/services/apis";
 import { error, success } from "@/utils/notifications";
-import { passwordSchemaValidate } from "@/utils/validates";
+import { passwordSchema } from "@/utils/validates";
 import {
   Alert,
   Box,
@@ -58,7 +58,7 @@ export function ForceChangePasswordForm(props: PropsType) {
         value.length <= 0 ? t("Please Enter Old Password") : null,
       password: (value) => {
         try {
-          passwordSchemaValidate().parse(value);
+          passwordSchema.parse(value);
           return null;
         } catch (e) {
           return t(

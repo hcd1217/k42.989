@@ -1,7 +1,7 @@
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
 import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
-import { passwordSchemaValidate } from "@/utils/validates";
+import { passwordSchema } from "@/utils/validates";
 import {
   Alert,
   Box,
@@ -39,7 +39,7 @@ export function UserChangePasswordForm() {
         value.length <= 0 ? t("Please Enter Current Password") : null,
       password: (value) => {
         try {
-          passwordSchemaValidate().parse(value);
+          passwordSchema.parse(value);
           return null;
         } catch (e) {
           if (e instanceof ZodError) {

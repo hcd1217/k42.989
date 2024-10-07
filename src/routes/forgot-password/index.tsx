@@ -1,10 +1,13 @@
-import { schema } from "@/domain/schema";
+import { useSPEForm } from "@/hooks/useSPEForm";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { ForgotPasswordFormData } from "@/types";
-import AppForm from "@/ui/Form/Form";
+import axios from "@/services/apis";
+import { SPEResponse } from "@/types";
 import { Header } from "@/ui/Header";
+import { error, success } from "@/utils/notifications";
+import { emailValidate } from "@/utils/validates";
 import {
   Box,
+  Button,
   Card,
   Center,
   Container,
@@ -12,14 +15,57 @@ import {
   Group,
   Space,
   Text,
+  TextInput,
   Title,
 } from "@mantine/core";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
 
 const Page = () => {
   const t = useSPETranslation();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const api = "/api/password/forgot";
+  const { form } = useSPEForm<{
+    email?: string;
+    type?: number;
+  }>({
+    initialValues: {
+      email: "",
+      type: 1,
+    },
+    onValuesChange() {
+      //
+    },
+    validate: {
+      email: emailValidate,
+    },
+  });
+  const submit = useCallback(() => {
+    setLoading(true);
+    axios
+      .post<SPEResponse>(api, form.getValues())
+      .then((res) => {
+        if (res.data.code === 0) {
+          success(
+            t("Form submitted"),
+            t(
+              "You have successfully submitted a reset password request.",
+            ),
+          );
+          setTimeout(() => {
+            navigate("/reset-password");
+          }, 500);
+        } else {
+          error(t("Something went wrong"), res.data.message);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [t, setLoading, form, navigate]);
+
   return (
     <>
       <Flex
@@ -37,33 +83,31 @@ const Page = () => {
                     {t("Send my password reset code")}
                   </Title>
                   <Space h={30} />
-                  <AppForm
-                    schema={schema.ForgotPassword.schema}
-                    uiSchema={schema.ForgotPassword.uiSchema}
-                    formData={schema.ForgotPassword.formData}
-                    w={"100%"}
-                    msgSuccess="You have successfully submitted a password change request."
-                    api="/api/password/forgot"
-                    formDataConverter={(
-                      formData: ForgotPasswordFormData,
-                    ) => {
-                      return {
-                        email: formData.email?.email,
-                        type: 1,
-                      };
-                    }}
-                    onSuccess={() => {
-                      setTimeout(() => {
-                        navigate("/reset-password");
-                      }, 500);
-                    }}
-                    messages={{
-                      titleSuccess: t("Form submitted"),
-                      msgSuccess: t(
-                        "You have successfully submitted a reset password request.",
-                      ),
-                    }}
-                  />
+                  <form onSubmit={form.onSubmit(submit)}>
+                    <TextInput
+                      key={form.key("email")}
+                      {...form.getInputProps("email")}
+                      withAsterisk={true}
+                      label={t("Email")}
+                      placeholder={t("Email")}
+                    />
+                    <Space my={"xl"} />
+                    <Button
+                      disabled={loading}
+                      loading={loading}
+                      type="submit"
+                      fullWidth
+                      size="lg"
+                      variant="gradient"
+                      gradient={{
+                        from: "primary",
+                        to: "yellow",
+                        deg: 90,
+                      }}
+                    >
+                      {t("Submit")}
+                    </Button>
+                  </form>
                 </Card>
                 <Group justify="center" my={"lg"}>
                   <div>

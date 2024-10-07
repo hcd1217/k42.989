@@ -1,4 +1,9 @@
 {
+  "Change Google Authenticator": "Google認証コード変更",
+  "The withdrawal function will be disabled for 24 hours after you change your Google Authenticator.": "認証コード変更際、出金機能は24時間無効になります。",
+  "Set Up New Google Authenticator": "新しいGoogle認証コード設定",
+  "Old Google Authentication Code": "現在のGoogle認証コード",
+  "New Google Authenticator Code": "新しいGoogle認証コード",
   "The withdrawal function will be disabled for 24 hours after you change your email.": "メールアドレスを変更してから24時間は出金機能が無効になります。",
   "%s Futures": "%s 先物",
   "%s is the proud proprietor of a licensed Digital Currency Exchange (DCE) accredited by the Australian Transaction Reports and Analysis Centre (AUSTRAC), identified by registration number DCE100812987-001.": "%s は、オーストラリア取引報告分析センター (AUSTRAC) の認定を受けたライセンスを受けたデジタル通貨取引所 (DCE) の誇りある所有者です。登録番号は DCE100812987-001 です。",

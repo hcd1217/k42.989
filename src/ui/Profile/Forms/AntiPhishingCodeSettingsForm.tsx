@@ -4,7 +4,7 @@ import { sendVerifyCode } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
-import { _validateVerificationCode } from "@/utils/validates";
+import { validateVerificationCode } from "@/utils/validates";
 import {
   Alert,
   Box,
@@ -72,10 +72,10 @@ export function AntiPhishingCodeSettingsModal() {
       mfaCode: me?.hasMfa ? "" : undefined,
     },
     validate: {
-      mfaCode: me?.hasMfa ? _validateVerificationCode : undefined,
+      mfaCode: me?.hasMfa ? validateVerificationCode : undefined,
       verificationCode: me?.hasMfa
         ? undefined
-        : _validateVerificationCode,
+        : validateVerificationCode,
       antiPhishingCode: (value) => {
         try {
           z.string().min(2).max(20).parse(value);

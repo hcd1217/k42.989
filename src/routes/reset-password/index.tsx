@@ -1,27 +1,90 @@
-import { schema } from "@/domain/schema";
+import { useSPEForm } from "@/hooks/useSPEForm";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import AppForm from "@/ui/Form/Form";
+import axios from "@/services/apis";
+import { SPEResponse } from "@/types";
 import { Header } from "@/ui/Header";
+import { error, success } from "@/utils/notifications";
+import {
+  emailValidate,
+  passwordValidate,
+  requiredValidate,
+} from "@/utils/validates";
 import {
   Box,
+  Button,
   Card,
   Center,
   Container,
   Flex,
   Group,
+  PasswordInput,
+  SimpleGrid,
   Space,
   Text,
+  TextInput,
   Title,
 } from "@mantine/core";
-import { useMemo } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classes from "./index.module.scss";
-import { ResetPasswordFormData } from "@/types";
 
 const Page = () => {
   const t = useSPETranslation();
   const navigate = useNavigate();
-  const formData = useMemo(() => {
+  const [loading, setLoading] = useState(false);
+  const api = "/api/password/reset";
+  const { form } = useSPEForm<{
+    email?: string;
+    type?: number;
+    password?: string;
+    code?: string;
+    mfaCode?: string;
+  }>({
+    initialValues: {
+      email: "",
+      type: 1,
+      password: "",
+      code: "",
+      mfaCode: "",
+    },
+    onValuesChange() {
+      //
+    },
+    validate: {
+      email: emailValidate,
+      password: passwordValidate,
+      code: requiredValidate,
+    },
+  });
+
+  const submit = useCallback(() => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    axios
+      .post<SPEResponse>(api, form.getValues())
+      .then((res) => {
+        if (res.data.code === 0) {
+          success(
+            t("Password Reset Successful"),
+            t(
+              "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.",
+            ),
+          );
+          setTimeout(() => {
+            navigate("/login");
+          }, 1000);
+        } else {
+          error(t("Something went wrong"), res.data.message);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [t, setLoading, form, navigate, loading]);
+
+  useEffect(() => {
     const searchParams = Object.fromEntries(
       window.location.search
         ?.replace("?", "")
@@ -30,13 +93,12 @@ const Page = () => {
     );
     const code = searchParams["code"] || "";
     const email = searchParams["email"] || "";
-    if (!email) {
-      return {};
+    if (email) {
+      form.setFieldValue("email", email);
+      form.setFieldValue("code", code);
     }
-    return Object.assign({}, schema.ResetPassword.formData, {
-      email: { email, code },
-    });
-  }, []);
+  }, [form]);
+
   return (
     <>
       <Flex
@@ -54,36 +116,47 @@ const Page = () => {
                     {t("Reset Password")}
                   </Title>
                   <Space h={30} />
-                  <AppForm
-                    schema={schema.ResetPassword.schema}
-                    uiSchema={schema.ResetPassword.uiSchema}
-                    formData={formData}
-                    w={"100%"}
-                    msgSuccess={t("Password reset has been done")}
-                    onSuccess={() => {
-                      setTimeout(() => {
-                        navigate("/login");
-                      }, 1000);
-                    }}
-                    api="/api/password/reset"
-                    formDataConverter={(
-                      formData: ResetPasswordFormData,
-                    ) => {
-                      return {
-                        type: 1,
-                        email: formData.email.email || "",
-                        password: formData.email?.password || "",
-                        code: formData.email?.code || "",
-                        mfaCode: formData.email?.mfaCode || "",
-                      };
-                    }}
-                    messages={{
-                      titleSuccess: t("Password Reset Successful"),
-                      msgSuccess: t(
-                        "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.",
-                      ),
-                    }}
-                  />
+                  <form onSubmit={form.onSubmit(submit)}>
+                    <SimpleGrid cols={1} spacing={20}>
+                      <TextInput
+                        key={form.key("email")}
+                        {...form.getInputProps("email")}
+                        withAsterisk={true}
+                        label={t("Email")}
+                        placeholder={t("Email")}
+                      />
+                      <PasswordInput
+                        key={form.key("password")}
+                        {...form.getInputProps("password")}
+                        withAsterisk={true}
+                        label={t("New Password")}
+                        placeholder={t("New Password")}
+                      />
+                      <TextInput
+                        key={form.key("code")}
+                        {...form.getInputProps("code")}
+                        withAsterisk={true}
+                        label={t("Verification Code")}
+                        placeholder={t("Verification Code")}
+                      />
+                    </SimpleGrid>
+                    <Space my={"xl"} />
+                    <Button
+                      disabled={loading}
+                      loading={loading}
+                      type="submit"
+                      fullWidth
+                      size="lg"
+                      variant="gradient"
+                      gradient={{
+                        from: "primary",
+                        to: "yellow",
+                        deg: 90,
+                      }}
+                    >
+                      {t("Submit")}
+                    </Button>
+                  </form>
                 </Card>
                 <Group justify="center" my={"lg"}>
                   <div>

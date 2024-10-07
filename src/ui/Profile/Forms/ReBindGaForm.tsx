@@ -5,8 +5,8 @@ import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
 import { maskEmail, maskPhone } from "@/utils/utility";
 import {
-  emailVerificationCodeValidate,
-  requiredFieldValidate,
+  emailVerificationCodeSchema,
+  requiredFieldSchema,
 } from "@/utils/validates";
 
 import {
@@ -59,7 +59,7 @@ export function ReBindGaForm() {
     validate: {
       verificationCode: (value) => {
         try {
-          emailVerificationCodeValidate().parse(value);
+          emailVerificationCodeSchema.parse(value);
           return null;
         } catch (error) {
           logger.error(error);
@@ -68,7 +68,7 @@ export function ReBindGaForm() {
       },
       oldMfaCode: (value) => {
         try {
-          emailVerificationCodeValidate().parse(value);
+          emailVerificationCodeSchema.parse(value);
           return null;
         } catch (error) {
           logger.error(error);
@@ -77,7 +77,7 @@ export function ReBindGaForm() {
       },
       mfaCode: (value) => {
         try {
-          emailVerificationCodeValidate().parse(value);
+          emailVerificationCodeSchema.parse(value);
           return null;
         } catch (error) {
           logger.error(error);
@@ -86,7 +86,7 @@ export function ReBindGaForm() {
       },
       mfaSecret: (value) => {
         try {
-          requiredFieldValidate().parse(value);
+          requiredFieldSchema.parse(value);
           return null;
         } catch (error) {
           logger.error(error);

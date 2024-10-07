@@ -7,8 +7,8 @@ import authStore from "@/store/auth";
 import { error } from "@/utils/notifications";
 import { maskEmail, maskPhone } from "@/utils/utility";
 import {
-  emailVerificationCodeValidate,
-  requiredFieldValidate,
+  emailVerificationCodeSchema,
+  requiredFieldSchema,
 } from "@/utils/validates";
 
 import {
@@ -60,7 +60,7 @@ export function BindGaForm() {
       mfaCode: (value) => {
         try {
           logger.debug("mfaCode", value);
-          emailVerificationCodeValidate().parse(value);
+          emailVerificationCodeSchema.parse(value);
           return null;
         } catch (e) {
           logger.error(e);
@@ -69,8 +69,7 @@ export function BindGaForm() {
       },
       mfaSecret: (value) => {
         try {
-          logger.debug("mfaSecret", value);
-          requiredFieldValidate().parse(value);
+          requiredFieldSchema.parse(value);
           return null;
         } catch (e) {
           return t("Invalid secret code");

@@ -1,9 +1,7 @@
-import { schema } from "@/domain/schema";
 import tradeStore from "@/store/trade";
 import { GridTradeProps } from "@/types";
-import AppForm from "@/ui/Form/Form";
 import { Box } from "@mantine/core";
-import { convertToSpotTradeFormData } from "./config";
+import { TradeForm } from "./TradeForm";
 
 export default function OrderForm({
   symbol,
@@ -13,23 +11,13 @@ export default function OrderForm({
 }: GridTradeProps) {
   return (
     <Box className="space-y-20">
-      <AppForm
-        w={"100%"}
-        schema={schema.PostOrderSchema.schema}
-        uiSchema={schema.PostOrderSchema.uiSchema}
-        formData={{
-          type: "Market",
-          triggerPrice: 0,
-          orderPrice: 0,
-          leverage: isFuture ? 5 : 1,
-          orderSide: "BUY",
-          isFuture,
+      <TradeForm
+        {...{
           symbol,
           base,
           quote,
+          isFuture,
         }}
-        api="/api/order/create"
-        formDataConverter={convertToSpotTradeFormData}
         onSuccess={() => {
           setTimeout(() => {
             tradeStore.getState().loadOpenTrades();
@@ -38,7 +26,6 @@ export default function OrderForm({
             }, 5e3);
           }, 2e3);
         }}
-        showJsonOutput
       />
     </Box>
   );

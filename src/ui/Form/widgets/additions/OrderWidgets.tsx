@@ -9,7 +9,6 @@ import tradeStore from "@/store/trade";
 import AppButton from "@/ui/Button/AppButton";
 import NumberFormat from "@/ui/NumberFormat";
 import NumberInput from "@/ui/NumberInput";
-import { AppPopover } from "@/ui/Popover/AppPopover";
 import AppText from "@/ui/Text/AppText";
 import {
   Box,
@@ -26,25 +25,27 @@ import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { TypeOfWidget } from "./AssetWidgets";
 
 const BUY_AND_SELL = ["BUY", "SELL"];
 const LONG_SHORT = ["LONG", "SHORT"];
 
-export function OrderTypeWidget({
-  name,
-  formContext: { updateFields },
-  ...props
-}: WidgetProps) {
+export function OrderTypeItemWidget({
+  onChange,
+  value,
+}: TypeOfWidget) {
   return (
     <>
       <SegmentedControl
-        onChange={(value) =>
-          updateFields({
-            [name]: value,
-          })
-        }
+        onChange={(value) => {
+          // updateFields({
+          //   [name]: value,
+          // })
+          onChange?.(value);
+        }}
+        value={value as string}
         className="control-segment-percent"
-        data={props.schema.enum as string[]}
+        data={["Market", "Limit", "Conditional"]}
         size="xs"
         styles={{
           root: {
@@ -70,16 +71,19 @@ export function OrderTypeWidget({
   );
 }
 
-export function OrderSideWidget({
-  name,
+export function OrderSideItemWidget({
   value,
-  formContext: { formData, updateFields },
-}: WidgetProps) {
+  onChange,
+  formData,
+}: TypeOfWidget) {
   const t = useSPETranslation();
   return (
     <SegmentedControl
       fullWidth
-      value={_orderSideLabel(value, formData.isFuture)}
+      value={_orderSideLabel(
+        value as OrderSide,
+        formData.isFuture as boolean,
+      )}
       data={
         formData.isFuture
           ? LONG_SHORT.map((el) => t(el))
@@ -93,17 +97,18 @@ export function OrderSideWidget({
           SHORT: OrderSide.SELL,
         };
         logger.trace("side", side);
-        updateFields({ [name]: sideMap[side] });
+        // updateFields?.({ [name as string]: sideMap[side] });
+        onChange?.(sideMap[side]);
       }}
       classNames={{
-        indicator: _isBuy(value) ? "btn-long" : "btn-short",
+        indicator: _isBuy(value as string) ? "btn-long" : "btn-short",
       }}
       styles={{
         root: {
           padding: "0px",
         },
         indicator: {
-          background: _isBuy(value) ? "#23b26b" : "#f0444b",
+          background: _isBuy(value as string) ? "#23b26b" : "#f0444b",
         },
         label: {
           fontWeight: "bolder",
@@ -113,11 +118,11 @@ export function OrderSideWidget({
   );
 }
 
-export function TriggerPriceInputFieldWidget({
+export function TriggerPriceInputFieldItemWidget({
   value,
   onChange,
-  formContext: { formData },
-}: WidgetProps) {
+  formData,
+}: TypeOfWidget) {
   const t = useSPETranslation();
   const { isLogin } = authStore();
 
@@ -132,8 +137,10 @@ export function TriggerPriceInputFieldWidget({
       classNames={{ label: "text-label-form" }}
       step={0.01}
       rightSectionWidth={50}
-      value={value || _lastPrice(formData.symbol)}
-      onChange={(value) => onChange(Number(value))}
+      value={
+        (value as number) || _lastPrice(formData.symbol as string)
+      }
+      onChange={(value) => onChange?.(Number(value))}
       size="sm"
       min={0}
       hideControls
@@ -141,11 +148,11 @@ export function TriggerPriceInputFieldWidget({
   );
 }
 
-export function TriggerDirectionWidget(props: WidgetProps) {
+export function TriggerDirectionItemWidget(props: TypeOfWidget) {
   const t = useSPETranslation();
   const { isLogin } = authStore();
 
-  if (props.formContext?.formData?.orderType !== "Conditional") {
+  if (props.formData?.orderType !== "Conditional") {
     return <></>;
   }
 
@@ -157,9 +164,9 @@ export function TriggerDirectionWidget(props: WidgetProps) {
       <Select
         disabled={!isLogin}
         w={"80px"}
-        value={props.value}
-        data={props.schema.enum as string[]}
-        onChange={(v) => props.onChange(v)}
+        value={props.value as string}
+        data={props.enum as string[]}
+        onChange={(v) => props.onChange?.(v)}
         defaultValue="Good-Till-Canceled"
         withCheckIcon={false}
         rightSection={<IconCaretDownFilled size={14} />}
@@ -195,15 +202,15 @@ export function TriggerDirectionWidget(props: WidgetProps) {
   );
 }
 
-export function OrderPriceInputFieldWidget({
+export function OrderPriceInputFieldItemWidget({
   value,
   onChange,
-  formContext: { formData },
-}: WidgetProps) {
+  formData,
+}: TypeOfWidget) {
   const t = useSPETranslation();
   const { isLogin } = authStore();
   const changeByLast = useCallback(() => {
-    onChange(_lastPrice(formData.symbol));
+    onChange?.(_lastPrice(formData.symbol as string));
   }, [formData.symbol, onChange]);
   if (formData.orderType === "Market") {
     return <></>;
@@ -214,9 +221,11 @@ export function OrderPriceInputFieldWidget({
       label={t("Order Price")}
       classNames={{ label: "text-label-form" }}
       rightSectionWidth={50}
-      value={value || _lastPrice(formData.symbol)}
+      value={
+        (value as string) || _lastPrice(formData.symbol as string)
+      }
       step={0.001}
-      onChange={(value) => onChange(Number(value))}
+      onChange={(value) => onChange?.(Number(value))}
       size="sm"
       min={0}
       rightSection={
@@ -229,22 +238,20 @@ export function OrderPriceInputFieldWidget({
           c={"primary"}
           fw={"bold"}
         >
-          Last
+          {t("Last")}
         </AppText>
       }
     />
   );
 }
 
-export function LeverageWidget(props: WidgetProps) {
+export function LeverageItemWidget(props: TypeOfWidget) {
   const t = useSPETranslation();
   const { isLogin } = authStore();
 
   const options = useMemo(() => {
-    return (
-      props.schema?.enum?.map((item) => `${item?.toString()}x`) ?? []
-    );
-  }, [props.schema.enum]);
+    return props.enum?.map((item) => `${item?.toString()}x`) ?? [];
+  }, [props.enum]);
   return (
     <>
       <Box>
@@ -255,7 +262,7 @@ export function LeverageWidget(props: WidgetProps) {
           disabled={!isLogin}
           value={`${props.value}x`}
           onChange={(v) => {
-            props.onChange(parseFloat(v));
+            props.onChange?.(parseFloat(v));
           }}
           className="control-segment-percent"
           w={"100%"}
@@ -283,11 +290,11 @@ export function LeverageWidget(props: WidgetProps) {
   );
 }
 
-export function VolumeInputFieldWidget({
+export function VolumeInputFieldItemWidget({
   value,
   onChange,
-  formContext: { formData },
-}: WidgetProps) {
+  formData,
+}: TypeOfWidget) {
   const t = useSPETranslation();
   const { isLogin } = authStore();
   const [percent, setPercent] = useState(0);
@@ -295,7 +302,7 @@ export function VolumeInputFieldWidget({
   const { tradingBalances } = assetStore();
   const { max, config } = useMemo(() => {
     const open = Number(
-      openTrades.openPositions[formData.symbol] || 0,
+      openTrades.openPositions[formData.symbol as string] || 0,
     );
     const k = Math.sign(open);
     const currentSide = open < 0 ? OrderSide.SELL : OrderSide.BUY;
@@ -303,17 +310,20 @@ export function VolumeInputFieldWidget({
 
     if (formData.reduceOnly && formData.isFuture) {
       if (!isReverse) {
-        return { max: 0, config: symbolMap[formData.symbol] };
+        return {
+          max: 0,
+          config: symbolMap[formData.symbol as string],
+        };
       }
       return {
         max: Math.abs(open),
-        config: symbolMap[formData.symbol],
+        config: symbolMap[formData.symbol as string],
       };
     }
 
     let coin = formData.quote;
     if (!formData.isFuture) {
-      coin = _isBuy(formData.orderSide)
+      coin = _isBuy(formData.orderSide as string)
         ? formData.quote
         : formData.base;
     }
@@ -325,7 +335,8 @@ export function VolumeInputFieldWidget({
     let max = 0;
     const free = freeAmount(balance);
     const price =
-      Number(formData.orderPrice) || marketPrices[formData.symbol];
+      Number(formData.orderPrice) ||
+      marketPrices[formData.symbol as string];
     if (!formData.isFuture) {
       max = Number(free);
       if (formData.orderSide === OrderSide.BUY) {
@@ -333,7 +344,10 @@ export function VolumeInputFieldWidget({
       }
     } else {
       max = Number(
-        BN.div(BN.mul(formData.leverage || 1, free), price),
+        BN.div(
+          BN.mul((formData.leverage as number) || 1, free),
+          price,
+        ),
       );
     }
 
@@ -342,7 +356,7 @@ export function VolumeInputFieldWidget({
     }
     return {
       max: Number(max || 0),
-      config: symbolMap[formData.symbol],
+      config: symbolMap[formData.symbol as string],
     };
   }, [
     formData.base,
@@ -367,7 +381,7 @@ export function VolumeInputFieldWidget({
         classNames={{ label: "text-label-form" }}
         label={t("Volume")}
         step={Number(config?.volumeStepSize) || 1}
-        value={value}
+        value={value as number}
         min={Number(config?.minVolume) || 0.001}
         onChange={(value) => {
           setPercent(
@@ -376,14 +390,16 @@ export function VolumeInputFieldWidget({
               100,
             ),
           );
-          onChange(Number(value));
+          onChange?.(Number(value));
         }}
-        error={value > max ? t("Volume too large") : false}
+        error={
+          (value as number) > max ? t("Volume too large") : false
+        }
         rightSectionWidth={60}
         size="sm"
         rightSection={
           <AppText fz={12} fw={"bold"}>
-            {formData.base}
+            {formData.base as string}
           </AppText>
         }
       />
@@ -401,7 +417,7 @@ export function VolumeInputFieldWidget({
           onChange={(percent) => {
             setPercent(percent);
             const v = Number(BN.div(BN.mul(max, percent), 100, 3));
-            onChange(v);
+            onChange?.(v);
           }}
           value={percent}
           color="primary"
@@ -428,19 +444,17 @@ export function VolumeInputFieldWidget({
   );
 }
 
-export function UiBalanceWidget({
-  formContext: { formData },
-}: WidgetProps) {
+export function UiBalanceItemWidget({ formData }: TypeOfWidget) {
   const { tradingBalanceMap } = assetStore();
   const t = useSPETranslation();
   const { coin, availableBalance } = useMemo(() => {
-    const isBuy = _isBuy(formData?.orderSide || "BUY");
+    const isBuy = _isBuy((formData?.orderSide as string) || "BUY");
     let coin = isBuy ? formData.quote : formData.base;
     if (formData.isFuture) {
       coin = formData.quote;
     }
     const availableBalance =
-      tradingBalanceMap[coin]?.availableMargin || 0;
+      tradingBalanceMap[coin as string]?.availableMargin || 0;
     return {
       isBuy,
       coin,
@@ -488,13 +502,13 @@ export function UiBalanceWidget({
       </HoverCard>
       <Text fw="bolder" fz={12}>
         <NumberFormat value={availableBalance} decimalPlaces={4} />{" "}
-        <span>{coin}</span>
+        <span>{coin as string}</span>
       </Text>
     </Flex>
   );
 }
 
-export function PostOnlyWidget(props: WidgetProps) {
+export function PostOnlyItemWidget(props: TypeOfWidget) {
   const t = useSPETranslation();
   return (
     <ActionOnlyWidget
@@ -507,7 +521,7 @@ export function PostOnlyWidget(props: WidgetProps) {
   );
 }
 
-export function ReduceOnlyWidget(props: WidgetProps) {
+export function ReduceOnlyItemWidget(props: TypeOfWidget) {
   const t = useSPETranslation();
   return (
     <ActionOnlyWidget
@@ -520,7 +534,7 @@ export function ReduceOnlyWidget(props: WidgetProps) {
   );
 }
 
-export function TimeInForceWidget(props: WidgetProps) {
+export function TimeInForceItemWidget(props: TypeOfWidget) {
   const t = useSPETranslation();
   const { isLogin } = authStore();
 
@@ -532,9 +546,9 @@ export function TimeInForceWidget(props: WidgetProps) {
       <Select
         disabled={!isLogin}
         w={"80px"}
-        value={props.value}
-        data={props.schema.enum as string[]}
-        onChange={(v) => props.onChange(v)}
+        value={props.value as string}
+        data={props.enum as string[]}
+        onChange={(v) => props.onChange?.(v)}
         defaultValue="Good-Till-Canceled"
         withCheckIcon={false}
         rightSection={<IconCaretDownFilled size={14} />}
@@ -570,9 +584,11 @@ export function TimeInForceWidget(props: WidgetProps) {
   );
 }
 
-export function PlaceOrderButtonsWidget({
-  formContext: { formData, submit },
-}: WidgetProps) {
+export function PlaceOrderButtonsItemWidget({
+  formData,
+  onSubmit,
+  loading,
+}: TypeOfWidget & { onSubmit?: () => void }) {
   const { isLogin } = authStore();
   const navigate = useNavigate();
   const t = useSPETranslation();
@@ -593,9 +609,11 @@ export function PlaceOrderButtonsWidget({
 
   return (
     <AppButton
+      loading={loading}
+      disabled={loading}
       onClick={() => {
         if (isLogin) {
-          submit();
+          onSubmit?.();
         } else {
           const { pathname, search } = window.location;
           navigate(
@@ -647,31 +665,28 @@ function ActionOnlyWidget(
             ""
           ) : (
             <>
-              <AppPopover
-                withArrow={false}
-                position="bottom-start"
-                target={(_props) => ({
-                  children: (
+              <HoverCard
+                width={280}
+                shadow="md"
+                openDelay={400}
+                withArrow
+              >
+                <HoverCard.Target>
+                  <div>
                     <InputLabel
                       onClick={() => props.onChange(!props.value)}
                       className="text-label-form"
-                      onMouseLeave={_props.close}
-                      onMouseEnter={_props.open}
                     >
                       {props.label || ""}
                     </InputLabel>
-                  ),
-                })}
-                dropdown={() => ({
-                  children: (
-                    <div>
-                      <AppText instancetype="WithTextTooltip">
-                        {props.tooltip || ""}
-                      </AppText>
-                    </div>
-                  ),
-                })}
-              ></AppPopover>
+                  </div>
+                </HoverCard.Target>
+                <HoverCard.Dropdown>
+                  <AppText instancetype="WithTextTooltip">
+                    {props.tooltip || ""}
+                  </AppText>
+                </HoverCard.Dropdown>
+              </HoverCard>
             </>
           )
         }

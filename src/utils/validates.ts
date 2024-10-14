@@ -86,3 +86,18 @@ export const requiredValidate = (value: string | undefined) => {
     return null;
   }
 };
+
+export const volumeValidate = (
+  value: string | number | undefined,
+) => {
+  try {
+    numberValidate.parse(value);
+    return null;
+  } catch (e) {
+    if (e instanceof z.ZodError) {
+      return _t(dictionary, "Please enter transaction volume.");
+      // return e.issues[0].message;
+    }
+    return null;
+  }
+};

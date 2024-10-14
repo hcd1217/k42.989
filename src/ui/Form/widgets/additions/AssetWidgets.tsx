@@ -47,7 +47,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useCallback, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
-type TypeOfWidget = {
+export type TypeOfWidget = {
   formData: Record<string, unknown>;
   updateFields?: (fields: Record<string, unknown>) => void;
   onChange?: (value: unknown) => void;
@@ -55,11 +55,13 @@ type TypeOfWidget = {
     label: string;
     value: string;
   }[];
+  enum?: string[] | number[];
   value?: unknown;
   name?: string;
   label?: string;
   placeholder?: string;
   required?: boolean;
+  loading?: boolean;
 };
 
 export function SelectCoinWidget(props: WidgetProps) {

@@ -1,3 +1,5 @@
+import BRAND from "@/brands";
+import { Head } from "@/components/seo";
 import useSPEMetadata from "@/hooks/useSPEMetadata";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { Header } from "@/ui/Header";
@@ -22,6 +24,7 @@ const HistoryWrapper = ({
   const { data } = useSPEMetadata();
   return (
     <>
+      <Head title={`${BRAND.configs.APP_NAME} | History`} />
       <Header metadata={data} />
       <Container fluid>
         <Box py={30}>

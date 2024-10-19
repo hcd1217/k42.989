@@ -671,13 +671,13 @@ function MenuUserInfo() {
             </Menu.Item>
             <Menu.Divider />
 
-            <Menu.Item fw={"bold"} component="a" href="/user">
+            <Menu.Item fw={"bold"} component={Link} to="/user">
               {t("Settings")}
             </Menu.Item>
-            <Menu.Item fw={"bold"} component="a" href="/wallet">
+            <Menu.Item fw={"bold"} component={Link} to="/wallet">
               {t("Assets")}
             </Menu.Item>
-            <Menu.Item fw={"bold"} component="a" href="/user/invite">
+            <Menu.Item fw={"bold"} component={Link} to="/user/invite">
               {t("Referral")}
             </Menu.Item>
             <Menu.Item

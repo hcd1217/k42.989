@@ -17,7 +17,6 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { IChangeEvent } from "@rjsf/core";
 import { IconSwitchVertical } from "@tabler/icons-react";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { convertToSwapFormData } from "./config";
@@ -26,7 +25,7 @@ type SwapFormProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   coin?: string;
   onClose?: () => void;
-  onSubmit: (res: IChangeEvent | unknown) => void;
+  onSubmit: (res: unknown) => void;
 };
 
 type FormValueType = Partial<{

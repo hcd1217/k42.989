@@ -1,6 +1,9 @@
 import BN from "@/common/big-number";
-import useSPEInterval from "@/hooks/useSPEInterval";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import {
+  fetchMarketInformation,
+  fetchOpenTrades,
+} from "@/services/apis";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
@@ -23,6 +26,7 @@ import {
   Space,
   Spoiler,
 } from "@mantine/core";
+import { useMediaQuery } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import {
   IconChevronsDown,
@@ -33,7 +37,7 @@ import { useCallback, useState } from "react";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { useMediaQuery } from "@mantine/hooks";
+import useSWR from "swr";
 import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -125,10 +129,33 @@ export function GridTrade({
     [],
   );
 
-  useSPEInterval(() => {
-    tradeStore.getState().loadOpenTrades();
-    tradeStore.getState().loadMarketInformation(symbol);
-  }, 10e3);
+  useSWR(
+    ["loadOpenTrades"],
+    fetchOpenTrades, // OK
+    {
+      refreshInterval: 10e3,
+      refreshWhenHidden: false,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      onSuccess(data) {
+        tradeStore.getState().loadOpenTrades(data);
+      },
+    },
+  );
+
+  useSWR(
+    ["loadMarketInformation", symbol],
+    ([, symbol]) => fetchMarketInformation(symbol), // OK
+    {
+      refreshInterval: 10e3,
+      refreshWhenHidden: false,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      onSuccess(data) {
+        tradeStore.getState().loadMarketInformation(symbol, data);
+      },
+    },
+  );
 
   return (
     <Grid columns={24} gutter={4} p={4} key={symbol}>

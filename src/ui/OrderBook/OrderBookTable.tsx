@@ -2,7 +2,7 @@ import BN from "@/common/big-number";
 import { ORDER_BOOK_LIMIT } from "@/common/configs";
 import { OrderSide } from "@/common/enums";
 import { last } from "@/common/utils";
-import useSPEInterval from "@/hooks/useSPEInterval";
+import { IS_DEV } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchOrderBooks } from "@/services/apis";
 import tradeStore from "@/store/trade";
@@ -21,9 +21,9 @@ import {
   IconCaretDownFilled,
   IconFlagFilled,
 } from "@tabler/icons-react";
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
 import NumberFormat from "../NumberFormat";
-import { IS_DEV } from "@/domain/config";
 
 export type OrderBookType = "ASK ONLY" | "BID ONLY" | "ASK & BID";
 
@@ -67,49 +67,56 @@ export function OrderBookTable({
     side: OrderSide.BUY,
   });
 
-  const fetch = useCallback(() => {
-    fetchOrderBooks(symbol).then(({ a, b }) => {
-      if (!a || !b) {
-        return;
-      }
-      setData((data) => {
-        const numberOfRow = display === "ASK & BID" ? 10 : 30;
-        const latestAsk: number = last(a)?.[0] || 0;
-        const latestBid: number = b?.[0]?.[0] || 0;
-        let latest = data.latest;
-        let side = data.side;
-        if (latestBid && latestAsk) {
-          if (latest < latestBid) {
-            latest = latestBid;
-            side = OrderSide.BUY;
-          }
-          if (latest > latestAsk) {
-            latest = latestAsk;
-            side = OrderSide.SELL;
-          }
-          // logger.trace("save", `__LAST_PRICE_${symbol}__`, latest);
-          localStorage[`__LAST_PRICE_${symbol}__`] = latest;
-          const totalAsk = a[0]?.[2] || 0;
-          const totalBid = last(b)?.[2] || 0;
-          const total = Number(BN.add(totalAsk, totalBid)) / 100 || 1;
-          const askRate = Number(BN.div(totalAsk, total, 0));
-          const bidRate = Number(BN.div(totalBid, total, 0));
-          return {
-            green: b.slice(0, numberOfRow),
-            red: a.slice(-numberOfRow),
-            status: data.status === "newData" ? "" : "newData",
-            latest,
-            side,
-            askRate,
-            bidRate,
-          };
+  useSWR(
+    ["fetchOrderBooks", symbol, display],
+    ([, symbol]) => fetchOrderBooks(symbol), // OK
+    {
+      refreshInterval: IS_DEV ? 10e3 : 1e3,
+      refreshWhenHidden: false,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      onSuccess({ a, b }) {
+        if (!a || !b) {
+          return;
         }
-        return data;
-      });
-    });
-  }, [display, symbol]);
-
-  useSPEInterval(fetch, IS_DEV ? 10e3 : 1e3);
+        setData((data) => {
+          const numberOfRow = display === "ASK & BID" ? 10 : 30;
+          const latestAsk: number = last(a)?.[0] || 0;
+          const latestBid: number = b?.[0]?.[0] || 0;
+          let latest = data.latest;
+          let side = data.side;
+          if (latestBid && latestAsk) {
+            if (latest < latestBid) {
+              latest = latestBid;
+              side = OrderSide.BUY;
+            }
+            if (latest > latestAsk) {
+              latest = latestAsk;
+              side = OrderSide.SELL;
+            }
+            // logger.trace("save", `__LAST_PRICE_${symbol}__`, latest);
+            localStorage[`__LAST_PRICE_${symbol}__`] = latest;
+            const totalAsk = a[0]?.[2] || 0;
+            const totalBid = last(b)?.[2] || 0;
+            const total =
+              Number(BN.add(totalAsk, totalBid)) / 100 || 1;
+            const askRate = Number(BN.div(totalAsk, total, 0));
+            const bidRate = Number(BN.div(totalBid, total, 0));
+            return {
+              green: b.slice(0, numberOfRow),
+              red: a.slice(-numberOfRow),
+              status: data.status === "newData" ? "" : "newData",
+              latest,
+              side,
+              askRate,
+              bidRate,
+            };
+          }
+          return data;
+        });
+      },
+    },
+  );
 
   const pricePanel = useMemo(() => {
     return (

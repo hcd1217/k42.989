@@ -1,3 +1,4 @@
+import BRAND from "@/brands";
 import { IS_DEV } from "@/domain/config";
 import { ONE_DAY, ONE_HOUR } from "@/utils";
 import _axios from "axios";
@@ -6,9 +7,7 @@ import { Md5 } from "ts-md5";
 _initUid();
 
 const axios = _axios.create({
-  baseURL: IS_DEV
-    ? import.meta.env.APP_API_URL
-    : "https://api.cryptocopyinvest.com",
+  baseURL: BRAND.configs.APP_API_URL,
   headers: {
     "Content-type": "application/json",
     "X-UID": localStorage.__X_UID__,

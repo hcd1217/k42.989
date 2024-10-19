@@ -1,11 +1,13 @@
+import BRAND from "@/brands";
+import { Head } from "@/components/seo";
 import useSPEMetadata from "@/hooks/useSPEMetadata";
 import appStore from "@/store/app";
+import { Footer } from "@/ui/Footer";
 import { Header } from "@/ui/Header";
 import { Divider } from "@mantine/core";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AppWrapper from "./AppWrapper";
-import { Footer } from "@/ui/Footer";
 
 export default function ServiceWrapper({
   children,
@@ -24,6 +26,7 @@ export default function ServiceWrapper({
 
   return (
     <AppWrapper>
+      <Head title={`${BRAND.configs.APP_NAME}`} />
       <Header metadata={data} />
       {children}
       <Divider />

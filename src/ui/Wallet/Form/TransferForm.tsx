@@ -26,7 +26,6 @@ import {
   Title,
 } from "@mantine/core";
 import { useForceUpdate } from "@mantine/hooks";
-import { IChangeEvent } from "@rjsf/core";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { FormEvent, useCallback, useMemo, useState } from "react";
 import { convertToTransferFormData } from "./config";
@@ -34,7 +33,7 @@ import { convertToTransferFormData } from "./config";
 export function TransferForm(props: {
   coin?: string;
   accountIds?: string[];
-  onSubmit?: (res: IChangeEvent | unknown) => void;
+  onSubmit?: (res: unknown) => void;
 }) {
   const t = useSPETranslation();
 

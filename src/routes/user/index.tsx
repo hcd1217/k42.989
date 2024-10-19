@@ -29,6 +29,7 @@ import {
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
 import { useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 // import { LoginHistories } from "./LoginHistory";
 
 const kycColors: Record<string, string> = {
@@ -53,6 +54,7 @@ export default function Profile() {
     }
     return kycLevel !== "3" ? t("Verify now") : t("Configured");
   }, [isPendingKyc, kycLevel, t]);
+  const navigate = useNavigate();
   return (
     <Container>
       <Box py={"xl"}>
@@ -145,8 +147,8 @@ export default function Profile() {
             <Grid.Col span={6}>
               <Flex justify={"end"} align={"center"} h={"100%"}>
                 <Button
-                  component="a"
-                  href="/user/modify-password"
+                  component={Link}
+                  to="/user/modify-password"
                   variant="gradient"
                   miw={150}
                   px={"xs"}
@@ -201,7 +203,7 @@ export default function Profile() {
                     if (kycLevel === "3") {
                       return;
                     }
-                    window.location.href = "/user/kyc";
+                    navigate("/user/kyc");
                   }}
                   variant="gradient"
                   miw={150}
@@ -297,9 +299,9 @@ export default function Profile() {
                 <Button
                   component="a"
                   onClick={() => {
-                    window.location.href = me?.hasMfa
-                      ? "user/rebind-ga"
-                      : "/user/bind-ga";
+                    navigate(
+                      me?.hasMfa ? "user/rebind-ga" : "/user/bind-ga",
+                    );
                   }}
                   variant="gradient"
                   miw={150}

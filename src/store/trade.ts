@@ -19,11 +19,16 @@ interface TradeState {
   marketPrices: MarketPrice;
   marketInformation: Record<string, MarketInformation>;
   openTrades: OpenTrades;
-  loadSymbols: () => Promise<void>;
-  loadOpenTrades: () => Promise<void>;
-  loadMarketPrices: () => Promise<void>;
-  loadMarketInformation: (symbol: string) => Promise<void>;
-  loadAllMarketInformation: () => Promise<void>;
+  loadSymbols: (items?: SymbolConfig[]) => Promise<void>;
+  loadOpenTrades: (items?: OpenTrades) => Promise<void>;
+  loadMarketPrices: (item?: MarketPrice) => Promise<void>;
+  loadMarketInformation: (
+    symbol: string,
+    item?: MarketInformation,
+  ) => Promise<void>;
+  loadAllMarketInformation: (
+    items?: MarketInformation[],
+  ) => Promise<void>;
 }
 
 const tradeStore = create<TradeState>((set, get) => ({
@@ -35,8 +40,8 @@ const tradeStore = create<TradeState>((set, get) => ({
     openOrders: {},
     openPositions: {},
   },
-  async loadSymbols() {
-    const symbols = await fetchAllSymbolsApi();
+  async loadSymbols(items) {
+    const symbols = items ? items : await fetchAllSymbolsApi();
     set({
       symbols,
       symbolMap: Object.fromEntries(
@@ -44,16 +49,16 @@ const tradeStore = create<TradeState>((set, get) => ({
       ),
     });
   },
-  async loadMarketPrices() {
-    set({ marketPrices: await fetchMarketPricesApi() });
+  async loadMarketPrices(item) {
+    set({ marketPrices: item ? item : await fetchMarketPricesApi() });
   },
 
-  async loadOpenTrades() {
-    set({ openTrades: await fetchOpenTrades() });
+  async loadOpenTrades(item) {
+    set({ openTrades: item ? item : await fetchOpenTrades() });
   },
 
-  async loadAllMarketInformation() {
-    const data = await fetchAllMarketInformation();
+  async loadAllMarketInformation(items) {
+    const data = items ? items : await fetchAllMarketInformation();
     set({
       marketInformation: Object.fromEntries(
         data.map((info) => [info.symbol, info]),
@@ -61,8 +66,8 @@ const tradeStore = create<TradeState>((set, get) => ({
     });
   },
 
-  async loadMarketInformation(symbol: string) {
-    const data = await fetchMarketInformation(symbol);
+  async loadMarketInformation(symbol: string, item) {
+    const data = item ? item : await fetchMarketInformation(symbol);
     set({
       marketInformation: {
         ...get().marketInformation,

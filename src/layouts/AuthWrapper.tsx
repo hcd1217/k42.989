@@ -1,3 +1,5 @@
+import BRAND from "@/brands";
+import { Head } from "@/components/seo";
 import React, { useEffect } from "react";
 
 const AuthWrapper = ({
@@ -14,7 +16,12 @@ const AuthWrapper = ({
       )}`;
     }
   }, []);
-  return <>{children}</>;
+  return (
+    <>
+      <Head title={`${BRAND.configs.APP_NAME} | Authentication`} />
+      {children}
+    </>
+  );
 };
 
 export default AuthWrapper;

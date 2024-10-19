@@ -1,3 +1,5 @@
+import BRAND from "@/brands";
+import { Head } from "@/components/seo";
 import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { Header } from "@/ui/Header";
 import { Box } from "@mantine/core";
@@ -10,6 +12,7 @@ const AssetWrapper = ({
   const { data } = useSPEMetadata();
   return (
     <>
+      <Head title={`${BRAND.configs.APP_NAME} | Assets`} />
       <Header metadata={data} />
       <Box h={"100%"}>{children}</Box>
     </>

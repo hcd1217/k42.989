@@ -4,7 +4,7 @@ import { ReBindGaForm } from "@/ui/Profile/Forms/ReBindGaForm";
 import { Anchor, Breadcrumbs, Container } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // TODO: rename this component to match the file name
 export default function Page() {
@@ -24,7 +24,7 @@ export default function Page() {
           my={20}
           separator={<IconChevronRight color="gray" size={14} />}
         >
-          <Anchor fz={16} fw={400} href="/user">
+          <Anchor component={Link} fz={16} fw={400} to="/user">
             {t("My Account")}
           </Anchor>
           <Anchor fz={16} fw={400}>

@@ -21,7 +21,6 @@ import {
   Slider,
   Text,
 } from "@mantine/core";
-import { WidgetProps } from "@rjsf/utils";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -645,20 +644,15 @@ export function PlaceOrderButtonsItemWidget({
   );
 }
 
-function ActionOnlyWidget(
-  props: Omit<WidgetProps, "label"> & {
-    label?: string;
-    tooltip?: string;
-  },
-) {
+function ActionOnlyWidget(props: TypeOfWidget) {
   const { isLogin } = authStore();
   return (
     <Box className="space-y-10" hidden={props.hidden}>
       <Checkbox
         disabled={!isLogin}
-        checked={props.value}
+        checked={props.value as boolean}
         onChange={(event) => {
-          props.onChange(event.currentTarget.checked);
+          props.onChange?.(event.currentTarget.checked);
         }}
         label={
           !props.label ? (
@@ -674,7 +668,7 @@ function ActionOnlyWidget(
                 <HoverCard.Target>
                   <div>
                     <InputLabel
-                      onClick={() => props.onChange(!props.value)}
+                      onClick={() => props.onChange?.(!props.value)}
                       className="text-label-form"
                     >
                       {props.label || ""}

@@ -9,6 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <script src="/tv/charting_library/charting_library.standalone.js"></script>
     <script src="/tv/datafeeds/udf/dist/bundle.js"></script>
+    <script>
+      if('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          // navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+        })
+      }
+    </script>
   </head>
 
   <body>

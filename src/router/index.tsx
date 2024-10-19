@@ -1,13 +1,19 @@
 import AuthWrapper from "@/layouts/AuthWrapper";
 import GuestWrapper from "@/layouts/GuestWrapper";
 import { RouteConfig } from "@/types";
-import { lazy } from "react";
+import { lazy, useMemo } from "react";
+import {
+  createBrowserRouter,
+  RouteObject,
+  RouterProvider,
+} from "react-router-dom";
 
 type GenericProps = Record<string, unknown>;
 type RFC = (props?: GenericProps) => React.JSX.Element;
 type NoPropsRFC = () => React.JSX.Element;
 type Wrapper = React.LazyExoticComponent<RFC>;
 type LazyExoticComponent = React.LazyExoticComponent<NoPropsRFC>;
+
 type Config = {
   path: string;
   authOnly?: boolean;
@@ -69,7 +75,7 @@ const componentMap: Record<string, LazyExoticComponent> = {
   ReferralProgram: lazy(() => import("@/routes/crypto-copy-invest-information/referral-program"))
 };
 
-const configs: Config[] = [
+const configs = [
   {
     path: "/",
     element: "TopPage",
@@ -284,11 +290,17 @@ const configs: Config[] = [
     path: "/*",
     element: "BlankPage",
   },
-];
+].map((item) => {
+  const { element, path } = withLayout(item);
+  return {
+    path: path,
+    lazy: async () => {
+      return { element: element };
+    },
+  } as RouteObject;
+}) as RouteObject[];
 
-export default configs.map(_buildRouteConfig);
-
-function _buildRouteConfig(config: Config): RouteConfig {
+function withLayout(config: Config): RouteConfig {
   const Component =
     typeof config.element === "string"
       ? componentMap[config.element]
@@ -308,3 +320,10 @@ function _buildRouteConfig(config: Config): RouteConfig {
   }
   return { path: config.path, element };
 }
+
+export const createAppRouter = () => createBrowserRouter(configs);
+
+export const AppRouter = () => {
+  const router = useMemo(() => createAppRouter(), []);
+  return <RouterProvider router={router} />;
+};

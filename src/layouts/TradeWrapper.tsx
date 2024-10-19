@@ -1,4 +1,6 @@
+import BRAND from "@/brands";
 import { delay } from "@/common/utils";
+import { Head } from "@/components/seo";
 import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { Header } from "@/ui/Header";
 import { Box, Loader, Transition } from "@mantine/core";
@@ -48,6 +50,7 @@ const TradeWrapper = ({
       }
     >
       <>
+        <Head title={`${BRAND.configs.APP_NAME}`} />
         <Transition
           mounted={mounted}
           transition="fade"

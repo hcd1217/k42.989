@@ -5,7 +5,7 @@ import {
   SWAP_RATE,
 } from "@/common/configs";
 import { freeAmount } from "@/common/utils";
-import { ASSET_COIN_OPTIONS, COIN_IMAGES } from "@/domain/config";
+import { COIN_IMAGES } from "@/domain/config";
 import {
   convertCoinToCoinUsingRate,
   SwapSideAsName,
@@ -38,7 +38,6 @@ import {
   useDisclosure,
   useFocusTrap,
 } from "@mantine/hooks";
-import { WidgetProps } from "@rjsf/utils";
 import {
   IconCaretDownFilled,
   IconCaretUpFilled,
@@ -62,56 +61,9 @@ export type TypeOfWidget = {
   placeholder?: string;
   required?: boolean;
   loading?: boolean;
+  tooltip?: string;
+  hidden?: boolean;
 };
-
-export function SelectCoinWidget(props: WidgetProps) {
-  return (
-    <>
-      <Select
-        placeholder={props.placeholder}
-        value={props.value}
-        data={ASSET_COIN_OPTIONS}
-        onChange={(v) => props.onChange(v)}
-        label={props.label ? props.label : ""}
-        withAsterisk={props.required}
-        renderOption={renderCoinSelectOption}
-        allowDeselect={false}
-        leftSection={
-          <>
-            <Image
-              w={"22px"}
-              h={"22px"}
-              src={COIN_IMAGES[props.value]}
-            />
-          </>
-        }
-        rightSection={
-          <IconCaretDownFilled color="#81858d" size={15} />
-        }
-        comboboxProps={{
-          offset: 0,
-          withinPortal: false,
-        }}
-        styles={{
-          root: {},
-          input: {
-            border: "none",
-            boxShadow: "none",
-            borderRadius: "0px",
-            background: "light-dark(#f3f5f7, #26282c)",
-            fontWeight: "bold",
-          },
-          dropdown: {
-            borderRadius: "0px",
-            border: "none",
-            padding: "0px",
-          },
-        }}
-        {...(props.options?.props as any)} // eslint-disable-line
-      />
-    </>
-  );
-}
 
 export function QrCodeAddressWidget(props: {
   coin?: string;

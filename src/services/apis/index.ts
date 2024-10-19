@@ -401,11 +401,13 @@ export async function fetchOrders(symbol?: string) {
 
 export async function getMe(): Promise<AuthenticationPayload> {
   if (!localStorage.__TOKEN__) {
-    throw new Error("Not logged in");
+    return Promise.reject("Not logged in");
+    // throw new Error("Not logged in");
   }
   const me = await getApi<AuthenticationPayload>("/api/me");
   if (!me?.id) {
-    throw new Error("Failed to get me");
+    return Promise.reject("Failed to get me");
+    // throw new Error("Failed to get me");
   }
   return me;
 }

@@ -9,6 +9,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 // TODO: rename this component to match the file name
 export default function Page() {
@@ -21,7 +22,7 @@ export default function Page() {
           my={20}
           separator={<IconChevronRight color="gray" size={14} />}
         >
-          <Anchor fz={16} fw={400} href="/user">
+          <Anchor fz={16} fw={400} component={Link} to="/user">
             {t("My Account")}
           </Anchor>
           <Anchor fz={16} fw={400}>

@@ -25,8 +25,12 @@ interface AssetState {
   fundingAccount?: Account;
   tradingAccount?: Account;
   tradingBalanceMap: Record<string, Balance>;
-  fetchBalances: () => Promise<void>;
+  fetchBalances: (item?: {
+    balances: Balance[];
+    overview: BalanceOverview;
+  }) => Promise<void>;
   fetchAccounts: () => Promise<void>;
+  setAccounts: (accounts: Account[]) => void;
 }
 
 export const assetStore = create<AssetState>((set, get) => ({
@@ -51,8 +55,11 @@ export const assetStore = create<AssetState>((set, get) => ({
     BTC_USDT_SPOT: 0,
     ETH_USDT_SPOT: 0,
   },
-  async fetchBalances() {
-    const { balances, overview } = await fetchBalancesApi();
+
+  async fetchBalances(items) {
+    const { balances, overview } = items
+      ? items
+      : await fetchBalancesApi();
     const state = get();
     const fundingBalances = balances.filter(
       (balance) =>
@@ -78,9 +85,25 @@ export const assetStore = create<AssetState>((set, get) => ({
   async fetchAccounts() {
     const accounts = await fetchAccountsApi();
     const masterTraders = await fetchMasterTraders();
+    const state = get();
+    state.setAccounts(accounts);
+    set({
+      masterTraders,
+    });
+
+    // set({
+    //   accounts,
+    //   masterTraders,
+    //   accountById: Object.fromEntries(
+    //     accounts.map((account) => [account.id, account]),
+    //   ),
+    //   fundingAccount: accounts.find(isFundingAccount),
+    //   tradingAccount: accounts.find(isTradingAccount),
+    // });
+  },
+  setAccounts(accounts: Account[]) {
     set({
       accounts,
-      masterTraders,
       accountById: Object.fromEntries(
         accounts.map((account) => [account.id, account]),
       ),

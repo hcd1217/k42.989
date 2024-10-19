@@ -33,6 +33,7 @@ import {
   IconCaretDownFilled,
 } from "@tabler/icons-react";
 import { FormEvent, useCallback, useState } from "react";
+import { Link } from "react-router-dom";
 
 export function WithdrawForm(props: {
   coin?: string;
@@ -310,7 +311,8 @@ const MfaPopup = () => {
         )}
       </span>
       <Anchor
-        href="/user/bind-ga"
+        component={Link}
+        to="/user/bind-ga"
         style={{
           whiteSpace: "nowrap",
           alignItems: "center",

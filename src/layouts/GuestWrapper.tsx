@@ -1,3 +1,5 @@
+import BRAND from "@/brands";
+import { Head } from "@/components/seo";
 import React, { useEffect } from "react";
 
 const GuestWrapper = ({
@@ -10,7 +12,12 @@ const GuestWrapper = ({
       window.location.href = "/";
     }
   }, []);
-  return <>{children}</>;
+  return (
+    <>
+      <Head title={`${BRAND.configs.APP_NAME}`} />
+      {children}
+    </>
+  );
 };
 
 export default GuestWrapper;

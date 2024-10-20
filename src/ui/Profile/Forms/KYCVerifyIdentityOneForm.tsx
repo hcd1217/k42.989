@@ -1,8 +1,8 @@
 import { userKycDataSchema } from "@/common/schema";
 import { IS_DEV } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import useSPEUploader from "@/hooks/useSPEUploader";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
-import useUploader from "@/hooks/useUploader";
 import authStore from "@/store/auth";
 import { ImageType } from "@/types";
 import { PictureUploader } from "@/ui/AvatarUploader";
@@ -60,7 +60,7 @@ export function KYCVerifyIdentityOneForm() {
     uploadFile,
     setFile,
     loading: _loadingFile,
-  } = useUploader({
+  } = useSPEUploader({
     onSuccess(file, type) {
       if (type === ImageType.KYC_DATA_LEVEL_1_FRONT) {
         form.setFieldValue("images.kycLvl1Front", file);

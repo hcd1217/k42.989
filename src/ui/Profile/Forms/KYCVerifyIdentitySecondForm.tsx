@@ -1,8 +1,8 @@
 import { userKycDataSchema } from "@/common/schema";
 import { IS_DEV } from "@/domain/config";
 import useSPETranslation from "@/hooks/useSPETranslation";
+import useSPEUploader from "@/hooks/useSPEUploader";
 import useSPEUserSettings from "@/hooks/useSPEUserSettings";
-import useUploader from "@/hooks/useUploader";
 import { PictureUploader } from "@/ui/AvatarUploader";
 import {
   ActionIcon,
@@ -38,7 +38,7 @@ export function KYCVerifyIdentitySecondForm() {
     uploadFile,
     setFile,
     loading: _loadingFile,
-  } = useUploader({
+  } = useSPEUploader({
     onSuccess(file, type) {
       if (type === "KYC_DATA_LEVEL_2") {
         form.setFieldValue("images.kycLvl2", file);

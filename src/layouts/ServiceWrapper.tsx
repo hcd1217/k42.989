@@ -21,7 +21,7 @@ export default function ServiceWrapper({
     appStore.getState().toggleLoading(true);
     setTimeout(() => {
       appStore.getState().toggleLoading(false);
-    }, 200);
+    }, 500);
   }, [pathname]);
 
   return (

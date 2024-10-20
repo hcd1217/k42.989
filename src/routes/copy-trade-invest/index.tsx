@@ -7,6 +7,7 @@ import {
   fetchMyCopyInformation,
 } from "@/services/apis";
 import logger from "@/services/logger";
+import appStore from "@/store/app";
 import authStore from "@/store/auth";
 import { CopyInformation, CopyMaster } from "@/types";
 import AppButton from "@/ui/Button/AppButton";
@@ -14,7 +15,6 @@ import { CardTrader, CardTraderTop1 } from "@/ui/CardCopyTrades";
 import { AppCarousel } from "@/ui/Carousel/Carousel";
 import NumberFormat from "@/ui/NumberFormat";
 import { OptionFilter } from "@/ui/OptionFilter";
-import { SPELoading } from "@/ui/SPEMisc";
 import AppText from "@/ui/Text/AppText";
 import { debounceBuilder } from "@/utils/utility";
 import { Carousel } from "@mantine/carousel";
@@ -75,7 +75,6 @@ export default function CopyTrade() {
   const [traders, setTraders] = useState<CopyMaster[]>([]);
   // prettier-ignore
   const [filteredTraders, setFilteredTraders] = useState<CopyMaster[]>([]);
-  const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<Tab>("TOP");
   const [keyword, setKeyword] = useState("");
   const [sortKey, setSortKey] =
@@ -86,16 +85,16 @@ export default function CopyTrade() {
   }, [traders, keyword]);
 
   useEffect(() => {
+    appStore.getState().toggleLoading(true);
     fetchAllTraders().then((traders) => {
       setTraders(traders);
       setFilteredTraders(traders);
-      setTimeout(setLoading, 300, false);
+      appStore.getState().toggleLoading(false);
     });
   }, []);
 
   return (
     <>
-      {loading && <SPELoading />}
       <Banner />
       <Tabs
         keepMounted

@@ -13,7 +13,7 @@ type propsType = {
   onProgress?: (type: `${ImageType}`) => void;
   onError?: (type: `${ImageType}`) => void;
 };
-export default function useUploader(props: propsType) {
+export default function useSPEUploader(props: propsType) {
   const { me } = authStore();
   const [, setFile] = useState<FileWithPath>();
   const [loading, setLoading] = useState(false);

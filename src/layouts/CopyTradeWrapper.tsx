@@ -1,6 +1,7 @@
 import BRAND from "@/brands";
 import { Head } from "@/components/seo";
 import useSPEMetadata from "@/hooks/useSPEMetadata";
+import { useUser } from "@/hooks/useSPEPollingAPIs";
 import { CopyInformation, Tabs } from "@/ui/Copy";
 import TabControl from "@/ui/Copy/TabControl";
 import { Header } from "@/ui/Header";
@@ -13,6 +14,7 @@ const CopyTradeWrapper = ({
   children: React.ReactNode;
 }) => {
   const { data } = useSPEMetadata();
+  useUser();
   const [, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);

@@ -16,11 +16,8 @@ import useSWR from "swr";
 const TIME_F = 30e3;
 const TIME_S = ONE_MINUTE;
 
-export function useSPEPollingAPIs() {
-  const token =
-    typeof window !== "undefined" ? localStorage.__TOKEN__ : null;
-
-  useSWR(["_getMe", token], getMe, {
+export const useUser = () => {
+  return useSWR(["_getMe"], getMe, {
     onSuccess(data) {
       authStore.getState().setMe(data);
     },
@@ -33,9 +30,12 @@ export function useSPEPollingAPIs() {
       authStore.getState().logout(false);
     },
   });
+};
 
+export function useSPEPollingAPIs() {
+  const { me } = authStore();
   useSWR(
-    ["loadMarketPrices"],
+    ["loadMarketPrices", me?.id],
     fetchMarketPricesApi, // OK
     {
       refreshInterval: TIME_F,
@@ -48,7 +48,7 @@ export function useSPEPollingAPIs() {
     },
   );
   useSWR(
-    ["fetchBalances"],
+    ["fetchBalances", me?.id],
     fetchBalancesApi, // OK
     {
       refreshInterval: TIME_F,
@@ -58,7 +58,7 @@ export function useSPEPollingAPIs() {
     },
   );
   useSWR(
-    ["fetchAccounts"],
+    ["fetchAccounts", me?.id],
     fetchAccountsApi, // OK
     {
       refreshInterval: TIME_F,
@@ -71,7 +71,7 @@ export function useSPEPollingAPIs() {
     },
   );
   useSWR(
-    ["fetchMasterTraders"],
+    ["fetchMasterTraders", me?.id],
     fetchMasterTraders, // OK
     {
       refreshInterval: TIME_F,
@@ -86,7 +86,7 @@ export function useSPEPollingAPIs() {
     },
   );
   useSWR(
-    ["loadAllMarketInformation"],
+    ["loadAllMarketInformation", me?.id],
     fetchAllMarketInformation, // OK
     {
       refreshInterval: TIME_S,
@@ -99,7 +99,7 @@ export function useSPEPollingAPIs() {
     },
   );
   useSWR(
-    ["loadSymbols"],
+    ["loadSymbols", me?.id],
     fetchAllSymbolsApi, // OK
     {
       refreshWhenHidden: false,

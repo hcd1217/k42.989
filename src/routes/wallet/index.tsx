@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { IconHistory } from "@tabler/icons-react";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 export default function Wallet() {
   const t = useSPETranslation();
@@ -33,7 +34,7 @@ export default function Wallet() {
       totalCopyEquity = "0",
       totalCopyEquityInBtc = "0";
     balances.forEach((balance) => {
-      if (accountById[balance.accountId].type === "SUB") {
+      if (accountById[balance.accountId]?.type === "SUB") {
         totalCopyEquity = BN.add(totalCopyEquity, balance.equity);
       }
       lockedInBtc = BN.add(lockedInBtc, balance.lockedBtcValue);
@@ -181,8 +182,8 @@ export default function Wallet() {
               <Button
                 display={"block"}
                 fullWidth
-                component="a"
-                href="/wallet/records/swap"
+                component={Link}
+                to="/wallet/records/swap"
                 variant="gradient"
                 gradient={{ from: "primary", to: "yellow", deg: 90 }}
                 rightSection={<IconHistory />}

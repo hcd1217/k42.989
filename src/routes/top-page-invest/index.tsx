@@ -81,7 +81,7 @@ export default function TopPage() {
   );
 }
 
-function Banner() {
+export function Banner() {
   const t = useSPETranslation();
   const navigate = useNavigate();
   return (
@@ -462,7 +462,7 @@ function QuickStart() {
   );
 }
 
-function WhyCopyTradingSection() {
+export function WhyCopyTradingSection() {
   const t = useSPETranslation();
   return (
     <>
@@ -531,7 +531,7 @@ function WhyCopyTradingSection() {
   );
 }
 
-function JourneySection() {
+export function JourneySection() {
   const t = useSPETranslation();
   return (
     <>
@@ -609,7 +609,7 @@ function JourneySection() {
   );
 }
 
-function TrendingTraders() {
+export function TrendingTraders() {
   const t = useSPETranslation();
   const navigate = useNavigate();
   const [traders, setTraders] = useState<CopyMaster[]>([]);

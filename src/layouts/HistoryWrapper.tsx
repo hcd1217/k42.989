@@ -14,6 +14,7 @@ import {
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HistoryWrapper = ({
   children,
@@ -31,7 +32,7 @@ const HistoryWrapper = ({
           <Breadcrumbs
             separator={<IconChevronRight color="gray" size={14} />}
           >
-            <Anchor fz={14} fw={400} href="/wallet">
+            <Anchor fz={14} fw={400} component={Link} to="/wallet">
               {t("Assets")}
             </Anchor>
             <Anchor fz={14} fw={400}>

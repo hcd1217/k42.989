@@ -11,12 +11,13 @@ import {
   Title,
 } from "@mantine/core";
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
 import { AppLogoVertical } from "../Logo/Logo";
 
-export function Footer(props: Partial<{ metadata: Application }>) {
+export function Footer(props: Partial<{ metadata?: Application }>) {
   const t = useSPETranslation();
   const footer = useMemo(() => {
-    return props.metadata?.applications.layout.footer?.common;
+    return props.metadata?.applications?.layout.footer?.common;
   }, [props.metadata]);
 
   if (!footer) {
@@ -40,8 +41,8 @@ export function Footer(props: Partial<{ metadata: Application }>) {
               </Group>
               <Flex gap={10} mt={30}>
                 {footer.socials?.map((s, i) => (
-                  <a
-                    href={s.url ?? "/#"}
+                  <Link
+                    to={s.url ?? "/#"}
                     key={i}
                     target="_blank"
                     rel="noreferrer"
@@ -51,7 +52,7 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                       radius="sm"
                       src={s.icon}
                     />
-                  </a>
+                  </Link>
                 ))}
               </Flex>
             </Grid.Col>
@@ -75,13 +76,13 @@ export function Footer(props: Partial<{ metadata: Application }>) {
                     </Title>
                     <Group>
                       {group.links.map((link, i) => (
-                        <a
+                        <Link
                           className="foolink"
                           key={i}
-                          href={link.url || "/#"}
+                          to={link.url || "/#"}
                         >
                           <Text size="sm">{t(link.label)}</Text>
-                        </a>
+                        </Link>
                       ))}
                     </Group>
                   </Grid.Col>
@@ -98,16 +99,16 @@ export function Footer(props: Partial<{ metadata: Application }>) {
             <Text
               className="hoverlink"
               fz={"12px"}
-              component="a"
-              href={footer.termOfService.url}
+              component={Link}
+              to={footer.termOfService.url}
             >
               {t(footer.termOfService.label)}
             </Text>
             <Text
               className={"hoverlink"}
               fz={"12px"}
-              component="a"
-              href={footer.privacyTerms.url}
+              component={Link}
+              to={footer.privacyTerms.url}
               target="_blank"
             >
               {t(footer.privacyTerms.label)}

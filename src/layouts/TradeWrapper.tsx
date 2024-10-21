@@ -1,10 +1,9 @@
 import BRAND from "@/brands";
-import { delay } from "@/common/utils";
 import { Head } from "@/components/seo";
 import useSPEMetadata from "@/hooks/useSPEMetadata";
+import { useUser } from "@/hooks/useSPEPollingAPIs";
 import { Header } from "@/ui/Header";
-import { Box, Loader, Transition } from "@mantine/core";
-import React, { Suspense, useEffect, useState } from "react";
+import React from "react";
 
 const TradeWrapper = ({
   children,
@@ -12,60 +11,14 @@ const TradeWrapper = ({
   children: React.ReactNode;
 }) => {
   const { data } = useSPEMetadata();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    delay(500).then(() => setMounted(true));
-  }, []);
-
-  if (!mounted) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-          width: "100vw",
-        }}
-      >
-        <Loader />
-      </div>
-    );
-  }
+  useUser();
 
   return (
-    <Suspense
-      fallback={
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            width: "100vw",
-          }}
-        >
-          <Loader />
-        </div>
-      }
-    >
-      <>
-        <Head title={`${BRAND.configs.APP_NAME}`} />
-        <Transition
-          mounted={mounted}
-          transition="fade"
-          duration={400}
-          timingFunction="ease"
-        >
-          {() => (
-            <>
-              <Header metadata={data} />
-              <Box h={"100%"}>{children}</Box>
-            </>
-          )}
-        </Transition>
-      </>
-    </Suspense>
+    <>
+      <Head title={`${BRAND.configs.APP_NAME}`} />
+      <Header metadata={data} />
+      {children}
+    </>
   );
 };
 

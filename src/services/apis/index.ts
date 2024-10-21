@@ -710,10 +710,13 @@ function _reloadOpenTrades() {
 async function _fetchAndCache<
   T extends GenericObject | GenericObject[],
 >(key: string, fn: () => Promise<T>, ttl = 3e3) {
-  if (cache.has(`fetchAndCache.${key}`)) {
-    await delay(1);
-    const res = cache.get(`fetchAndCache.${key}`) as T;
-    return res;
+  const enableCache = false;
+  if (enableCache) {
+    if (cache.has(`fetchAndCache.${key}`)) {
+      await delay(1);
+      const res = cache.get(`fetchAndCache.${key}`) as T;
+      return res;
+    }
   }
   return fn().then((res) => {
     cache.set(`fetchAndCache.${key}`, res, { ttl });

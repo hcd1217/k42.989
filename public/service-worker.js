@@ -6,10 +6,13 @@ if (typeof importScripts === 'function') {
   /* global workbox */
   if (workbox) {
     console.log('Workbox is loaded 🚀');
+    workbox.setConfig({ debug: false });
     workbox.core.skipWaiting();
 
     /* injection point for manifest files.  */
-    workbox.precaching.precacheAndRoute([]);
+    workbox.precaching.precacheAndRoute([
+        
+    ]);
 
     /* custom cache rules */
     workbox.routing.registerRoute(
@@ -46,18 +49,18 @@ if (typeof importScripts === 'function') {
     // );
 
     // Cache S3 images
-    workbox.routing.registerRoute(
-      /^https:\/\/cci-prod-0801\.s3\.ap-southeast-1\.amazonaws\.com\/upload\/images\/.*/,
-      new workbox.strategies.CacheFirst({
-        cacheName: 'image-cache-s3',
-        plugins: [
-          new workbox.expiration.ExpirationPlugin({
-            maxEntries: 50, 
-            maxAgeSeconds: 30 * 24 * 60 * 60, 
-          }),
-        ],
-      })
-    );
+    // workbox.routing.registerRoute(
+    //   /^https:\/\/cci-prod-0801\.s3\.ap-southeast-1\.amazonaws\.com\/upload\/images\/.*/,
+    //   new workbox.strategies.CacheFirst({
+    //     cacheName: 'image-cache-s3',
+    //     plugins: [
+    //       new workbox.expiration.ExpirationPlugin({
+    //         maxEntries: 50, 
+    //         maxAgeSeconds: 30 * 24 * 60 * 60, 
+    //       }),
+    //     ],
+    //   })
+    // );
 
     // Cache Images
     workbox.routing.registerRoute(
@@ -74,12 +77,33 @@ if (typeof importScripts === 'function') {
     );
 
     // Cache Apis
-    workbox.routing.registerRoute(
-      new RegExp('https://api.cryptocopyinvest.com/api.*'),
-      new workbox.strategies.NetworkFirst({
-        cacheName: 'api-cache',
-      })
+    workbox.routing.registerRoute(({url}) => {
+      const isCallAPI = url.toString().startsWith("https://api.cryptocopyinvest.com/api")
+      if(isCallAPI) {
+        // console.log("APIS_", url)
+      }
+      return isCallAPI
+      // return new RegExp('https://api.cryptocopyinvest.com/api.*')
+    },
+    new workbox.strategies.StaleWhileRevalidate({
+      cacheName: 'api-cache',
+    })
+      // new workbox.strategies.NetworkFirst({
+      //   cacheName: 'api-cache',
+      // })
     );
+
+    workbox.routing.registerRoute(({url}) => {
+        const isCallAPI = url.toString().startsWith("https://cci-prod-0801.s3.ap-southeast-1.amazonaws.com/upload/images")
+        if(isCallAPI) {
+          // console.log("APIS_", url)
+        }
+        return isCallAPI
+        // return new RegExp('https://api.cryptocopyinvest.com/api.*')
+      },
+      new workbox.strategies.StaleWhileRevalidate({
+        cacheName: 's3-cache',
+      }));
 
   } else {
     console.log('Workbox could not be loaded. Hence, no offline support.');

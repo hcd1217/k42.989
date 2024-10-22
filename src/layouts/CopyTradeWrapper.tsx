@@ -1,6 +1,5 @@
 import BRAND from "@/brands";
 import { Head } from "@/components/seo";
-import useSPEMetadata from "@/hooks/useSPEMetadata";
 import { useUser } from "@/hooks/useSPEPollingAPIs";
 import { CopyInformation, Tabs } from "@/ui/Copy";
 import TabControl from "@/ui/Copy/TabControl";
@@ -13,7 +12,6 @@ const CopyTradeWrapper = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { data } = useSPEMetadata();
   useUser();
   const [, setMounted] = useState(false);
   useEffect(() => {
@@ -24,7 +22,7 @@ const CopyTradeWrapper = ({
     <>
       <Head title={`${BRAND.configs.APP_NAME} | Copy traders`} />
 
-      <Header metadata={data} />
+      <Header />
       <Space mb={"xl"} />
       <TabControl />
       <Space mb={"xl"} />

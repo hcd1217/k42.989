@@ -169,6 +169,7 @@ export function Banner() {
                     mx={"auto"}
                     maw={"100%"}
                     src={ipad1}
+                    loading="lazy"
                   />
                 </Box>
                 <Box

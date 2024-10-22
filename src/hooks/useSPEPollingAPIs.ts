@@ -17,7 +17,8 @@ const TIME_F = 30e3;
 const TIME_S = ONE_MINUTE;
 
 export const useUser = () => {
-  return useSWR(["_getMe"], getMe, {
+  const { me } = authStore();
+  return useSWR(["_getMe", me?.id], getMe, {
     onSuccess(data) {
       authStore.getState().setMe(data);
     },

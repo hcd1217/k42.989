@@ -2,6 +2,7 @@ import defaultAvatar from "@/assets/images/defaultAvatar.png";
 import { Application } from "@/common/types";
 import { getHeaderMenu } from "@/domain/Application";
 import { MODAL_STYLES } from "@/domain/config";
+import useSPEMetadata from "@/hooks/useSPEMetadata";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { default as authStore } from "@/store/auth";
 import {
@@ -50,13 +51,13 @@ import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import { DepositForm } from "../Wallet";
 import classes from "./index.module.scss";
 
-export function Header(props: Partial<{ metadata: Application }>) {
+export function Header() {
   const t = useSPETranslation();
   const theme = useMantineTheme();
-
+  const { data: metadata } = useSPEMetadata();
   const menu = useMemo(() => {
-    return getHeaderMenu(props.metadata);
-  }, [props.metadata]);
+    return getHeaderMenu(metadata);
+  }, [metadata]);
 
   return (
     <>
@@ -297,7 +298,7 @@ export function Header(props: Partial<{ metadata: Application }>) {
               <SwitchDarkLightMode onDarkMode />
             </Group>
           </Group>
-          <DrawerMenu metadata={props.metadata} />
+          <DrawerMenu metadata={metadata} />
         </Group>
       </header>
     </>

@@ -1,6 +1,6 @@
 import BRAND from "@/brands";
 import { Head } from "@/components/seo";
-import useSPEMetadata from "@/hooks/useSPEMetadata";
+import { useUser } from "@/hooks/useSPEPollingAPIs";
 import appStore from "@/store/app";
 import { Footer } from "@/ui/Footer";
 import { Header } from "@/ui/Header";
@@ -15,22 +15,20 @@ export default function ServiceWrapper({
   children: React.ReactNode;
 }) {
   const { pathname } = useLocation();
-  const { data } = useSPEMetadata();
-
+  useUser();
   useEffect(() => {
     appStore.getState().toggleLoading(true);
     setTimeout(() => {
       appStore.getState().toggleLoading(false);
     }, 500);
   }, [pathname]);
-
   return (
     <AppWrapper>
       <Head title={`${BRAND.configs.APP_NAME}`} />
-      <Header metadata={data} />
+      <Header />
       {children}
       <Divider />
-      <Footer metadata={data} />
+      <Footer />
     </AppWrapper>
   );
 }

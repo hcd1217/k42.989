@@ -1,5 +1,5 @@
+import useSPEMetadata from "@/hooks/useSPEMetadata";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { Application } from "@/types";
 import {
   Avatar,
   Box,
@@ -14,11 +14,12 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { AppLogoVertical } from "../Logo/Logo";
 
-export function Footer(props: Partial<{ metadata?: Application }>) {
+export function Footer() {
   const t = useSPETranslation();
+  const { data: metadata } = useSPEMetadata();
   const footer = useMemo(() => {
-    return props.metadata?.applications?.layout.footer?.common;
-  }, [props.metadata]);
+    return metadata?.applications?.layout.footer?.common;
+  }, [metadata]);
 
   if (!footer) {
     return <></>;

@@ -5,7 +5,8 @@ import { SPELoading } from "@/ui/SPEMisc";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
 import { Notifications } from "@mantine/notifications";
-import React, { Suspense, useEffect } from "react";
+import imagesLoaded from "imagesloaded";
+import React, { Suspense, useEffect, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { HelmetProvider } from "react-helmet-async";
 
@@ -18,6 +19,13 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   useEffect(() => {
     localStorage.__APP_NAME__ = BRAND.configs.APP_NAME;
   }, []);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    imagesLoaded("#root", function () {
+      setLoaded(true);
+    });
+    return;
+  }, []);
   return (
     <MantineProvider
       theme={BRAND.theme}
@@ -27,7 +35,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
       <Suspense fallback={<SPELoading />}>
         <ErrorBoundary FallbackComponent={MainErrorFallback}>
           <HelmetProvider>
-            <ModalsProvider>{children}</ModalsProvider>
+            <ModalsProvider>
+              {children}
+              {!loaded && <SPELoading />}
+            </ModalsProvider>
             <Notifications />
           </HelmetProvider>
         </ErrorBoundary>

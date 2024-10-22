@@ -5,7 +5,11 @@ import preload from "vite-plugin-preload";
 
 export default () => {
   return defineConfig({
-    plugins: [react(), preload()],
+    plugins: [
+      react(),
+      preload(),
+
+    ],
     server: {
       port: 9910,
     },

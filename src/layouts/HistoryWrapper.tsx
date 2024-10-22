@@ -1,6 +1,5 @@
 import BRAND from "@/brands";
 import { Head } from "@/components/seo";
-import useSPEMetadata from "@/hooks/useSPEMetadata";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { Header } from "@/ui/Header";
 import { Tabs } from "@/ui/Wallet";
@@ -22,11 +21,10 @@ const HistoryWrapper = ({
   children: React.ReactNode;
 }) => {
   const t = useSPETranslation();
-  const { data } = useSPEMetadata();
   return (
     <>
       <Head title={`${BRAND.configs.APP_NAME} | History`} />
-      <Header metadata={data} />
+      <Header />
       <Container fluid>
         <Box py={30}>
           <Breadcrumbs

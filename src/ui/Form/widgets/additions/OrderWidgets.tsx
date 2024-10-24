@@ -1,3 +1,4 @@
+import { Authorization } from "@/brands/authorization/authorization";
 import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
 import { freeAmount } from "@/common/utils";
@@ -607,40 +608,59 @@ export function PlaceOrderButtonsItemWidget({
   }, [formData.base, formData.isFuture, isBuy, isLogin, t]);
 
   return (
-    <AppButton
-      loading={loading}
-      disabled={loading}
-      onClick={() => {
-        if (isLogin) {
-          onSubmit?.();
-        } else {
-          const { pathname, search } = window.location;
-          navigate(
-            `/login?redirect=${encodeURIComponent(
-              pathname + search,
-            )}`,
-          );
-        }
-      }}
-      fullWidth
-      bg={isBuy ? "#23b26b" : "#f0444b"}
-      styles={{
-        label: {
-          flexWrap: "wrap",
-          textAlign: "center",
-        },
-      }}
-      h={44}
+    <Authorization
+      allowedRoles={["ADMIN", "USER"]}
+      forbiddenFallback={
+        <AppButton
+          onClick={() => {
+            const { pathname, search } = window.location;
+            navigate(
+              `/login?redirect=${encodeURIComponent(
+                pathname + search,
+              )}`,
+            );
+          }}
+          fullWidth
+          bg={isBuy ? "#23b26b" : "#f0444b"}
+          styles={{
+            label: {
+              flexWrap: "wrap",
+              textAlign: "center",
+            },
+          }}
+          h={44}
+          fw={"bold"}
+        >
+          {label}
+        </AppButton>
+      }
     >
-      <Text
-        component="span"
-        style={{ display: "block", width: "100%" }}
-        fw={"bolder"}
-        fz={14}
+      <AppButton
+        loading={loading}
+        disabled={loading}
+        onClick={() => {
+          onSubmit?.();
+        }}
+        fullWidth
+        bg={isBuy ? "#23b26b" : "#f0444b"}
+        styles={{
+          label: {
+            flexWrap: "wrap",
+            textAlign: "center",
+          },
+        }}
+        h={44}
       >
-        {label}
-      </Text>
-    </AppButton>
+        <Text
+          component="span"
+          style={{ display: "block", width: "100%" }}
+          fw={"bolder"}
+          fz={14}
+        >
+          {label}
+        </Text>
+      </AppButton>
+    </Authorization>
   );
 }
 

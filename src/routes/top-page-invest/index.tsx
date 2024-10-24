@@ -251,6 +251,7 @@ function CardsIntro() {
       <Title order={1} ta={"center"}>
         {t("Discover More Opportunities")}
       </Title>
+
       <Space my={"xl"} />
       <SimpleGrid
         cols={{

@@ -3,7 +3,6 @@ import BN from "@/common/big-number";
 import { OrderSide } from "@/common/enums";
 import { freeAmount } from "@/common/utils";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import logger from "@/services/logger";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
@@ -86,8 +85,8 @@ export function OrderSideItemWidget({
       )}
       data={
         formData.isFuture
-          ? LONG_SHORT.map((el) => t(el))
-          : BUY_AND_SELL.map((el) => t(el))
+          ? LONG_SHORT.map((el) => ({ label: t(el), value: el }))
+          : BUY_AND_SELL.map((el) => ({ label: t(el), value: el }))
       }
       onChange={(side: string) => {
         const sideMap: Record<string, OrderSide> = {
@@ -96,8 +95,6 @@ export function OrderSideItemWidget({
           LONG: OrderSide.BUY,
           SHORT: OrderSide.SELL,
         };
-        logger.trace("side", side);
-        // updateFields?.({ [name as string]: sideMap[side] });
         onChange?.(sideMap[side]);
       }}
       classNames={{

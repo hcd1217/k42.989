@@ -180,6 +180,7 @@ export const copyMasterPerformanceSchema = z.object({
 export const authenticationPayloadSchema = z.object({
   id: stringSchema,
   uid: stringSchema,
+  isDemo: optionalBooleanSchema,
   isAdmin: optionalBooleanSchema,
   isAgent: optionalBooleanSchema,
   nickName: optionalStringSchema,

@@ -1,6 +1,7 @@
 import BN from "@/common/big-number";
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
+import { getExplorerUrl, shortAddress } from "@/common/transaction";
 import useSPEPagination from "@/hooks/useSPEPagination";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
@@ -21,12 +22,12 @@ import {
   TableData,
   Text,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { WithdrawForm } from "../Form";
-import { getExplorerUrl } from "@/common/transaction";
 
 export function WithdrawRecords() {
   const t = useSPETranslation();
@@ -72,99 +73,108 @@ export function WithdrawRecords() {
         "Remark",
         "Actions",
       ].map((el) => t(el)),
-      body: transactions.map((row) => [
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Time")}
-          </Text>
-          <Title order={6} fz={12} key={`${row.id}.time`}>
-            {fmtDate(row.updatedAt)}
-          </Title>
-        </>,
-        <>
-          {/* <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Coin")}
-          </Text> */}
-          <Asset asset={row.asset} key={`${row.id}.asset`} />
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Amount")}
-          </Text>
-          <Title order={6} fz={12} key={`${row.id}.amount`}>
-            <NumberFormat
-              decimalPlaces={3}
-              value={BN.sub(row.amount, row.fee)}
-            />
-          </Title>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Withdraw Fee")}
-          </Text>
-          <Title order={6} fz={12} key={`${row.id}.fee`}>
-            <NumberFormat decimalPlaces={3} value={row.fee} />
-          </Title>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("From Address")}
-          </Text>
-          <Title order={6} fz={12} key={`${row.id}.to`}>
-            {getExplorerUrl(row.txId)?.value ? (
-              <Anchor
-                href={getExplorerUrl(row.txId)?.value}
-                target="_blank"
-                underline="never"
-              >
+      body: transactions.map((row) => {
+        const explorerUrl = getExplorerUrl(row.txId);
+        return [
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Time")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.time`}>
+              {fmtDate(row.updatedAt)}
+            </Title>
+          </>,
+          <>
+            <Asset asset={row.asset} key={`${row.id}.asset`} />
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Amount")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.amount`}>
+              <NumberFormat
+                decimalPlaces={3}
+                value={BN.sub(row.amount, row.fee)}
+              />
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Withdraw Fee")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.fee`}>
+              <NumberFormat decimalPlaces={3} value={row.fee} />
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("From Address")}
+            </Text>
+            <Title order={6} fz={12} key={`${row.id}.to`}>
+              {explorerUrl?.value ? (
+                <Anchor
+                  target="_blank"
+                  href={explorerUrl?.value}
+                  underline="never"
+                >
+                  <Flex direction={"column"}>
+                    <Text fz={12} fw="bold">
+                      <Tooltip label={row.to}>
+                        <span>{shortAddress(row.to)}</span>
+                      </Tooltip>
+                    </Text>
+                    <Text fz={12} c={"dimmed"} fw="bold">
+                      {explorerUrl?.label || "--"}
+                    </Text>
+                  </Flex>
+                </Anchor>
+              ) : (
                 <Flex direction={"column"}>
-                  <Text fz={12}>{row.to || "N/A"}</Text>
-                  <Text fz={12} c={"dimmed"}>
-                    {t("View On: ")}
-                    {getExplorerUrl(row.txId)?.label || "N/A"}
+                  <Text fz={12} fw="bold" c={"dimmed"}>
+                    <Tooltip label={row.to}>
+                      <span>{shortAddress(row.to)}</span>
+                    </Tooltip>
+                  </Text>
+                  <Text fz={12} fw="bold" c={"dimmed"}>
+                    {explorerUrl?.label || "--"}
                   </Text>
                 </Flex>
-              </Anchor>
-            ) : (
-              <>{row.to || "N/A"}</>
-            )}
-          </Title>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Status")}
-          </Text>
-          <Badge
-            color={STATUS_COLORS[row.status]}
-            key={`${row.id}.status`}
-          >
-            {row.status}
-          </Badge>
-        </>,
-        <>
-          <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Remark")}
-          </Text>
-          <Title order={6} key={`${row.id}.remark`}>
-            --
-          </Title>
-        </>,
-        <>
-          {/* <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Actions")}
-          </Text> */}
-          <Flex gap={5} key={`${row.id}.action`}>
-            <Button
-              onClick={() => openModal(row.asset)}
-              p={0}
-              size="xs"
-              variant="transparent"
+              )}
+            </Title>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Status")}
+            </Text>
+            <Badge
+              color={STATUS_COLORS[row.status]}
+              key={`${row.id}.status`}
             >
-              {t("Withdraw")}
-            </Button>
-          </Flex>
-        </>,
-      ]),
+              {row.status}
+            </Badge>
+          </>,
+          <>
+            <Text hiddenFrom="sm" c={"dimmed"}>
+              {t("Remark")}
+            </Text>
+            <Title order={6} key={`${row.id}.remark`}>
+              --
+            </Title>
+          </>,
+          <>
+            <Flex gap={5} key={`${row.id}.action`}>
+              <Button
+                onClick={() => openModal(row.asset)}
+                p={0}
+                size="xs"
+                variant="transparent"
+              >
+                {t("Withdraw")}
+              </Button>
+            </Flex>
+          </>,
+        ];
+      }),
     }),
     [openModal, t, transactions],
   );

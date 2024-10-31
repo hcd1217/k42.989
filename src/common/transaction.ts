@@ -4,18 +4,23 @@ export function getExplorerUrl(txHash?: string) {
     return { label: "Internal", value: "" };
   } else if (_isEtherscanTransaction(txHash)) {
     return {
-      label: "Ether Scan",
+      label: "EtherScan",
       value: `https://etherscan.io/tx/${txHash}`,
     };
-  } else if (_isTronscanTransaction(txHash)) {
+  } else if (_isTronScanTransaction(txHash)) {
     return {
-      label: "Tron Scan",
+      label: "TronScan",
       value: `https://tronscan.org/#/transaction/${txHash}`,
     };
   }
 }
 
-function _isTronscanTransaction(txHash: string): boolean {
+export function shortAddress(address?: string) {
+  if (!address) return '--';
+  return address.slice(0, 6) + "..." + address.slice(-4);
+}
+
+function _isTronScanTransaction(txHash: string): boolean {
   const tronPattern = /^[a-fA-F0-9]{64}$/;
   return tronPattern.test(txHash);
 }

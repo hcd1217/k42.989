@@ -251,12 +251,6 @@ export function Header() {
                                       >
                                         {_item?.label}
                                       </Text>
-                                      <Text size="xs" c="dimmed">
-                                        {/* cspell:disable */}
-                                        lorem ipsum dolor sit amet
-                                        consectetuer adipiscing elit
-                                        {/* cspell:ensable */}
-                                      </Text>
                                     </div>
                                   </Group>
                                 </UnstyledButton>
@@ -419,16 +413,11 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                                   variant="transparent"
                                   radius="md"
                                 >
-                                  {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
                                   <IconCoin />
                                 </ThemeIcon>
                                 <div>
                                   <Text size="sm" fw={500}>
                                     {_item?.label}
-                                  </Text>
-                                  <Text size="xs" c="dimmed">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur adipisicing elit.
                                   </Text>
                                 </div>
                               </Group>
@@ -500,7 +489,6 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                                   variant="transparent"
                                   radius="md"
                                 >
-                                  {/* <Icon instanceicon="IconCoin" style={{ width: rem(22), height: rem(22) }} /> */}
                                   <IconCoin />
                                 </ThemeIcon>
                                 <div>
@@ -513,10 +501,6 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
                                     )}
                                   >
                                     {_item?.label}
-                                  </Text>
-                                  <Text size="xs" c="dimmed">
-                                    Lorem ipsum dolor sit, amet
-                                    consectetur adipisicing elit.
                                   </Text>
                                 </div>
                               </Group>

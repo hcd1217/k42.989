@@ -35,11 +35,13 @@ const authStore = create<AuthState>((set) => ({
     });
   },
   logout: (reload = true) => {
+    // const theme = localStorage["mantine-color-scheme-value"];
     delete localStorage.__TOKEN__;
-    delete sessionStorage.__TOKEN__;
     sessionStorage.clear();
     set((state) => ({ ...state, token: undefined, me: undefined }));
-    reload && window.location.reload();
+    reload && setTimeout(() => {
+      window.location.reload();
+    }, 200);
   },
 }));
 

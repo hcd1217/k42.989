@@ -77,21 +77,21 @@ if (typeof importScripts === 'function') {
     );
 
     // Cache Apis
-    workbox.routing.registerRoute(({url}) => {
-      const isCallAPI = url.toString().startsWith("https://api.cryptocopyinvest.com/api")
-      if(isCallAPI) {
-        // console.log("APIS_", url)
-      }
-      return isCallAPI
-      // return new RegExp('https://api.cryptocopyinvest.com/api.*')
-    },
-    new workbox.strategies.StaleWhileRevalidate({
-      cacheName: 'api-cache',
-    })
-      // new workbox.strategies.NetworkFirst({
-      //   cacheName: 'api-cache',
-      // })
-    );
+    // workbox.routing.registerRoute(({url}) => {
+    //   const isCallAPI = url.toString().startsWith("https://api.cryptocopyinvest.com/api")
+    //   if(isCallAPI) {
+    //     // console.log("APIS_", url)
+    //   }
+    //   return isCallAPI
+    //   // return new RegExp('https://api.cryptocopyinvest.com/api.*')
+    // },
+    // new workbox.strategies.StaleWhileRevalidate({
+    //   cacheName: 'api-cache',
+    // })
+    //   // new workbox.strategies.NetworkFirst({
+    //   //   cacheName: 'api-cache',
+    //   // })
+    // );
 
     workbox.routing.registerRoute(({url}) => {
         const isCallAPI = url.toString().startsWith("https://cci-prod-0801.s3.ap-southeast-1.amazonaws.com/upload/images")

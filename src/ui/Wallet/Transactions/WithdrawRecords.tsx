@@ -10,6 +10,7 @@ import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import { fmtDate } from "@/utils/utility";
 import {
   ActionIcon,
+  Anchor,
   Badge,
   Box,
   Button,
@@ -25,6 +26,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { WithdrawForm } from "../Form";
+import { getExplorerUrl } from "@/common/transaction";
 
 export function WithdrawRecords() {
   const t = useSPETranslation();
@@ -106,10 +108,26 @@ export function WithdrawRecords() {
         </>,
         <>
           <Text hiddenFrom="sm" c={"dimmed"}>
-            {t("Withdraw Address")}
+            {t("From Address")}
           </Text>
-          <Title order={6} fz={12} key={`${row.id}.address`}>
-            {row.to}
+          <Title order={6} fz={12} key={`${row.id}.to`}>
+            {getExplorerUrl(row.txId)?.value ? (
+              <Anchor
+                href={getExplorerUrl(row.txId)?.value}
+                target="_blank"
+                underline="never"
+              >
+                <Flex direction={"column"}>
+                  <Text fz={12}>{row.to || "N/A"}</Text>
+                  <Text fz={12} c={"dimmed"}>
+                    {t("View On: ")}
+                    {getExplorerUrl(row.txId)?.label || "N/A"}
+                  </Text>
+                </Flex>
+              </Anchor>
+            ) : (
+              <>{row.to || "N/A"}</>
+            )}
           </Title>
         </>,
         <>

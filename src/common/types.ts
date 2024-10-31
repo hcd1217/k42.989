@@ -278,6 +278,7 @@ export type SpeTransaction = {
   jpyAmount: string;
   createdAt: number;
   updatedAt: number;
+  txId: string;
 };
 
 export type TradeList = {

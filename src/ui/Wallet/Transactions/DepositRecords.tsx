@@ -1,5 +1,6 @@
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
+import { getExplorerUrl } from "@/common/transaction";
 import useSPEPagination from "@/hooks/useSPEPagination";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
@@ -8,6 +9,7 @@ import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import { fmtDate } from "@/utils/utility";
 import {
+  Anchor,
   Badge,
   Box,
   Button,
@@ -62,7 +64,6 @@ export function DepositRecords() {
         "Coin",
         "Amount",
         "From Address",
-
         "Status",
         "Actions",
       ].map((el) => t(el)),
@@ -95,7 +96,23 @@ export function DepositRecords() {
             {t("From Address")}
           </Text>
           <Title order={6} fz={12} key={`${row.id}.from`}>
-            {row.from || "N/A"}
+            {getExplorerUrl(row.txId)?.value ? (
+              <Anchor
+                href={getExplorerUrl(row.txId)?.value}
+                target="_blank"
+                underline="never"
+              >
+                <Flex direction={"column"}>
+                  <Text fz={12}>{row.from || "N/A"}</Text>
+                  <Text fz={12} c={"dimmed"}>
+                    {t("View On: ")}
+                    {getExplorerUrl(row.txId)?.label || "N/A"}
+                  </Text>
+                </Flex>
+              </Anchor>
+            ) : (
+              <>{row.from || "N/A"}</>
+            )}
           </Title>
         </>,
         <>

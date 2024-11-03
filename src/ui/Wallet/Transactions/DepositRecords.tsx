@@ -1,6 +1,6 @@
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
-import { getExplorerUrl, shortAddress } from "@/common/transaction";
+import { getExplorerUrl } from "@/common/transaction";
 import useSPEPagination from "@/hooks/useSPEPagination";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
@@ -9,7 +9,6 @@ import NumberFormat from "@/ui/NumberFormat";
 import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import { fmtDate } from "@/utils/utility";
 import {
-  Anchor,
   Badge,
   Box,
   Button,
@@ -20,11 +19,11 @@ import {
   TableData,
   Text,
   Title,
-  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useCallback, useMemo, useState } from "react";
 import { DepositForm } from "../Form";
+import { Address } from "./Common";
 
 export function DepositRecords() {
   const t = useSPETranslation();
@@ -90,42 +89,12 @@ export function DepositRecords() {
               <NumberFormat decimalPlaces={8} value={row.amount} />
             </Title>
           </>,
-          <>
-            <Text hiddenFrom="sm" c={"dimmed"}>
-              {t("From Address")}
-            </Text>
-            <Title order={6} fz={12} key={`${row.id}.from`}>
-              {explorerUrl?.value ? (
-                <Anchor
-                  target="_blank"
-                  href={explorerUrl?.value}
-                  underline="never"
-                >
-                  <Flex direction={"column"}>
-                    <Text fz={12} fw="bold">
-                      <Tooltip label={row.from}>
-                        <span>{shortAddress(row.from)}</span>
-                      </Tooltip>
-                    </Text>
-                    <Text fz={12} c={"dimmed"} fw="bold">
-                      {explorerUrl?.label || "--"}
-                    </Text>
-                  </Flex>
-                </Anchor>
-              ) : (
-                <Flex direction={"column"}>
-                  <Text fz={12} fw="bold" c={"dimmed"}>
-                    <Tooltip label={row.from}>
-                      <span>{shortAddress(row.from)}</span>
-                    </Tooltip>
-                  </Text>
-                  <Text fz={12} fw="bold" c={"dimmed"}>
-                    {explorerUrl?.label || "--"}
-                  </Text>
-                </Flex>
-              )}
-            </Title>
-          </>,
+          <Address
+            key={`${row.id}.from`}
+            t={t}
+            explorerUrl={explorerUrl}
+            address={row.from}
+          />,
           <>
             <Text hiddenFrom="sm" c={"dimmed"}>
               {t("Status")}

@@ -11,6 +11,7 @@ import { useLocation } from "react-router-dom";
 import { FiatDepositModal } from "./FiatDepositModal";
 import { FundAssetsTable } from "./FundAssetsTable";
 import { TradingAssetsTable } from "./TradingAssetsTable";
+
 export function TabsWallet() {
   const { me } = authStore();
   const [hideZero, setHideZero] = useState(false);

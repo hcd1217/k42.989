@@ -235,6 +235,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
           )}
           {modalMode == "TRANSFER" && (
             <TransferForm
+              accountTypeId={fundingAccount?.id || ""}
               coin={coin}
               accountIds={[
                 fundingAccount?.id || "",

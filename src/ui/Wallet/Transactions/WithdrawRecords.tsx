@@ -1,7 +1,7 @@
 import BN from "@/common/big-number";
 import { STATUS_COLORS } from "@/common/configs";
 import { TransactionType } from "@/common/enums";
-import { getExplorerUrl, shortAddress } from "@/common/transaction";
+import { getExplorerUrl } from "@/common/transaction";
 import useSPEPagination from "@/hooks/useSPEPagination";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { fetchTransactions } from "@/services/apis";
@@ -11,7 +11,6 @@ import { NoDataRecord, SPEPagination } from "@/ui/SPEMisc";
 import { fmtDate } from "@/utils/utility";
 import {
   ActionIcon,
-  Anchor,
   Badge,
   Box,
   Button,
@@ -22,12 +21,12 @@ import {
   TableData,
   Text,
   Title,
-  Tooltip,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconX } from "@tabler/icons-react";
 import { useCallback, useMemo, useState } from "react";
 import { WithdrawForm } from "../Form";
+import { Address } from "./Common";
 
 export function WithdrawRecords() {
   const t = useSPETranslation();
@@ -106,42 +105,12 @@ export function WithdrawRecords() {
               <NumberFormat decimalPlaces={3} value={row.fee} />
             </Title>
           </>,
-          <>
-            <Text hiddenFrom="sm" c={"dimmed"}>
-              {t("From Address")}
-            </Text>
-            <Title order={6} fz={12} key={`${row.id}.to`}>
-              {explorerUrl?.value ? (
-                <Anchor
-                  target="_blank"
-                  href={explorerUrl?.value}
-                  underline="never"
-                >
-                  <Flex direction={"column"}>
-                    <Text fz={12} fw="bold">
-                      <Tooltip label={row.to}>
-                        <span>{shortAddress(row.to)}</span>
-                      </Tooltip>
-                    </Text>
-                    <Text fz={12} c={"dimmed"} fw="bold">
-                      {explorerUrl?.label || "--"}
-                    </Text>
-                  </Flex>
-                </Anchor>
-              ) : (
-                <Flex direction={"column"}>
-                  <Text fz={12} fw="bold" c={"dimmed"}>
-                    <Tooltip label={row.to}>
-                      <span>{shortAddress(row.to)}</span>
-                    </Tooltip>
-                  </Text>
-                  <Text fz={12} fw="bold" c={"dimmed"}>
-                    {explorerUrl?.label || "--"}
-                  </Text>
-                </Flex>
-              )}
-            </Title>
-          </>,
+          <Address
+            key={`${row.id}.to`}
+            t={t}
+            explorerUrl={explorerUrl}
+            address={row.to}
+          />,
           <>
             <Text hiddenFrom="sm" c={"dimmed"}>
               {t("Status")}

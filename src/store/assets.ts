@@ -1,3 +1,4 @@
+import { AccountType } from "@/common/enums";
 import { isFundingAccount, isTradingAccount } from "@/common/logic";
 import {
   Account,
@@ -6,6 +7,7 @@ import {
   MasterTraderInformation,
   SpeTransaction,
 } from "@/common/types";
+import { buildOptions } from "@/common/utils";
 import {
   fetchAccountsApi,
   fetchBalancesApi,
@@ -25,6 +27,10 @@ interface AssetState {
   fundingAccount?: Account;
   tradingAccount?: Account;
   tradingBalanceMap: Record<string, Balance>;
+  accountTypes: {
+    label: string;
+    value: string;
+  }[];
   fetchBalances: (item?: {
     balances: Balance[];
     overview: BalanceOverview;
@@ -55,6 +61,7 @@ export const assetStore = create<AssetState>((set, get) => ({
     BTC_USDT_SPOT: 0,
     ETH_USDT_SPOT: 0,
   },
+  accountTypes: [],
 
   async fetchBalances(items) {
     const { balances, overview } = items
@@ -85,8 +92,11 @@ export const assetStore = create<AssetState>((set, get) => ({
   async fetchAccounts() {
     const accounts = await fetchAccountsApi();
     const masterTraders = await fetchMasterTraders();
+
     const state = get();
+
     state.setAccounts(accounts);
+
     set({
       masterTraders,
     });
@@ -102,6 +112,12 @@ export const assetStore = create<AssetState>((set, get) => ({
     // });
   },
   setAccounts(accounts: Account[]) {
+    const accountTypes = buildOptions(
+      accounts.filter((el) => el.type === AccountType.MAIN),
+      "name",
+      "id",
+    );
+
     set({
       accounts,
       accountById: Object.fromEntries(
@@ -109,6 +125,7 @@ export const assetStore = create<AssetState>((set, get) => ({
       ),
       fundingAccount: accounts.find(isFundingAccount),
       tradingAccount: accounts.find(isTradingAccount),
+      accountTypes,
     });
   },
 }));

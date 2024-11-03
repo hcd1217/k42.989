@@ -214,6 +214,7 @@ export function TradingAssetsTable({
             <IconX color="gray" />
           </ActionIcon>
           <TransferForm
+            accountTypeId={tradingAccount?.id || ""}
             coin={coin}
             accountIds={
               defaultTransferType === "transferIn"

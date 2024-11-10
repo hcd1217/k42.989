@@ -20,41 +20,11 @@ import { IconCheck } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 
-// type GenderType = "MALE" | "FEMALE";
 const years = Array.from(
-  { length: 2024 - 1970 + 1 },
-  (_, idx) => 1970 + idx,
+  { length: 2020 - 1930 + 1 },
+  (_, idx) => 1930 + idx,
 );
 const dates = Array.from({ length: 31 }, (_, idx) => idx + 1);
-// const monthsEn = [
-//   "January",
-//   "February",
-//   "March",
-//   "April",
-//   "May",
-//   "June",
-//   "July",
-//   "August",
-//   "September",
-//   "October",
-//   "November",
-//   "December",
-// ];
-// const monthsJa = [
-//   "1月",
-//   "2月",
-//   "3月",
-//   "4月",
-//   "5月",
-//   "6月",
-//   "7月",
-//   "8月",
-//   "9月",
-//   "10月",
-//   "11月",
-//   "12月",
-// ];
-
 type UserKycData = z.infer<typeof userKycDataSchema> & {
   date?: string;
   month?: string;
@@ -80,14 +50,12 @@ export function KYCVerifyIdentityFirstForm() {
     },
     onValuesChange(values) {
       if (values.date && values.month && values.year) {
-        form.setFieldValue(
-          "dateOfBirth",
-          [
-            values.year,
-            values.month?.replace("月", "").padStart(2, "0") || "",
-            values.date?.padStart(2, "0") || "",
-          ].join("/"),
-        );
+        const dob = [
+          values.year,
+          values.month?.replace("月", "").padStart(2, "0") || "",
+          values.date?.padStart(2, "0") || "",
+        ].join("/");
+        form.setFieldValue("dateOfBirth", dob);
       } else {
         form.setFieldValue("dateOfBirth", "");
       }

@@ -175,7 +175,7 @@ export function AvatarUploader(props: DropzoneProps) {
     <>
       <Dropzone
         {...props}
-        maxSize={5 * 1024 ** 2}
+        maxSize={50 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
         styles={{
           inner: {
@@ -231,7 +231,7 @@ export function PictureUploader(props: DropzoneProps) {
     <>
       <Dropzone
         {...props}
-        maxSize={5 * 1024 ** 2}
+        maxSize={50 * 1024 ** 2}
         accept={IMAGE_MIME_TYPE}
         styles={{
           inner: {

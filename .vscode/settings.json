@@ -1,6 +1,6 @@
 {
   "files.exclude": {
-    "public/tv": true,
+    // "public/tv": true,
   },
   "cSpell.ignorePaths": [],
   "editor.formatOnSave": true,

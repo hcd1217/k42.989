@@ -15,6 +15,7 @@ export type WithdrawData = {
   address: string;
   amount: number;
   mfaCode?: string;
+  verificationCode?: string;
 };
 
 export type SwapFormData = {

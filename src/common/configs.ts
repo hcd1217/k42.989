@@ -4,6 +4,7 @@ export const APP_CONFIG = {
   INTERNAL_TRANSFER_FEE: 1,
   FIAT_DEPOSIT: true,
   WITHDRAW: {
+    EMAIL: true,
     MFA: true,
   },
   WITHDRAW_FEE_MAPS: {

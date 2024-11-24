@@ -1,8 +1,9 @@
+import { cleanObj } from "@/common/utils";
 import MfaForm from "@/components/2FA";
 import { ASSET_COIN_OPTIONS, COIN_IMAGES } from "@/domain/config";
 import { useSPEForm } from "@/hooks/useSPEForm";
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { withdraw } from "@/services/apis";
+import { sendMailVerificationCode, withdraw } from "@/services/apis";
 import logger from "@/services/logger";
 import authStore from "@/store/auth";
 import { WithdrawData } from "@/types";
@@ -26,7 +27,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { useForceUpdate } from "@mantine/hooks";
+import { useDisclosure, useForceUpdate } from "@mantine/hooks";
 import { modals } from "@mantine/modals";
 import {
   IconArrowRight,
@@ -43,18 +44,23 @@ export function WithdrawForm(props: {
   const { me } = authStore();
   const [loading, setLoading] = useState(false);
   const forceUpdate = useForceUpdate();
+  const [sendMailVerificationCode, { toggle }] = useDisclosure(false);
 
   const { form, values } = useSPEForm<{
     coin?: string;
     chain?: string;
     amount?: number;
     address?: string;
+    mfaCode?: string;
+    verificationCode?: string;
   }>({
     initialValues: {
       coin: props.coin,
       chain: findChain(props.coin as string),
       amount: 0,
       address: "",
+      mfaCode: "",
+      verificationCode: "",
     },
     onValuesChange: (values) => {
       if (values.coin === "BTC") {
@@ -122,17 +128,42 @@ export function WithdrawForm(props: {
           children: (
             <MfaForm
               onSubmit={(value) => {
-                onSubmit({ ...data, mfaCode: value });
+                onSubmit(
+                  cleanObj({
+                    ...data,
+                    verificationCode: "",
+                    mfaCode: value,
+                  }),
+                );
+              }}
+            />
+          ),
+          centered: true,
+        });
+      } else if (sendMailVerificationCode) {
+        modals.open({
+          title: t("Email Verification Code"),
+          withCloseButton: false,
+          children: (
+            <MfaForm
+              onSubmit={(value) => {
+                onSubmit(
+                  cleanObj({
+                    ...data,
+                    mfaCode: "",
+                    verificationCode: value,
+                  }),
+                ).finally(toggle);
               }}
             />
           ),
           centered: true,
         });
       } else {
-        //
+        return;
       }
     },
-    [me?.hasMfa, onSubmit, t],
+    [me?.hasMfa, sendMailVerificationCode, t, onSubmit, toggle],
   );
 
   const checkSubmit = useCallback(
@@ -162,7 +193,7 @@ export function WithdrawForm(props: {
       >
         <Title order={3}>{t("Withdraw")}</Title>
         <Space my={10} />
-        {me?.hasMfa ? (
+        {me?.hasMfa || sendMailVerificationCode ? (
           <form onSubmit={checkSubmit}>
             <Flex direction={"column"} gap={10}>
               <Select
@@ -281,7 +312,7 @@ export function WithdrawForm(props: {
             </Flex>
           </form>
         ) : (
-          <MfaPopup />
+          <MfaPopup toggle={toggle} />
         )}
       </Card>
     </>
@@ -301,13 +332,14 @@ const findChain = (coin: string) => {
   return "";
 };
 
-const MfaPopup = () => {
+const MfaPopup = ({ toggle }: { toggle: () => void }) => {
   const t = useSPETranslation();
+
   return (
     <Box>
       <span>
         {t(
-          "You haven't enabled Two-Factor Authentication (2FA). Please set up 2FA to proceed.",
+          "You haven't enabled Two-Factor Authentication (2FA). Please set up 2FA to proceed or request an email verification code.",
         )}
       </span>
       <Anchor
@@ -324,6 +356,39 @@ const MfaPopup = () => {
         mt={"xs"}
       >
         <span>{t("Go to Bing GA")}</span>
+        <IconArrowRight />
+      </Anchor>
+      <Anchor
+        mt={"xs"}
+        td="none"
+        variant="subtle"
+        onClick={async () => {
+          await sendMailVerificationCode()
+            .then(() => {
+              success(
+                t("Success"),
+                t("Email verification code sent successfully"),
+              );
+            })
+            .catch(() => {
+              error(
+                t("Something went wrong"),
+                t("Cannot send email verification code"),
+              );
+            })
+            .finally(() => {
+              toggle();
+            });
+        }}
+        style={{
+          whiteSpace: "nowrap",
+          display: "flex",
+          justifyContent: "end",
+          alignItems: "center",
+          gap: "0.6rem",
+        }}
+      >
+        <span>{t("Send Email Verification Code")}</span>
         <IconArrowRight />
       </Anchor>
     </Box>

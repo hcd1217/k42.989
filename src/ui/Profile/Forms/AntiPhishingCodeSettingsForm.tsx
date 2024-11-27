@@ -33,6 +33,7 @@ export function AntiPhishingCodeSettingsForm() {
   return (
     <>
       <Button
+        fullWidth
         onClick={openModal}
         variant="gradient"
         miw={150}

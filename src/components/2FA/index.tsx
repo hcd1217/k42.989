@@ -1,5 +1,12 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
-import { Button, PinInput, Stack } from "@mantine/core";
+import { PasteButton } from "@/ui/PasteButton";
+import {
+  Button,
+  Grid,
+  GridCol,
+  PinInput,
+  Stack,
+} from "@mantine/core";
 import { useCallback, useState } from "react";
 
 export default function MfaForm({
@@ -32,14 +39,26 @@ export default function MfaForm({
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            e.stopPropagation();
             value.length === 6 && handleSubmit();
+            e.stopPropagation();
           }
         }}
       />
-      <Button disabled={value?.length < 6} onClick={handleSubmit}>
-        {t("Submit")}
-      </Button>
+
+      <Grid columns={32}>
+        <GridCol span={10}>
+          <PasteButton onPaste={(v) => setValue(v)} />
+        </GridCol>
+        <GridCol span={22}>
+          <Button
+            fullWidth
+            disabled={value?.length < 6}
+            onClick={handleSubmit}
+          >
+            {t("Submit")}
+          </Button>
+        </GridCol>
+      </Grid>
     </Stack>
   );
 }

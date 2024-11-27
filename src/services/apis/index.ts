@@ -591,7 +591,8 @@ export async function fetchCopyOrders(
 ) {
   const base = "/api/copy/mine/orders";
   return getApi<{ orders: CopyOrder[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.orders);
 }
@@ -603,7 +604,8 @@ export async function fetchCopyMasterTransactions(
 ) {
   const base = "/api/copy/master/me/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.transactions);
 }
@@ -615,7 +617,8 @@ export async function fetchCopyTransactions(
 ) {
   const base = "/api/copy/mine/transactions";
   return getApi<{ transactions: CopyTransaction[] }>(
-    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${limit || 10
+    `${base}?reverse=${reverse}&cursor=${cursor || ""}&limit=${
+      limit || 10
     }`,
   ).then((res) => res.transactions);
 }

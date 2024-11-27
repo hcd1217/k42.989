@@ -35,6 +35,7 @@ export function BindEmailForm() {
         variant="gradient"
         miw={150}
         px={"xs"}
+        fullWidth
         disabled={!!me?.email}
         gradient={{ from: "orange", to: "yellow", deg: 90 }}
       >

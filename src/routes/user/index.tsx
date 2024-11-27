@@ -123,7 +123,12 @@ export default function Profile() {
         <Space my={"xl"} />
         <Box>
           <Grid columns={24}>
-            <Grid.Col span={10}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 10,
+              }}
+            >
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
                   <IconLock />
@@ -138,19 +143,37 @@ export default function Profile() {
                 </Box>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 8,
+              }}
+            >
               <Flex align={"center"} gap={5} justify={"end"}>
                 <IconCircleCheckFilled color="green" />
                 <Text fz={14}>{t("Configured")}</Text>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 6,
+              }}
+            >
+              <Flex
+                justify={{
+                  xs: "",
+                  md: "end",
+                }}
+                align={"center"}
+                h={"100%"}
+              >
                 <Button
                   component={Link}
                   to="/user/modify-password"
                   variant="gradient"
                   miw={150}
+                  fullWidth
                   px={"xs"}
                   gradient={{
                     from: "orange",
@@ -166,7 +189,12 @@ export default function Profile() {
               <Divider />
             </Grid.Col>
 
-            <Grid.Col span={10}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 10,
+              }}
+            >
               {/* KYC  */}
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
@@ -184,7 +212,12 @@ export default function Profile() {
                 </Box>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 8,
+              }}
+            >
               <Flex
                 align={"center"}
                 gap={5}
@@ -194,10 +227,23 @@ export default function Profile() {
                 <KycLevel kycLevel={kycLevel} />
               </Flex>
             </Grid.Col>
-            <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 6,
+              }}
+            >
+              <Flex
+                justify={{
+                  xs: "",
+                  md: "end",
+                }}
+                align={"center"}
+                h={"100%"}
+              >
                 <Button
                   disabled={kycLevel === "3"}
+                  fullWidth
                   component="a"
                   onClick={() => {
                     if (kycLevel === "3") {
@@ -221,7 +267,13 @@ export default function Profile() {
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
-            <Grid.Col span={10}>
+
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 10,
+              }}
+            >
               {/* Email */}
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
@@ -239,7 +291,12 @@ export default function Profile() {
                 </Box>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 8,
+              }}
+            >
               <Flex
                 align={"center"}
                 gap={5}
@@ -254,15 +311,33 @@ export default function Profile() {
                 </Text>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 6,
+              }}
+            >
+              <Flex
+                justify={{
+                  xs: "",
+                  md: "end",
+                }}
+                align={"center"}
+                h={"100%"}
+              >
                 <BindEmailForm />
               </Flex>
             </Grid.Col>
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
-            <Grid.Col span={10}>
+
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 10,
+              }}
+            >
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
                   <IconBrandGoogle />
@@ -279,7 +354,12 @@ export default function Profile() {
                 </Box>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 8,
+              }}
+            >
               <Flex
                 align={"center"}
                 gap={5}
@@ -294,9 +374,22 @@ export default function Profile() {
                 </Text>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 6,
+              }}
+            >
+              <Flex
+                justify={{
+                  xs: "",
+                  md: "end",
+                }}
+                align={"center"}
+                h={"100%"}
+              >
                 <Button
+                  fullWidth
                   component="a"
                   onClick={() => {
                     navigate(
@@ -316,12 +409,16 @@ export default function Profile() {
                 </Button>
               </Flex>
             </Grid.Col>
-
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
 
-            <Grid.Col span={10}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 10,
+              }}
+            >
               <Flex gap={12} align={"center"}>
                 <Avatar size={44}>
                   <IconShieldCheckFilled />
@@ -339,7 +436,12 @@ export default function Profile() {
                 </Box>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={8}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 8,
+              }}
+            >
               <Flex
                 align={"center"}
                 gap={5}
@@ -358,12 +460,23 @@ export default function Profile() {
                 </Text>
               </Flex>
             </Grid.Col>
-            <Grid.Col span={6}>
-              <Flex justify={"end"} align={"center"} h={"100%"}>
+            <Grid.Col
+              span={{
+                xs: 24,
+                md: 6,
+              }}
+            >
+              <Flex
+                justify={{
+                  xs: "",
+                  md: "end",
+                }}
+                align={"center"}
+                h={"100%"}
+              >
                 <AntiPhishingCodeSettingsForm />
               </Flex>
             </Grid.Col>
-
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>

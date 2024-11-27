@@ -89,10 +89,13 @@ export const userKycDataSchema = z.object({
 });
 
 export const userConfigSchema = z.object({
-  leverages: z.record(
-    stringSchema,
-    numberSchema.int().positive().min(1).max(200),
-  ),
+  userId: optionalStringSchema,
+  leverages: z
+    .record(
+      stringSchema,
+      numberSchema.int().positive().min(1).max(200),
+    )
+    .optional(),
 });
 
 export const dateSchema = z

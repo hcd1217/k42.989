@@ -101,8 +101,8 @@ export function SPEAvatar(props: AvatarProps) {
         <Box
           opacity={hovered ? 1 : 0}
           pos={"absolute"}
-          bottom={0}
-          right={0}
+          bottom={-5}
+          right={-10}
           style={{
             cursor: "pointer",
           }}

@@ -1,0 +1,90 @@
+.carouselCards {
+  .mantine-Carousel-controls {
+    width: calc(100% + 80px);
+    padding: 0 !important;
+    left: -40px !important;
+  }
+}
+
+.app-carousel {
+  .mantine-Carousel-controls {
+    // width: calc(100%);
+    width: unset;
+    padding: 0 !important;
+    left: 0 !important;
+    // left: -10px !important;
+    position: static;
+    // border: solid 1px red;
+    justify-content: center;
+    gap: 10px;
+    button {
+      background: #f18f14;
+      svg {
+        fill: white;
+        color: white;
+      }
+      &[data-inactive="true"] {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+    }
+  }
+  .mantine-Carousel-viewport {
+    position: relative;
+    &::before {
+      content: "";
+      width: 50px;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 2;
+      background: linear-gradient(
+        270deg,
+        light-dark(#fff, #000000),
+        hsla(0, 0%, 100%, 0) 94.95%
+      );
+    }
+  }
+  &.app-carousel-orange {
+    .mantine-Carousel-viewport {
+      &::before {
+        background: linear-gradient(
+          270deg,
+          light-dark(#fffbef, #1a1509),
+          hsla(0, 0%, 100%, 0) 94.95%
+        );
+      }
+    }
+  }
+}
+
+.appCarouselText {
+  &.mantine-Carousel-root {
+    padding-inline: 30px;
+  }
+  .mantine-Carousel-controls {
+    width: 100%;
+    left: 0;
+    padding: 0;
+    .mantine-Carousel-control {
+      border: none;
+      background: none;
+    }
+    button {
+      box-shadow: unset;
+      svg {
+        fill: none;
+        color: light-dark(
+          var(--mantine-color-black),
+          var(--mantine-color-white)
+        );
+      }
+      &[data-inactive="true"] {
+        opacity: 0.2;
+        pointer-events: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+.banner-copy {
+  background-color: rgb(15, 19, 35);
+  min-height: 220px;
+  padding: 20px 0px;
+}
+.card-dot {
+  &::before,
+  &::after {
+    content: "";
+    background: black;
+    width: rem(20);
+    height: rem(20);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  &::before {
+    left: rem(-10);
+  }
+  &::after {
+    right: rem(-10);
+  }
+}
+
+.mantine-Menu-item {
+  &:hover {
+  }
+}
+
+.apexcharts-yaxis-texts-g {
+  .apexcharts-text {
+    &:not(:first-child, :last-child) {
+      // opacity: 0;
+    }
+  }
+}
+
+.banner-copy-detail {
+  height: 315px;
+  background: linear-gradient(274.44deg, #090b1d, #020036 100.21%);
+}
+.bg-copy-trade {
+  @include light {
+    background: #f5f7fa;
+  }
+}

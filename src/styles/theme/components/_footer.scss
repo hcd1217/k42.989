@@ -1,0 +1,18 @@
+.footer {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+.foolink {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  color: light-dark(
+    var(--mantine-color-black),
+    var(--mantine-color-light)
+  );
+  text-decoration: none;
+
+  @include hover {
+    color: var(--mantine-color-primary-5);
+  }
+}

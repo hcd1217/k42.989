@@ -1,0 +1,11 @@
+.appPill {
+  @include light {
+    background-color: var(--mantine-color-primary-5);
+    color: var(--mantine-color-white);
+  }
+
+  @include dark {
+    background-color: var(--mantine-color-black);
+    color: var(--mantine-color-primary-5);
+  }
+}

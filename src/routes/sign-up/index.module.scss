@@ -1,0 +1,33 @@
+.bgGray {
+  @include light {
+    // background: var(--mantine-color-gray-2);
+    background: white;
+  }
+
+  @include dark {
+    // background: var(--mantine-color-dark-2);
+    background: black;
+  }
+
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.form_container {
+  display: flex;
+  width: 100%;
+  gap: 2rem;
+  flex-direction: column;
+
+  button {
+    height: 3rem;
+
+    span {
+      font-size: 18px;
+    }
+  }
+}
+
+.error {
+  font-size: 12px !important;
+}

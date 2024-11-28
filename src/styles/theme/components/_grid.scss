@@ -1,0 +1,8 @@
+.grid-item-drag-handle {
+  cursor: move;
+}
+.react-resizable-handle.react-resizable-handle-se {
+  &::after {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+  }
+}

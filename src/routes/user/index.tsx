@@ -389,13 +389,11 @@ export default function Profile() {
                 h={"100%"}
               >
                 <Button
+                  component={Link}
+                  to={
+                    me?.hasMfa ? "/user/rebind-ga" : "/user/bind-ga"
+                  }
                   fullWidth
-                  component="a"
-                  onClick={() => {
-                    navigate(
-                      me?.hasMfa ? "user/rebind-ga" : "/user/bind-ga",
-                    );
-                  }}
                   variant="gradient"
                   miw={150}
                   px={"xs"}

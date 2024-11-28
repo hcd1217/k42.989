@@ -565,11 +565,13 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
               <SwitchDarkLightMode onDarkMode={false} />
               <SwitchLanguage onDarkMode={false} />
               <Box ml={"auto"}>
-                <Flex align={"center"}>
+                <Flex
+                  align={"center"}
+                  onClick={() => authStore.getState().logout()}
+                >
                   <Box>
                     <ActionIcon
                       size="lg"
-                      onClick={() => authStore.getState().logout()}
                       color="red"
                       variant="transparent"
                     >

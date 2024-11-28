@@ -39,6 +39,10 @@ export const POLICIES = {
     // other logic check
     return BRAND.configs.APP_FEATURES.includes(feature);
   },
+  "mfa:only": (feature: { hasMfa: boolean }) => {
+    // other logic check
+    return feature.hasMfa;
+  },
 };
 
 // Authorization
@@ -69,15 +73,18 @@ export const useAuthorization = () => {
   return { checkAccess, role: user.data?.role };
 };
 
-type RoleType =
-  | {
-      allowedRoles: UserRoleTypes[];
-      policyCheck?: never;
-    }
-  | {
-      allowedRoles?: never;
-      policyCheck: boolean;
-    };
+type NeedUserRoleType = {
+  allowedRoles: UserRoleTypes[];
+  policyCheck?: never;
+};
+
+type NeedPermissionType = {
+  allowedRoles?: never;
+  policyCheck: boolean;
+};
+
+type RoleType = NeedUserRoleType | NeedPermissionType;
+
 type AuthorizationProps = {
   forbiddenFallback?: React.ReactNode;
   children: React.ReactNode;

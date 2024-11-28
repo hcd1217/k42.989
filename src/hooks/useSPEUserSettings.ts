@@ -158,7 +158,7 @@ const useSPEUserSettings = <T>(
             // setTimeout(() => {
             //   window.location.href = "/user";
             // }, 1000);
-            navigate(0);
+            navigate("/user");
             onSuccess?.();
           } else {
             error(t(titleF), t(msgF));

@@ -23,7 +23,8 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import QRCode from "qrcode.react";
+import { IconExternalLink } from "@tabler/icons-react";
+import { QRCodeSVG as QRCode } from "qrcode.react";
 import { useEffect } from "react";
 
 export function BindGaForm() {
@@ -175,7 +176,10 @@ export function BindGaForm() {
           >
             <Flex gap={50}>
               <Box>
-                <QRCode value={otpAuth.value} size={120} />
+                <a href={otpAuth.value}>
+                  <QRCode value={otpAuth.value} size={120} />
+                  <Text>{t("Open App")}</Text>
+                </a>
               </Box>
               <Box maw={"485px"} w={"100%"}>
                 <Text fz={14}>
@@ -199,6 +203,22 @@ export function BindGaForm() {
                   you can regain access to your authenticator app if
                   you lose or switch your phone.`)}
                 </Text>
+                <Space my={"sm"} />
+                <Text fz={14}>
+                  {t(
+                    "For Quick Launch Google Authenticator app and auto add the URL key.",
+                  )}
+                </Text>
+                <Space my={"sm"} />
+                <Button
+                  component={"a"}
+                  href={otpAuth.value}
+                  variant="light"
+                  size="sm"
+                  rightSection={<IconExternalLink />}
+                >
+                  {t("Open Google Authenticator App")}
+                </Button>
               </Box>
             </Flex>
           </Timeline.Item>
@@ -230,59 +250,62 @@ export function BindGaForm() {
                     mfaSecret: otpAuth.secret,
                   });
                   submit(e, form);
+                  e.stopPropagation();
                 }}
               >
                 <Box>
-                  <TextInput
-                    style={{
-                      display: me?.email ? undefined : "none",
-                    }}
-                    label={`${t(
-                      "Current Email Verification",
-                    )}（${maskEmail(me?.email ?? "")}）`}
-                    placeholder={t("Enter the verification code")}
-                    rightSectionWidth={60}
-                    rightSection={
-                      <Flex px={10} w={"100%"}>
-                        <Button
-                          disabled={interval1.active}
-                          p={0}
-                          variant="transparent"
-                          onClick={startSending}
-                        >
-                          {!interval1.active && t("Send")}
-                          {interval1.active && `${seconds1}s`}
-                        </Button>
-                      </Flex>
-                    }
-                    key={form.key("verificationCode")}
-                    {...form.getInputProps("verificationCode")}
-                  />
-                  <TextInput
-                    style={{
-                      display: me?.email ? "none" : undefined,
-                    }}
-                    label={`Current Mobile Verification（${maskPhone(
-                      me?.mobile ?? "",
-                    )}）`}
-                    placeholder={t("Enter the verification code")}
-                    rightSectionWidth={60}
-                    rightSection={
-                      <Flex px={10} w={"100%"}>
-                        <Button
-                          disabled={interval1.active}
-                          p={0}
-                          variant="transparent"
-                          onClick={startSending}
-                        >
-                          {!interval1.active && t("Send")}
-                          {interval1.active && `${seconds1}s`}
-                        </Button>
-                      </Flex>
-                    }
-                    key={form.key("verificationCode")}
-                    {...form.getInputProps("verificationCode")}
-                  />
+                  {me?.email && (
+                    <TextInput
+                      label={`${t(
+                        "Current Email Verification",
+                      )}（${maskEmail(me?.email ?? "")}）`}
+                      placeholder={t("Enter the verification code")}
+                      rightSectionWidth={60}
+                      rightSection={
+                        <Flex px={10} w={"100%"}>
+                          <Button
+                            disabled={interval1.active}
+                            p={0}
+                            variant="transparent"
+                            onClick={startSending}
+                          >
+                            {!interval1.active && t("Send")}
+                            {interval1.active && `${seconds1}s`}
+                          </Button>
+                        </Flex>
+                      }
+                      key={form.key("verificationCode")}
+                      {...form.getInputProps("verificationCode")}
+                    />
+                  )}
+
+                  {!me?.email && (
+                    <TextInput
+                      key={form.key("verificationCode")}
+                      {...form.getInputProps("verificationCode")}
+                      style={{
+                        display: me?.email ? "none" : undefined,
+                      }}
+                      label={`Current Mobile Verification（${maskPhone(
+                        me?.mobile ?? "",
+                      )}）`}
+                      placeholder={t("Enter the verification code")}
+                      rightSectionWidth={60}
+                      rightSection={
+                        <Flex px={10} w={"100%"}>
+                          <Button
+                            disabled={interval1.active}
+                            p={0}
+                            variant="transparent"
+                            onClick={startSending}
+                          >
+                            {!interval1.active && t("Send")}
+                            {interval1.active && `${seconds1}s`}
+                          </Button>
+                        </Flex>
+                      }
+                    />
+                  )}
                   <Space my={"md"} />
                   <TextInput
                     label={t("Google Authenticator Code")}

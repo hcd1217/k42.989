@@ -20,7 +20,8 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import QRCode from "qrcode.react";
+import { IconExternalLink } from "@tabler/icons-react";
+import { QRCodeSVG as QRCode } from "qrcode.react";
 import { useEffect } from "react";
 
 export function ReBindGaForm() {
@@ -48,7 +49,7 @@ export function ReBindGaForm() {
   const { me } = authStore();
 
   const form = useForm({
-    mode: "uncontrolled",
+    mode: "controlled",
     initialValues: {
       oldMfaCode: "",
       mfaCode: "",
@@ -161,7 +162,11 @@ export function ReBindGaForm() {
           >
             <Flex gap={50}>
               <Box>
-                <QRCode value={otpAuth.value} size={120} />
+                <div>
+                  <a href={otpAuth.value}>
+                    <QRCode value={otpAuth.value} size={120} />
+                  </a>
+                </div>
               </Box>
               <Box maw={"485px"} w={"100%"}>
                 <Text fz={14}>
@@ -185,6 +190,22 @@ export function ReBindGaForm() {
                   you can regain access to your authenticator app if
                   you lose or switch your phone.`)}
                 </Text>
+                <Space my={"sm"} />
+                <Text fz={14}>
+                  {t(
+                    "For Quick Launch Google Authenticator app and auto add the URL key.",
+                  )}
+                </Text>
+                <Space my={"sm"} />
+                <Button
+                  component={"a"}
+                  href={otpAuth.value}
+                  variant="light"
+                  size="sm"
+                  rightSection={<IconExternalLink />}
+                >
+                  {t("Open Google Authenticator App")}
+                </Button>
               </Box>
             </Flex>
           </Timeline.Item>
@@ -251,16 +272,19 @@ export function ReBindGaForm() {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  form.setValues({
-                    ...form.getValues(),
-                    mfaSecret: otpAuth.secret,
-                  });
+                  // form.setValues({
+                  //   ...form.getValues(),
+                  //   mfaSecret: otpAuth.secret,
+                  // });
+                  form.setFieldValue("mfaSecret", otpAuth.secret);
                   submit(e, form);
                 }}
               >
                 <Box>
                   <Space my={"md"} />
                   <TextInput
+                    key={form.key("verificationCode")}
+                    {...form.getInputProps("verificationCode")}
                     style={{
                       display: me?.email ? undefined : "none",
                     }}
@@ -282,8 +306,6 @@ export function ReBindGaForm() {
                         </Button>
                       </Flex>
                     }
-                    key={form.key("verificationCode")}
-                    {...form.getInputProps("verificationCode")}
                   />
                   <TextInput
                     style={{

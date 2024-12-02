@@ -245,21 +245,6 @@ export function KYCVerifyIdentityFirstForm() {
             withAsterisk
             label={t("Residential address")}
             disabled={isPendingKyc}
-            description={
-              <>
-                <Text style={{ whiteSpace: "pre-line" }} mt={4}>
-                  {t(
-                    "Address verification documents\n・Resident registration card\n・Utility bills [electricity, water, gas]\n・Credit card statement",
-                  )}
-                </Text>
-                <Text mt={4}>
-                  <span style={{ color: "red" }}>{t("*")} </span>
-                  {t(
-                    "Date of issue must be within the last 3 months",
-                  )}
-                </Text>
-              </>
-            }
           />
           <Space h="20vh" />
           <Flex justify="center">

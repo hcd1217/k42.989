@@ -88,10 +88,29 @@ export function KYCVerifyIdentitySecondForm() {
               variant="light"
               color="primary"
               icon={<IconInfoCircle />}
+              pb={4}
             >
-              {t(
-                "Make sure the document shows your photo, full name, date of birth and date of issue.",
-              )}
+              <Text>
+                {t(
+                  "Make sure the document shows your photo, full name, date of birth and date of issue.",
+                )}
+              </Text>
+            </Alert>
+            <Alert
+              variant="light"
+              color="primary"
+              icon={<IconInfoCircle />}
+              pt={0}
+            >
+              <Text style={{ whiteSpace: "pre-line" }}>
+                {t(
+                  "Address verification documents\n・Resident registration card\n・Utility bills [electricity, water, gas]\n・Credit card statement",
+                )}
+              </Text>
+              <Text mt={4}>
+                <span>{t("*")} </span>
+                {t("Date of issue must be within the last 3 months")}
+              </Text>
             </Alert>
             <Space my={"xs"} />
             <SimpleGrid

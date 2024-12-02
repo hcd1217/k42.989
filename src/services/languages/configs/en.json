@@ -550,5 +550,8 @@
   "Copy History": "Copy History",
   "Tips": "Tips",
   "Notes: Due to market fluctuations, the final transaction results may be slightly different from the current display results.": "Notes: Due to market fluctuations, the final transaction results may be slightly different from the current display results.",
+  "Address verification documents\n・Resident registration card\n・Utility bills [electricity, water, gas]\n・Credit card statement": "Address verification documents\n・Resident registration card\n・Utility bills [electricity, water, gas]\n・Credit card statement",
+  "Date of issue must be within the last 3 months": "Date of issue must be within the last 3 months",
+  "*": "*",
   "X": "X"
 }

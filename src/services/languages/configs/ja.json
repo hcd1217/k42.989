@@ -550,5 +550,8 @@
   "Copy History": "コピー履歴",
   "Tips": "Tips",
   "Notes: Due to market fluctuations, the final transaction results may be slightly different from the current display results.": "注意: 市場の変動により、最終的な取引レートは現在の表示レートと異なる場合があります。",
+  "Address verification documents\n・Resident registration card\n・Utility bills [electricity, water, gas]\n・Credit card statement": "住所確認書類について\n・住民票\n・公共料金明細【電気・水道・ガス】\n・クレジットカード明細",
+  "Date of issue must be within the last 3 months": "発行日は3ヶ月以内",
+  "*": "※",
   "X": "X"
 }

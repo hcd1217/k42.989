@@ -12,6 +12,7 @@ export default () => {
     ],
     server: {
       port: 9910,
+      host: "0.0.0.0"
     },
     resolve: {
       alias: {

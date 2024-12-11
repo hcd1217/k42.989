@@ -26,6 +26,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { z } from "zod";
+import { MsgNoticeCapture } from "./MsgNoticeCapture";
 const picEx =
   "https://fastly.picsum.photos/id/38/200/300.jpg?hmac=-3xmMd1qccZR3fLPMvwj8D3GgMIIDCKTpXJspTKuZW0";
 type UserKycData = z.infer<typeof userKycDataSchema>;
@@ -182,6 +183,9 @@ export function KYCVerifyIdentitySecondForm() {
               overlayProps={{ radius: "sm", blur: 2 }}
             />
             <div>
+              <Box mb={"lg"}>
+                <MsgNoticeCapture />
+              </Box>
               {form.getValues().images?.kycLvl2 || isPendingKyc ? (
                 <Box
                   h={"300px"}

@@ -46,10 +46,10 @@ export default function MfaForm({
       />
 
       <Grid columns={32}>
-        <GridCol span={10}>
+        <GridCol span={12}>
           <PasteButton onPaste={(v) => setValue(v)} />
         </GridCol>
-        <GridCol span={22}>
+        <GridCol span={20}>
           <Button
             fullWidth
             disabled={value?.length < 6}

@@ -49,10 +49,6 @@ export const POLICIES = {
 export const useAuthorization = () => {
   const user = useUser();
 
-  // if (!user?.data?.id) {
-  //   throw Error("User does not exist!");
-  // }
-
   const checkAccess = useCallback(
     ({ allowedRoles }: { allowedRoles: UserRoleTypes[] }) => {
       if (allowedRoles && allowedRoles.length > 0) {

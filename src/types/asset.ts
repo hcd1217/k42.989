@@ -67,3 +67,20 @@ export type TransferFormData = {
   toAccountId: string;
   fromAccountId: string;
 };
+
+export type Referral = {
+  tierLevel: number;
+  contact: string;
+  totalTradingFee: number;
+  totalRebate: number;
+  userDepositCode: string;
+  referredAt: number;
+};
+
+export type RebateDetail = {
+  coin: string;
+  fee: number;
+  amount: number;
+  type: string;
+  updatedAt: string;
+};

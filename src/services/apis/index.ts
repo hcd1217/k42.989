@@ -35,7 +35,7 @@ import { getDictionary } from "@/services/languages";
 import { assetStore } from "@/store/assets";
 import authStore from "@/store/auth";
 import tradeStore from "@/store/trade";
-import { WithdrawData } from "@/types";
+import { RebateDetail, Referral, WithdrawData } from "@/types";
 import { delay, ONE_MINUTE } from "@/utils";
 import { avatarUrl, t } from "@/utils/utility";
 import { LRUCache } from "lru-cache";
@@ -813,4 +813,27 @@ export async function getKycByUserApi(params: { userId: string }) {
 
 export async function sendMailVerificationCode() {
   await axios.post("/api/me/verification-code/email");
+}
+
+export async function referrals(): Promise<Referral[]> {
+  const res = await axios.post("/api/affiliate/referrals");
+  if (res.data?.result) {
+    return res.data.result;
+  }
+  return Promise.reject(null);
+}
+export async function referralDetail(
+  depositCode: string,
+  from: number,
+  to: number,
+): Promise<RebateDetail[]> {
+  const res = await axios.post("/api/affiliate/referrals/detail", {
+    depositCode,
+    from,
+    to,
+  });
+  if (res.data?.result) {
+    return res.data.result;
+  }
+  return Promise.reject(null);
 }

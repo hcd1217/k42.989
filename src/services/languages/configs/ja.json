@@ -1,4 +1,13 @@
 {
+  "Notice: Issues with Direct Document Capture on Mobile Devices": "お知らせ: モバイル デバイスでの直接ドキュメント キャプチャに関する問題",
+  "If you are using a mobile phone, you might face issues while capturing documents directly.": "携帯電話を使用している場合、ドキュメントを直接キャプチャする際に問題が発生する可能性があります。",
+  "This could be due to:": "これは次の理由による可能性があります。",
+  "Insufficient phone memory.": "携帯電話のメモリが不足している。",
+  "Unstable device performance.": "デバイスのパフォーマンスが不安定。",
+  "Technical limitations from the browser or operating system.": "ブラウザやオペレーティング システムの技術的制限。",
+  "Solution:": "対策案",
+  "Use your phone’s camera app to take photos of the documents first.": "まず、携帯電話のカメラアプリを使用してドキュメントの写真を撮影してください。",
+  "Then, upload the saved photos from your gallery to complete the verification process.": "次に、ギャラリーから保存された写真をアップロードして、認証プロセスを完了してください。",
   "Provide a document confirm your name": "名前を確認できる書類をアップロードしてください",
   "Change Google Authenticator": "Google認証コード変更",
   "The withdrawal function will be disabled for 24 hours after you change your Google Authenticator.": "認証コード変更際、出金機能は24時間無効になります。",

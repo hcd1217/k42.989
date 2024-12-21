@@ -297,7 +297,7 @@ export function RebatesHistory() {
         "User Name",
         "Total Rebate Amount",
         "Total Trading Fee",
-        "Referral At",
+        "Referral From",
       ].map((el) => t(el)),
       body: rebate.referrals.map((referral) => [
         <>

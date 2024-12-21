@@ -195,7 +195,7 @@ export const authenticationPayloadSchema = z.object({
   mobileVerified: booleanSchema,
   hasMfa: booleanSchema,
   hasAntiPhishingCode: booleanSchema,
-  role: stringSchema,
+  role: optionalStringSchema,
   kycLevel: numberSchema.int().positive().min(0).max(4),
   isPendingVerification: optionalBooleanSchema,
   isRejectedVerification: optionalBooleanSchema,

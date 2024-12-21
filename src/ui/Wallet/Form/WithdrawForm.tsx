@@ -355,7 +355,7 @@ const MfaPopup = ({ toggle }: { toggle: () => void }) => {
         td="none"
         mt={"xs"}
       >
-        <span>{t("Go to Bing GA")}</span>
+        <span>{t("Go to Bind GA")}</span>
         <IconArrowRight />
       </Anchor>
       <Anchor

@@ -9,7 +9,6 @@ const { resolve } = require("path");
 
 const ignores_text = Object.fromEntries(
   [
-    "*",
     "Content-Type",
     "API Call",
     "API Key",
@@ -248,10 +247,13 @@ const ignores_text = Object.fromEntries(
     "<=${triggerPrice}(Last)",
     "船橋 (店番：111)",
     "資金は1営業日以内に入金されます。",
+    "{{${key}}}",
+    "<=${triggerPrice}(Last)",
   ].map((text) => [text, true]),
 );
 
 const _srcPath = resolve(__dirname, "../src/");
+
 const ignore_files = [
   resolve(_srcPath, "routes/privacy-policy/index.tsx"),
   resolve(_srcPath, "routes/terms-service-agreement/index.tsx"),
@@ -267,27 +269,31 @@ const ignore_dirs = [
 
 function extractText(sourceCode) {
   const textList = [];
-
   const functionCallRegex = /\b\w+\(\s*(['"`])((?:\\\1|.)*?)\1/g;
+
+  const loggerFunctionRegex =
+    /^\s*\b(debug|info|warn|error|trace)\s*\(\s*(['"`])/;
+
   let match;
 
   while ((match = functionCallRegex.exec(sourceCode)) !== null) {
-    textList.push(
-      match[2]
-        .trim()
-        .replace(/[\r\n]+/g, " ")
-        .replace(/\s+/g, " "),
-    );
+    const functionCallText = match[2]
+      .trim()
+      .replace(/[\r\n]+/g, " ")
+      .replace(/\s+/g, " ");
+
+    if (!loggerFunctionRegex.test(match[0])) {
+      textList.push(functionCallText);
+    }
   }
+
   const jsxTextRegex =
     /<.*?>([^<>{}]+)<\/.*?>|{['"`]([^'"`]+)['"`]}/g;
 
   while ((match = jsxTextRegex.exec(sourceCode)) !== null) {
-    if (match[1]) {
-      textList.push(_trim(match[1]));
-    }
-    if (match[2]) {
-      textList.push(_trim(match[2]));
+    const jsxText = match[1] || match[2];
+    if (jsxText) {
+      textList.push(_trim(jsxText));
     }
   }
 
@@ -321,13 +327,11 @@ function regexIgnore(text) {
     /^@.*/.test(text) || // Ignore paths starting with @
     /^\.\/.*/.test(text) || // Ignore paths starting with ./
     /^\$\{.*\}/.test(text) || // Ignore strings that start with `${`
-    /logger\.trace\(['"`][^'"`]*['"`]\)/.test(text) || // Ignore text inside logger.trace()
     /solid/.test(text) || // Ignore strings that contain "solid"
     /^[a-z]+([A-Z][a-z]*)*$/.test(text) || // Ignore camelCase words
     /^\s*\/\/.*/.test(text) || // Ignore lines starting with //
     /^\s*\/\*/.test(text) || // Ignore lines starting with /*
-    /^[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+$/.test(text) || // Ignore object-like strings
-    /^[a-z]+(-[a-z]+)*$/.test(text)
+    /^[a-zA-Z0-9_]+\.[a-zA-Z0-9_]+$/.test(text) // Ignore object-like strings
   );
 }
 
@@ -378,6 +382,37 @@ async function extractTextFromFiles(directory) {
 function readFile(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf-8"));
 }
+async function updateJsonFiles(enJsonPath, jaJsonPath, bkFilePath) {
+  try {
+    const bkData = fs.readFileSync(bkFilePath, "utf-8");
+    const enData = {};
+    const jaData = {};
+
+    bkData.split("\n").forEach((line) => {
+      const [key, enValue = "NOT FOUND", jaValue = "NOT FOUND"] =
+        line.split("\t");
+      if (key?.trim()) {
+        enData[key] = enValue;
+        jaData[key] = jaValue;
+      }
+    });
+
+    fs.writeFileSync(
+      enJsonPath,
+      JSON.stringify(enData, null, 2),
+      "utf-8",
+    );
+    fs.writeFileSync(
+      jaJsonPath,
+      JSON.stringify(jaData, null, 2),
+      "utf-8",
+    );
+
+    console.log("Updated en.json and ja.json successfully.");
+  } catch (error) {
+    console.error("Error updating JSON files:", error);
+  }
+}
 
 async function main() {
   const enJsonPath = resolve(
@@ -392,7 +427,7 @@ async function main() {
     _srcPath,
     "services/languages/configs/output.bk.md",
   );
-  const enData = readFile(enJsonPath);
+
   const jaData = readFile(jaJsonPath);
   const results = await extractTextFromFiles(_srcPath);
   const allText = results
@@ -402,11 +437,13 @@ async function main() {
   fs.writeFileSync(
     outputPath,
     [...new Set(allText)]
-      .map((key) => [key, enData[key], jaData[key]].join("\t"))
+      .map((key) => [key, key, jaData[key]].join("\t"))
       .join("\n"),
     "utf-8",
   );
   console.log("Markdown file saved to:", outputPath);
+
+  await updateJsonFiles(enJsonPath, jaJsonPath, outputPath);
 }
 
 main().catch((err) => console.error(err));

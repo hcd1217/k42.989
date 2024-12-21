@@ -815,8 +815,16 @@ export async function sendMailVerificationCode() {
   await axios.post("/api/me/verification-code/email");
 }
 
-export async function referrals(): Promise<Referral[]> {
-  const res = await axios.post("/api/affiliate/referrals");
+export async function rebate(): Promise<{
+  overview: {
+    rebate: string;
+    fee: string;
+    ratio: number;
+    user: number;
+  };
+  referrals: Referral[];
+}> {
+  const res = await axios.post("/api/affiliate/rebate");
   if (res.data?.result) {
     return res.data.result;
   }

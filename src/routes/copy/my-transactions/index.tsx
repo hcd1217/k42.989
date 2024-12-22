@@ -59,7 +59,7 @@ export default function MyTransactions() {
           </Text>
           <SPETableText
             key={`${transaction.id}.Type`}
-            value={transaction.type || ""}
+            value={t(transaction.type || "")}
           />
         </>,
         <>

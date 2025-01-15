@@ -8,7 +8,6 @@ export default function NumberInput({
     <>
       <Nb
         min={0}
-        inputMode="decimal"
         {...props}
         value={
           value !== undefined
@@ -17,6 +16,8 @@ export default function NumberInput({
               : value
             : ""
         }
+        inputMode="decimal"
+        allowDecimal={true}
       />
     </>
   );

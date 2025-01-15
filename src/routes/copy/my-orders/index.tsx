@@ -5,6 +5,7 @@ import { MasterTrader } from "@/ui/Copy";
 import {
   NoDataRecord,
   SPEPagination,
+  SPETableDateTime,
   SPETableHeader,
   SPETableNumber,
   SPETableSymbol,
@@ -35,8 +36,8 @@ export default function MyPositions() {
         "Contract",
         "Price",
         "Volume",
-        "Margin",
-        "Realized PnL",
+        // "Realized PnL",
+        "Date",
       ].map((label, idx) => (
         <SPETableHeader key={idx} label={label} />
       )),
@@ -61,11 +62,10 @@ export default function MyPositions() {
             key={`${order.orderId}.volume`}
             value={order.filled}
           />,
-          <SPETableNumber
-            key={`${order.orderId}.margin`}
-            value={0}
+          <SPETableDateTime
+            key={`${order.orderId}.date`}
+            time={order.createdAt}
           />,
-          <SPETableNumber key={`${order.orderId}.pnl`} value={0} />,
         ];
       }),
     }),

@@ -9,9 +9,7 @@ import {
 } from "@/common/types";
 import { buildOptions } from "@/common/utils";
 import {
-  fetchAccountsApi,
-  fetchBalancesApi,
-  fetchMasterTraders,
+  fetchBalancesApi
 } from "@/services/apis";
 import { create } from "zustand";
 
@@ -35,7 +33,6 @@ interface AssetState {
     balances: Balance[];
     overview: BalanceOverview;
   }) => Promise<void>;
-  fetchAccounts: () => Promise<void>;
   setAccounts: (accounts: Account[]) => void;
 }
 
@@ -88,28 +85,6 @@ export const assetStore = create<AssetState>((set, get) => ({
       tradingBalances,
       tradingBalanceMap,
     });
-  },
-  async fetchAccounts() {
-    const accounts = await fetchAccountsApi();
-    const masterTraders = await fetchMasterTraders();
-
-    const state = get();
-
-    state.setAccounts(accounts);
-
-    set({
-      masterTraders,
-    });
-
-    // set({
-    //   accounts,
-    //   masterTraders,
-    //   accountById: Object.fromEntries(
-    //     accounts.map((account) => [account.id, account]),
-    //   ),
-    //   fundingAccount: accounts.find(isFundingAccount),
-    //   tradingAccount: accounts.find(isTradingAccount),
-    // });
   },
   setAccounts(accounts: Account[]) {
     const accountTypes = buildOptions(

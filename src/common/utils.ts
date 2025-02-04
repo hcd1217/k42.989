@@ -171,6 +171,9 @@ export function cleanEmpty<T>(arr: (T | undefined | null)[]) {
 }
 
 export function roundNumber(value: SPENumber, k: number) {
+  if (isNaN(Number(value))) {
+    return 0;
+  }
   return Number(Number(value).toFixed(k));
 }
 

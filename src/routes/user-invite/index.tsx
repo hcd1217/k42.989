@@ -299,7 +299,7 @@ export function RebatesHistory() {
         "Total Trading Fee",
         "Referral From",
       ].map((el) => t(el)),
-      body: rebate.referrals.map((referral) => [
+      body: (rebate.referrals || [])?.map((referral) => [
         <>
           <Text hiddenFrom="sm" c={"dimmed"}>
             {t("User Name")}

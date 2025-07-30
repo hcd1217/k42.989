@@ -204,6 +204,7 @@ export const authenticationPayloadSchema = z.object({
   mobile: optionalStringSchema,
   isCopyMaster: booleanSchema,
   masterAccountId: optionalStringSchema,
+  xKey: optionalStringSchema,
   config: userConfigSchema.optional(),
   affiliateData: z
     .object({

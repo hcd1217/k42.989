@@ -8,9 +8,7 @@ import {
   SpeTransaction,
 } from "@/common/types";
 import { buildOptions } from "@/common/utils";
-import {
-  fetchBalancesApi
-} from "@/services/apis";
+import { fetchBalancesApi } from "@/services/apis";
 import { create } from "zustand";
 
 interface AssetState {

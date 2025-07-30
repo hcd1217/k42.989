@@ -609,5 +609,15 @@
   "Your password has been changed successfully. Please use your new password to log in next time.": "Your password has been changed successfully. Please use your new password to log in next time.",
   "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.": "Your password has been successfully reset. You can now log in with your new password. If you did not request this change, please contact our support team immediately.",
   "Your position value at the timestamp when funding is settled will be used to derive your funding fees.": "Your position value at the timestamp when funding is settled will be used to derive your funding fees.",
-  "Your unique Anti-Phishing Code will be displayed on all %s emails.": "Your unique Anti-Phishing Code will be displayed on all %s emails."
+  "Your unique Anti-Phishing Code will be displayed on all %s emails.": "Your unique Anti-Phishing Code will be displayed on all %s emails.",
+  "API Management": "API Management",
+  "API key": "API key",
+  "Use this for trading via API.": "Use this for trading via API.",
+  "API Secret": "API Secret",
+  "Keep this secret secure and never share it.": "Keep this secret secure and never share it.",
+  "Security Warning": "Security Warning",
+  "Never share your API credentials with anyone": "Never share your API credentials with anyone",
+  "Store them securely and rotate them regularly": "Store them securely and rotate them regularly",
+  "Only use HTTPS endpoints for API calls": "Only use HTTPS endpoints for API calls",
+  "Regenerate Keys": "Regenerate Keys"
 }

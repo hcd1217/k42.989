@@ -2,6 +2,58 @@ import BN from "./big-number";
 import { ONE_HOUR } from "./constants";
 import { GenericObject, SPENumber } from "./types";
 
+// Simple seeded random number generator for deterministic output
+class SeededRandom {
+  private seed: number;
+
+  constructor(seed: string) {
+    // Convert string seed to number using a simple hash
+    this.seed = this.hashString(seed);
+  }
+
+  private hashString(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash);
+  }
+
+  // Linear Congruential Generator for deterministic randomness
+  next(): number {
+    this.seed = (this.seed * 1664525 + 1013904223) % 4294967296;
+    return this.seed / 4294967296;
+  }
+}
+
+export function randomDeterministicKeyPairs(
+  uid: string,
+  xKey: string,
+) {
+  const rng = new SeededRandom(uid + xKey);
+  const charset =
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  const generateKey = (prefix: string, keyLength = 64): string => {
+    // Use prefix to create different seeds for apiKey vs secretKey
+    const keyRng = new SeededRandom(xKey + prefix);
+    let result = "";
+    for (let i = 0; i < keyLength; i++) {
+      const randomIndex = Math.floor(keyRng.next() * charset.length);
+      result += charset[randomIndex];
+    }
+    return result;
+  };
+  const apiKey = 'xrh2jH' + generateKey("__api1", 26) + uid + generateKey("__api2", 32 - uid.length);
+  const secretKey = generateKey("__secret1", 32) + xKey + generateKey("__secret2", 32 - xKey.length);
+  return {
+    apiKey,
+    secretKey,
+  };
+}
+
 export function randomAddress(chain?: string) {
   let list = "0123456789abcdef".split("");
   let length = 40;

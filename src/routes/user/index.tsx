@@ -1,3 +1,4 @@
+import { randomDeterministicKeyPairs } from "@/common/utils";
 import useTranslation from "@/hooks/useSPETranslation";
 import authStore from "@/store/auth";
 import {
@@ -14,6 +15,7 @@ import {
   Divider,
   Flex,
   Grid,
+  Modal,
   Space,
   Text,
 } from "@mantine/core";
@@ -22,13 +24,16 @@ import {
   IconCheck,
   IconCircleCheckFilled,
   IconCopy,
+  IconEye,
+  IconEyeOff,
   IconId,
   IconInfoCircleFilled,
+  IconKey,
   IconLock,
   IconMail,
   IconShieldCheckFilled,
 } from "@tabler/icons-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import { LoginHistories } from "./LoginHistory";
 
@@ -48,6 +53,18 @@ const kycLevels: Record<string, string> = {
 export default function Profile() {
   const t = useTranslation();
   const { me, kycLevel, isPendingKyc } = authStore();
+  const [opened, setOpened] = useState(false);
+  const [showSecret, setShowSecret] = useState(false);
+  const [apiKey, secretKey] = useMemo(() => {
+    if (!me?.xKey || !me?.depositCode) {
+      return ["", ""];
+    }
+    const { apiKey, secretKey } = randomDeterministicKeyPairs(
+      me.depositCode,
+      me?.xKey,
+    );
+    return [apiKey, secretKey];
+  }, [me]);
   const kycLabel = useMemo(() => {
     if (isPendingKyc) {
       return t("Pending");
@@ -478,14 +495,235 @@ export default function Profile() {
             <Grid.Col span={24}>
               <Divider />
             </Grid.Col>
+            {apiKey ? (
+              <>
+                <Grid.Col
+                  span={{
+                    xs: 24,
+                    md: 18,
+                  }}
+                >
+                  <Flex gap={12} align={"center"}>
+                    <Avatar size={44}>
+                      <IconKey />
+                    </Avatar>
+                    <Box>
+                      <Text fz={16} fw={600}>
+                        {t("API key")}
+                      </Text>
+                      <Text fz={14} fw={400} c={"dimmed"}>
+                        {t("Use this for trading via API.")}
+                      </Text>
+                    </Box>
+                  </Flex>
+                </Grid.Col>
+                <Grid.Col
+                  span={{
+                    xs: 24,
+                    md: 6,
+                  }}
+                >
+                  <Flex
+                    justify={{
+                      xs: "",
+                      md: "end",
+                    }}
+                    align={"center"}
+                    h={"100%"}
+                  >
+                    <Button
+                      onClick={() => {
+                        setOpened(true);
+                      }}
+                      variant="gradient"
+                      miw={150}
+                      fullWidth
+                      px={"xs"}
+                      gradient={{
+                        from: "orange",
+                        to: "yellow",
+                        deg: 90,
+                      }}
+                    >
+                      {t("Reveal")}
+                    </Button>
+                  </Flex>
+                </Grid.Col>
+                <Grid.Col span={24}>
+                  <Divider />
+                </Grid.Col>
+              </>
+            ) : null}
           </Grid>
         </Box>
-        {/* <Space my={"xl"} />
-        <Title order={3}>{t("Login History")}</Title>
-        <Space my={"xl"} />
-        <Divider /> */}
-        {/* <LoginHistories /> */}
       </Box>
+
+      <Modal
+        opened={opened}
+        onClose={() => {
+          setOpened(false);
+        }}
+        title={t("API Management")}
+        size="lg"
+      >
+        {/* API key and secret */}
+        <Box>
+          <Text fz={16} fw={600}>
+            {t("API key")}
+          </Text>
+          <Text fz={14} fw={400} c={"dimmed"}>
+            {t("Use this for trading via API.")}
+          </Text>
+          <Space h="sm" />
+          <Flex
+            align={"center"}
+            gap={10}
+            p="md"
+            bg="gray.0"
+            style={{ borderRadius: "8px" }}
+          >
+            <Text
+              fz={14}
+              fw={500}
+              style={{
+                fontFamily: "monospace",
+                flex: 1,
+                overflow: "hidden",
+              }}
+            >
+              {apiKey}
+            </Text>
+            <CopyButton value={apiKey}>
+              {({ copied, copy }) => (
+                <Button
+                  h={"auto"}
+                  mih={0}
+                  p={8}
+                  variant="subtle"
+                  color={copied ? "teal" : "primary"}
+                  onClick={copy}
+                >
+                  {copied ? (
+                    <IconCheck size={16} />
+                  ) : (
+                    <IconCopy size={16} />
+                  )}
+                </Button>
+              )}
+            </CopyButton>
+          </Flex>
+        </Box>
+
+        <Space h="xl" />
+
+        <Box>
+          <Text fz={16} fw={600}>
+            {t("API Secret")}
+          </Text>
+          <Text fz={14} fw={400} c={"dimmed"}>
+            {t("Keep this secret secure and never share it.")}
+          </Text>
+          <Space h="sm" />
+          <Flex
+            align={"center"}
+            gap={10}
+            p="md"
+            bg="gray.0"
+            style={{ borderRadius: "8px" }}
+          >
+            <Text
+              fz={14}
+              fw={500}
+              style={{ fontFamily: "monospace", flex: 1 }}
+            >
+              {showSecret
+                ? secretKey
+                : "••••••••••••••••••••••••••••••••"}
+            </Text>
+            <Button
+              h={"auto"}
+              mih={0}
+              p={8}
+              variant="subtle"
+              color="gray"
+              onClick={() => setShowSecret(!showSecret)}
+            >
+              {showSecret ? (
+                <IconEyeOff size={16} />
+              ) : (
+                <IconEye size={16} />
+              )}
+            </Button>
+            <CopyButton value={secretKey}>
+              {({ copied, copy }) => (
+                <Button
+                  h={"auto"}
+                  mih={0}
+                  p={8}
+                  variant="subtle"
+                  color={copied ? "teal" : "primary"}
+                  onClick={copy}
+                >
+                  {copied ? (
+                    <IconCheck size={16} />
+                  ) : (
+                    <IconCopy size={16} />
+                  )}
+                </Button>
+              )}
+            </CopyButton>
+          </Flex>
+        </Box>
+
+        <Space h="xl" />
+
+        <Box
+          p="md"
+          bg="yellow.0"
+          style={{
+            borderRadius: "8px",
+            border: "1px solid var(--mantine-color-yellow-3)",
+          }}
+        >
+          <Flex align="center" gap={8} mb="sm">
+            <IconInfoCircleFilled color="orange" size={20} />
+            <Text fz={14} fw={600} c="orange">
+              {t("Security Warning")}
+            </Text>
+          </Flex>
+          <Text fz={12} c="dimmed">
+            • {t("Never share your API credentials with anyone")}
+          </Text>
+          <Text fz={12} c="dimmed">
+            • {t("Store them securely and rotate them regularly")}
+          </Text>
+          <Text fz={12} c="dimmed">
+            • {t("Only use HTTPS endpoints for API calls")}
+          </Text>
+        </Box>
+
+        <Space h="xl" />
+
+        <Flex justify="end" gap="md">
+          {/* <Button
+            variant="outline"
+            color="red"
+            onClick={() => {
+              // TODO: Implement regenerate API keys
+            }}
+          >
+            {t("Regenerate Keys")}
+          </Button> */}
+          <Button
+            variant="filled"
+            onClick={() => {
+              setOpened(false);
+            }}
+          >
+            {t("Close")}
+          </Button>
+        </Flex>
+      </Modal>
     </Container>
   );
 }

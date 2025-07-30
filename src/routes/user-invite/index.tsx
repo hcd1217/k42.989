@@ -231,10 +231,7 @@ function Overview() {
         ),
       },
     ],
-    [
-      rebate.overview,
-      t,
-    ],
+    [rebate.overview, t],
   );
 
   const stats = data.map((stat) => (

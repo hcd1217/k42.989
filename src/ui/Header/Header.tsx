@@ -47,7 +47,6 @@ import { Link } from "react-router-dom";
 import AppButton from "../Button/AppButton";
 import { svgLogo } from "../Logo/Logo";
 import { SwitchDarkLightMode } from "../SwitchDarkLight";
-import SwitchLanguage from "../SwitchLanguage/SwitchLanguage";
 import { DepositForm } from "../Wallet";
 import classes from "./index.module.scss";
 
@@ -294,7 +293,6 @@ export function Header() {
               <MenuUserInfo />
             </Group>
             <Group h="100%" gap={0}>
-              <SwitchLanguage onDarkMode />
               <SwitchDarkLightMode onDarkMode />
             </Group>
           </Group>
@@ -563,7 +561,6 @@ function DrawerMenu(props: Partial<{ metadata: Application }>) {
               }}
             >
               <SwitchDarkLightMode onDarkMode={false} />
-              <SwitchLanguage onDarkMode={false} />
               <Box ml={"auto"}>
                 <Flex
                   align={"center"}

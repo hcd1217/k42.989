@@ -32,7 +32,6 @@ export function randomDeterministicKeyPairs(
   uid: string,
   xKey: string,
 ) {
-  const rng = new SeededRandom(uid + xKey);
   const charset =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

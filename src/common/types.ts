@@ -138,6 +138,7 @@ export type CopyTransaction = {
 export type FollowerInformation = {
   accountId: string;
   uid: string;
+  ratio?: number;
   invested: number;
   current: number;
   settled: number;

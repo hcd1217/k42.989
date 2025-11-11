@@ -1,4 +1,3 @@
-import { APP_CONFIG } from "@/common/configs";
 import useSPETranslation from "@/hooks/useSPETranslation";
 import MyTraders from "@/routes/copy/my-traders";
 import { assetStore } from "@/store/assets";
@@ -8,7 +7,6 @@ import AppText from "@/ui/Text/AppText";
 import { Box, Checkbox, Flex } from "@mantine/core";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { FiatDepositModal } from "./FiatDepositModal";
 import { FundAssetsTable } from "./FundAssetsTable";
 import { TradingAssetsTable } from "./TradingAssetsTable";
 
@@ -28,9 +26,6 @@ export function TabsWallet() {
               label={t("Hide small balances")}
               onChange={() => setHideZero(!hideZero)}
             />
-            {APP_CONFIG.FIAT_DEPOSIT && me?.fiatDepositMemo && (
-              <FiatDepositModal />
-            )}
           </Flex>
         </Box>
         <AppTabs
@@ -142,9 +137,6 @@ export function TabsWallet() {
               label={t("Hide small balances")}
               onChange={() => setHideZero(!hideZero)}
             />
-            {APP_CONFIG.FIAT_DEPOSIT && me?.fiatDepositMemo && (
-              <FiatDepositModal />
-            )}
           </Flex>
         </Box>
       </Box>

@@ -1,7 +1,6 @@
 import useSPETranslation from "@/hooks/useSPETranslation";
 import { svgLogo } from "@/ui/Logo/Logo";
 import { SwitchDarkLightMode } from "@/ui/SwitchDarkLight";
-import SwitchLanguage from "@/ui/SwitchLanguage/SwitchLanguage";
 import {
   Box,
   Card,
@@ -39,10 +38,7 @@ const SignUp = () => {
             <a href="/top-page">
               <Image src={svgLogo} w={140} />
             </a>
-            <Group>
-              <SwitchLanguage onDarkMode />
-              <SwitchDarkLightMode onDarkMode />
-            </Group>
+            <SwitchDarkLightMode onDarkMode />
           </Group>
         </Box>
         <Box flex={1} visibleFrom="lg">

@@ -1,17 +1,16 @@
 import { Application, Dictionary } from "@/common/types";
 import EN from "./configs/en.json";
-import JA from "./configs/ja.json";
 
 export enum Language {
   EN = "EN",
-  JA = "JA",
+  // JA = "JA",
 }
 
 function loadDictionaries(lang: Language) {
   const dictionaries = _load();
   return {
     [Language.EN]: { ...dictionaries?.en, ...EN },
-    [Language.JA]: { ...dictionaries?.ja, ...JA },
+    // [Language.JA]: { ...dictionaries?.en, ...JA },
   }[lang] as Dictionary;
 }
 
@@ -29,12 +28,5 @@ function _load() {
 }
 
 export function getDictionary() {
-  switch (localStorage.__LANGUAGE__) {
-    case Language.EN:
-      return loadDictionaries(Language.EN);
-    case Language.JA:
-      return loadDictionaries(Language.JA);
-    default:
-      return loadDictionaries(Language.EN);
-  }
+  return loadDictionaries(Language.EN);
 }

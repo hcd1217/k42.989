@@ -90,6 +90,8 @@ export const userKycDataSchema = z.object({
 
 export const userConfigSchema = z.object({
   userId: optionalStringSchema,
+  bFlag: optionalBooleanSchema,
+  isDemo: optionalBooleanSchema,
   leverages: z
     .record(
       stringSchema,

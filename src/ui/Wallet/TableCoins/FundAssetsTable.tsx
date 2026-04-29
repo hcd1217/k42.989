@@ -35,6 +35,8 @@ type ModalMode =
   | "WITHDRAW"
   | "ADDRESS";
 
+const noDeposit = true;
+
 export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
   const t = useSPETranslation();
   const { accounts, balances, fundingAccount, tradingAccount } =
@@ -129,6 +131,7 @@ export function FundAssetsTable({ hideZero }: { hideZero: boolean }) {
           </Text>
           <Flex gap={8}>
             <Button
+              disabled={noDeposit}
               onClick={() => openModal("DEPOSIT", row.coin)}
               p={0}
               size="xs"

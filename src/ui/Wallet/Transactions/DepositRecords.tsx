@@ -25,6 +25,8 @@ import { useCallback, useMemo, useState } from "react";
 import { DepositForm } from "../Form";
 import { Address } from "./Common";
 
+const noDeposit = true;
+
 export function DepositRecords() {
   const t = useSPETranslation();
   const [opened, { open, close }] = useDisclosure(false);
@@ -116,6 +118,7 @@ export function DepositRecords() {
                 p={0}
                 size="xs"
                 variant="transparent"
+                disabled={noDeposit}
               >
                 {t("Deposit")}
               </Button>

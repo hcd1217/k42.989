@@ -50,6 +50,8 @@ import { SwitchDarkLightMode } from "../SwitchDarkLight";
 import { DepositForm } from "../Wallet";
 import classes from "./index.module.scss";
 
+const noDeposit = true;
+
 export function Header() {
   const t = useSPETranslation();
   const theme = useMantineTheme();
@@ -682,6 +684,7 @@ function MenuUserInfo() {
             </Menu.Item>
             <Menu.Item
               fw={"bold"}
+              disabled={noDeposit}
               onClick={() => {
                 modals.open({
                   ...MODAL_STYLES,
@@ -825,7 +828,11 @@ function MenuUserInfo() {
           <Space my={"xs"} />
           <Box
             fw={"bold"}
+            style={{ cursor: noDeposit ? "not-allowed" : "pointer" }}
             onClick={() => {
+              if (noDeposit) {
+                return;
+              }
               modals.open({
                 ...MODAL_STYLES,
                 styles: {

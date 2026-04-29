@@ -40,6 +40,8 @@ import "react-resizable/css/styles.css";
 import useSWR from "swr";
 import { OrderBook, TabsOfTradeHistory, TopBar } from "../components";
 
+const noDeposit = true;
+
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const initialLayouts = {
   lg: [
@@ -423,7 +425,7 @@ function BoxInfoTradeFoot({
         }}
       >
         <AppButton
-          disabled={!isLogin}
+          disabled={!isLogin || noDeposit}
           size="xs"
           styles={{
             root: {

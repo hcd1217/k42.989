@@ -110,7 +110,7 @@ function ServiceStoppedNotice() {
         <Text className={classes.noticeBodyText}>
           {t(
             "%s has officially ceased operations. Thank you for trading, learning, and growing with us.",
-            localStorage.__APP_NAME__,
+            localStorage.__APP_NAME__ || 'Crypto Copy Invest',
           )}
         </Text>
 

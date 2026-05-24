@@ -1,6 +1,5 @@
 import BRAND from "@/brands";
 import { MainErrorFallback } from "@/components/errors/main";
-import { useSPEPollingAPIs } from "@/hooks/useSPEPollingAPIs";
 import { SPELoading } from "@/ui/SPEMisc";
 import { MantineProvider } from "@mantine/core";
 import { ModalsProvider } from "@mantine/modals";
@@ -15,7 +14,6 @@ type AppProviderProps = {
 };
 
 export const AppProvider = ({ children }: AppProviderProps) => {
-  useSPEPollingAPIs();
   useEffect(() => {
     localStorage.__APP_NAME__ = BRAND.configs.APP_NAME;
   }, []);

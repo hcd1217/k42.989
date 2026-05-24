@@ -1,38 +1,107 @@
 import { Application } from "@/common/types";
-import { fetch } from "@/services/apis";
-import logger from "@/services/logger";
-import { useEffect, useState } from "react";
+
+const CACHE_DATA: Application = {
+  "version": "1.0.0",
+  "applications": {
+    "name": "Crypto Copy Invest",
+    "logo": {
+      "pc": "/images/logo.png",
+      "mobile": "/images/logo.png"
+    },
+    "features": {
+      "register": {
+        "email": true,
+        "mobile": true
+      },
+      "symbols": []
+    },
+    "layout": {
+      "header": {
+        "common": {
+          "menu": [
+            {
+              "type": "link",
+              "label": "Spot trading",
+              "url": "/trade/spot/BTC/USDT"
+            },
+            {
+              "type": "link",
+              "label": "Futures",
+              "url": "/trade/futures/BTC/USDT"
+            },
+            {
+              "type": "link",
+              "label": "Copy trading",
+              "url": "/copy-trading"
+            },
+            {
+              "type": "link",
+              "label": "About Us",
+              "url": "/about"
+            }
+          ]
+        }
+      },
+      "footer": {
+        "common": {
+          "copyRight": "©2024 Crypto Copy Invest. All rights reserved.",
+          "privacyTerms": {
+            "label": "Privacy Policy",
+            "url": "/privacy-policy"
+          },
+          "termOfService": {
+            "label": "Terms of Service",
+            "url": "/terms-conditions"
+          },
+          "socials": [],
+          "groups": [
+            {
+              "name": "About",
+              "links": [
+                {
+                  "label": "Privacy Policy",
+                  "url": "/privacy-policy"
+                },
+                {
+                  "label": "Term and Conditions",
+                  "url": "/terms-conditions"
+                },
+                {
+                  "label": "Risk Disclosure",
+                  "url": "/risk-disclosure"
+                }
+              ]
+            },
+            {
+              "name": "Support",
+              "links": [
+                {
+                  "label": "Contact us",
+                  "url": "/inquiry"
+                },
+                {
+                  "label": "About Us",
+                  "url": "/about"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "lang": {
+      "dictionaries": {
+        "en": {
+          "Sample": "Sample"
+        },
+        "ja": {
+          "Sample": "サンプル"
+        }
+      }
+    }
+  }
+};
 
 export default function useSPEMetadata() {
-  const [data, setData] = useState<Application>();
-
-  useEffect(() => {
-    const data = _load();
-    data && setData(data);
-    const version = data?.version || "0";
-    const url = `/api/information?v=${version}`;
-    fetch<Application>(url).then((data) => {
-      if (data.version !== version) {
-        _cache(data);
-        setData(data);
-      }
-    });
-  }, []);
-
-  return { data };
-}
-
-function _load() {
-  try {
-    if (localStorage.__INFORMATION__) {
-      return JSON.parse(localStorage.__INFORMATION__) as Application;
-    }
-  } catch (e) {
-    logger.error(e);
-    delete localStorage.__INFORMATION__;
-  }
-}
-
-function _cache(data: Application) {
-  localStorage.__INFORMATION__ = JSON.stringify(data);
+  return { data: CACHE_DATA };
 }

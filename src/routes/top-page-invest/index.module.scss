@@ -168,6 +168,187 @@
   }
 }
 
+.noticeOverlay {
+  backdrop-filter: blur(12px) saturate(120%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+}
+
+.noticeBody {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.noticeContent {
+  position: relative;
+  z-index: 1;
+  padding: 48px 44px 40px;
+
+  @media (max-width: 480px) {
+    padding: 36px 24px 28px;
+  }
+}
+
+.noticeAura {
+  position: absolute;
+  inset: -1px;
+  background: radial-gradient(
+      circle at 50% -10%,
+      rgba(255, 178, 56, 0.22) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      rgba(255, 140, 0, 0.08) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.noticeEmblem {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 202, 99, 0.18) 0%,
+    rgba(255, 140, 0, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 202, 99, 0.35);
+  color: #ffca63;
+  box-shadow:
+    0 0 0 6px rgba(255, 202, 99, 0.04),
+    0 0 32px rgba(255, 178, 56, 0.25),
+    inset 0 0 24px rgba(255, 178, 56, 0.08);
+  animation: noticePulse 4s ease-in-out infinite;
+}
+
+@keyframes noticePulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 6px rgba(255, 202, 99, 0.04),
+      0 0 28px rgba(255, 178, 56, 0.18),
+      inset 0 0 24px rgba(255, 178, 56, 0.06);
+  }
+  50% {
+    box-shadow:
+      0 0 0 10px rgba(255, 202, 99, 0.06),
+      0 0 44px rgba(255, 178, 56, 0.35),
+      inset 0 0 32px rgba(255, 178, 56, 0.12);
+  }
+}
+
+.noticeKicker {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(255, 202, 99, 0.75);
+  font-weight: 600;
+}
+
+.noticeHeadline {
+  text-align: center;
+  font-family: var(--mantine-font-family-headings, inherit);
+  font-size: clamp(28px, 4vw, 36px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  color: var(--mantine-color-white);
+  margin: 0;
+}
+
+.noticeDivider {
+  width: 56px;
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 202, 99, 0.6),
+    transparent
+  );
+}
+
+.noticeBodyText {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 38ch;
+  margin: 0 auto;
+}
+
+.noticeEmailCard {
+  position: relative;
+  border-radius: 14px;
+  padding: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  border: 1px solid rgba(255, 202, 99, 0.22);
+}
+
+.noticeEmailCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 202, 99, 0.4),
+    transparent 50%,
+    rgba(255, 202, 99, 0.15)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.noticeEmailLabel {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255, 202, 99, 0.7);
+  font-weight: 600;
+}
+
+.noticeEmail {
+  font-family: var(
+    --mantine-font-family-monospace,
+    ui-monospace,
+    monospace
+  );
+  font-size: 16px;
+  color: var(--mantine-color-white);
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.noticeFootnote {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  font-style: italic;
+}
+
 .linkBlock {
   display: flex;
   align-items: center;
